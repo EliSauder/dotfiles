@@ -18,13 +18,18 @@
         };
         homeManager = pkgs.home-manager;
         defaultPackages = home-manager.defaultPackage.system;
+        homeDir = if pkgs.stdenv.isLinux 
+            then "/home/esauder" 
+            else "/Users/esauder";
     in {
         defaultPackage.system = defaultPackages;
 
         homeConfigurations = {
             "esauder" = homeManager.lib.homeManagerConfiguration {
                 pkgs = pkgs;
-                modules = [ ./home.nix ]
+                modules = [ ./home.nix ];
+                homeDirectory = homeDir;
+                username = "esauder";
             };
         };
     });
