@@ -10,6 +10,9 @@
   # release notes.
   home.stateVersion = "24.05"; # Please read the comment before changing.
 
+  home.homeDirectory = if pkgs.stdenv.isLinux then "/home/esauder" else "/Users/esauder";
+  home.username = "esauder";
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [

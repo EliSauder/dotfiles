@@ -7,30 +7,21 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-        flake-utils.url = "github:numtide/flake-utils";
+	systems.url = "github:nix-systems/default";
     };
 
-    outputs = {self, nixpktd, home-manager, flake-utils }:
-        flake-utils.lib.eachDefaultSystem (system: 
-    let 
-        pkgs = import nixpkgs { 
-            inherit system; 
-        };
-        homeManager = pkgs.home-manager;
-        defaultPackages = home-manager.defaultPackage.system;
-        homeDir = if pkgs.stdenv.isLinux 
-            then "/home/esauder" 
-            else "/Users/esauder";
-    in {
-        defaultPackage.system = defaultPackages;
-
-        homeConfigurations = {
-            "esauder" = homeManager.lib.homeManagerConfiguration {
-                pkgs = pkgs;
-                modules = [ ./home.nix ];
-                homeDirectory = homeDir;
-                username = "esauder";
-            };
-        };
-    });
+    outputs = {self, nixpkgs, home-manager, systems }:
+    let
+       eachSystem = nixpkgs.lib.genAttrs (import systems);
+    in
+    {
+	packages = eachSystem (system: {
+ 	    home-manager.useGlobalPkgs = true;
+	    home-manager.useUserPackages = true;
+	    homeConfigurations."esauder" = home-manager.lib.homeManagerConfiguration {
+		pkgs = nixpkgs.legacyPackages.${system};
+		modules = [ ./home.nix ];
+	    };
+	});
+    };
 }
