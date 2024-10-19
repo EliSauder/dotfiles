@@ -50,10 +50,6 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-    ".config" = {
-        source = ./config;
-        recursive = true;
-    };
     ".config/hypr/hyprland.conf" = {
         source = ./config/hypr/hyprland.conf;
     };
