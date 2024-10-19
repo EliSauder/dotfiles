@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   # This value determines the Home Manager release that your configuration is
@@ -13,9 +13,18 @@
   home.homeDirectory = if pkgs.stdenv.isLinux then "/home/esauder" else "/Users/esauder";
   home.username = "esauder";
 
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "1password-gui"
+    "1password"
+    "1password-cli"
+  ];
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+    pkgs._1password
+    pkgs._1password-gui
+    pkgs.clipboard-jh
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -41,6 +50,13 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
+    ".config" = {
+        source = ./config;
+        recursive = true;
+    };
+    ".config/hypr/hyprland.conf" = {
+        source = ./config/hypr/hyprland.conf;
+    };
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -71,4 +87,49 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  #programs._1password.enable = true;
+  #programs._1password-gui = {
+  #  enable = true;
+  #  polkitPolicyOwners = [ "esauder" ];
+  #};
+
+  programs.git = {
+    enable = true;
+    userName = "EliSauder";
+    userEmail = "24995216+EliSauder@users.noreply.github.com";
+    lfs.enable = true;
+    aliases = {
+      s = "status";
+    };
+  };
+
+  programs.kitty.enable = true;
+
+  wayland.windowManager.hyprland = {
+    enable = false;
+    #settings = {
+    #  "$mod" = "SUPER";
+    #  bind = [
+    #    "$mod, Q, exec, kitty"
+    #    "$mod, C, killactive,"
+    #    "$mod, F, exec, firefox"
+    #    "$mod, M, exit,"
+    #    "$mod, V, togglefloating,"
+    #    "$mod, m, movefocus, l"
+    #    "$mod, code:2f, movefocus, r"
+    #    "$mod, code:2e, movefocus, u"
+    #    "$mod, code:2c, movefocus, d"
+    #  ] ++ (
+    #    builtins.concatLists (builtins.genList(i:
+    #      let ws = i + 1;
+    #      in [
+    #        "$mod, code:1${toString i}, workspace, ${toString ws}"
+    #        "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+    #      ]
+    #    )
+    #    9)
+    #  );
+    #};
+  };
 }

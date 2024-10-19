@@ -10,15 +10,14 @@
 	systems.url = "github:nix-systems/default";
     };
 
-    outputs = {self, nixpkgs, home-manager, systems }:
+    outputs = inputs@{self, nixpkgs, home-manager, systems, ... }:
     let
        eachSystem = nixpkgs.lib.genAttrs (import systems);
     in
     {
 	packages = eachSystem (system: {
- 	    home-manager.useGlobalPkgs = true;
-	    home-manager.useUserPackages = true;
 	    homeConfigurations."esauder" = home-manager.lib.homeManagerConfiguration {
+                extraSpecialArgs = {inherit inputs;};
 		pkgs = nixpkgs.legacyPackages.${system};
 		modules = [ ./home.nix ];
 	    };
