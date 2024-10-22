@@ -105,6 +105,17 @@
   #  polkitPolicyOwners = [ "esauder" ];
   #};
 
+  programs.ssh = {
+    enable = true;
+    addKeysToAgent = "confirm";
+    matchBlocks = {
+        "github.com" = {
+	    hostname = "github.com";
+	    identityFile = "${config.home.homeDirectory}/.ssh/git_ed25519";
+	};
+    };
+  };
+
   programs.git = {
     enable = true;
     userName = "EliSauder";
