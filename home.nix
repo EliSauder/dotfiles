@@ -111,9 +111,16 @@
     userEmail = "24995216+EliSauder@users.noreply.github.com";
     lfs.enable = true;
     signing = {
-        gpgPath = "${pkgs.openssh}/bin/ssh";
         key = "${config.home.homeDirectory}/.ssh/git_ed25519";
         signByDefault = true;
+    };
+    extraConfig = {
+        gpg = {
+            format = "ssh";
+        };
+        core = {
+            editor = "${pkgs.neovim}/bin/nvim";
+        };
     };
     maintenance.enable = true;
     aliases = {
