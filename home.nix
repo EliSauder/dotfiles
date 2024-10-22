@@ -24,7 +24,8 @@
   home.packages = [
     pkgs._1password
     pkgs._1password-gui
-    pkgs.clipboard-jh
+    pkgs.cliphist
+    pkgs.wl-clipboard
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -41,6 +42,20 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    pkgs.waybar
+    pkgs.wofi
+    pkgs.nemo
+    pkgs.swww
+    pkgs.mako
+    pkgs.hypridle
+
+    pkgs.neovim
+
+    #(pkgs.flameshot.override { enableWlrSupport = true; })
+    #pkgs.shotman
+    pkgs.slurp
+    pkgs.grim
+    pkgs.satty
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -78,7 +93,7 @@
   #  /etc/profiles/per-user/esauder/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "nvim";
   };
 
   # Let Home Manager install and manage itself.
@@ -95,9 +110,18 @@
     userName = "EliSauder";
     userEmail = "24995216+EliSauder@users.noreply.github.com";
     lfs.enable = true;
+    signing = {
+        gpgPath = "${pkgs.openssh}/bin/ssh";
+        key = "${config.home.homeDirectory}/.ssh/git_ed25519";
+        signByDefault = true;
+    };
+    maintenance.enable = true;
     aliases = {
       s = "status";
+      co = "checkout";
+      cob = "checkout -b";
     };
+    difftastic.enable = true;
   };
 
   programs.kitty.enable = true;
