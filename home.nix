@@ -72,6 +72,9 @@
     ".config/hypr/hyprland.conf" = {
         source = ./config/hypr/hyprland.conf;
     };
+    ".config/nvim" = {
+        source = lib.file.mkOutOfStoreSymlink ./config/nvim;
+    };
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
