@@ -1,6 +1,6 @@
 { config, lib, pkgs, inputs, ... }:
-
 {
+
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -12,6 +12,10 @@
 
   home.homeDirectory = if pkgs.stdenv.isLinux then "/home/esauder" else "/Users/esauder";
   home.username = "esauder";
+
+  imports = [
+     ./programs
+  ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "1password-gui"

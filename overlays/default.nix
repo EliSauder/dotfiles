@@ -1,28 +1,17 @@
 { config, pkgs, lib, ...}: {
     nixpkgs.overlays = [
         (final: prev: {
-	    waybar_now_playing = pkgs.stdenv.mkDerivation {
-	        name = "waybar_now_playing";
+	    waybar_now_playing = pkgs.rustPlatform.buildRustPackage rec {
+	        pname = "waybar_now_playing";
 		version = "1.0";
-		src = fetchFromGitHub {
-		    owner = "cybergaz";
-		    repo = "waybar_now_playing";
-		    rev = "45f859f8656c01f1a3e8864636a648038f555acf";
-		    sha256 = lib.fakeSha256;
-		};
-		buildInputs = [
-		    pkgs.playerctl
-		    pkgs.cargo
-		];
+	        src = pkgs.fetchFromGitHub {
+	            owner = "cybergaz";
+	            repo = pname;
+	            rev = "45f859f8656c01f1a3e8864636a648038f555acf";
+	            sha256 = "sha256-8jiGbk13Vy5wBEtudbpv0okOv7gVTwGKtL85sDs78Lc=";
+	        };
 
-		buildPhase = ''
-		    mkdir build-out
-		    cargo build --release --target-dir build-out
-		'';
-		installPhase = ''
-		    mkdir -p "$out/bin"
-		    cp build-out/* "$out/bin"
-		'';
+                cargoHash = "sha256-LU1eaH7XZFOvZtHJhsBptQKckXK5xc9rbiWdGvampTE=";
 	    };
 	})
     ];
