@@ -21,7 +21,10 @@
 	    homeConfigurations."esauder" = home-manager.lib.homeManagerConfiguration {
                 extraSpecialArgs = {inherit inputs;};
 		pkgs = nixpkgs.legacyPackages.${system};
-		modules = [ ./home.nix ];
+		modules = [ 
+		    ./home.nix 
+		    (import ./overlays)
+		];
 	    };
 	});
     };

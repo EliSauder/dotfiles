@@ -1,0 +1,157 @@
+{config, ...}: {
+    
+    programs.waybar.style = ''
+        * {
+            background: transparent;
+            border-radius: 20px;
+            font-family: comfortaa;
+            font-weight: 800;
+            /* font-size: 13.5px; */
+        }
+        
+        window#waybar {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            /* border: 0.5px solid gray; */
+        }
+        
+        tooltip {
+            color: black;
+            background-color : rgba(200, 200, 230,0.9);
+            border-radius: 10px;
+        }
+        
+        #cpu, #memory, #custom-player, #idle_inhibitor, #temperature, #clock, #battery, #wireplumber, #network, #workspaces, #tray, #backlight, #window { 
+            margin: 0 5px;
+        }
+        
+        #workspaces {
+            border-radius: 20px; 
+            padding-left: 6px;
+        }
+        
+        #workspaces button {
+            color: white;
+            opacity: 0.7;
+            background: transparent;
+            margin-right: 10px;
+        }
+        
+        #workspaces button.active {
+            color: #42c0ff;
+            opacity: 1;
+            background: transparent;
+            font-size: 18px;
+        }
+        
+        #custom-player {
+            /* background-color : rgba(94, 161, 255,0.3); */
+            padding-left: 10px;
+            padding-right: 10px;
+            /* border: 1px solid rgba(94, 161, 255,0); */
+            border-radius: 20px;
+        }
+        
+        #clock {
+            margin: 2px 5px;
+            color: #42c0ff;
+            /* background-color : rgba(94, 161, 255,0.3); */
+            min-width: 165px;
+            padding: 2px 12px 0px 12px;
+            border-radius: 30px; 
+            /* border: 1px solid rgba(94, 161, 255,0.5); */
+            /* box-shadow: rgba(17, 17, 27, 0.2) 0 0 3 2px; */
+        }
+        
+        #idle_inhibitor {
+            margin: 2px 5px;
+            padding: 0 4px;
+            /* border: 1px solid rgba(94, 161, 255,0.5); */
+            border-radius: 30px; 
+        }
+        #idle_inhibitor.activated {
+            transition: all 0.3s ease-in-out;
+            /* background-color : rgba(94, 161, 255,0.3); */
+            border-right: 0.5px solid rgba(94, 161, 255,0.6);
+            border-left: 0.5px solid rgba(94, 161, 255,0.6);
+            color: white;
+        }
+        
+        #network {
+            margin: 2px 5px;
+            min-width: 160px;
+            color: white;
+            /* border: 1px solid rgba(94, 161, 255,0.5); */
+            /* background-color : rgba(94, 161, 255,0.3); */
+            border-radius: 30px; 
+            padding: 0 8px;
+        }
+        
+        #cpu {
+            padding: 0 8px;
+            margin: 2px 5px;
+            margin-right: 0px;
+            min-width: 40px;
+            color : rgba(255,255,255,0.8);
+            border-left: 0.5px solid rgba(170, 170, 170,0.6);
+            border-radius: 30px 0 0 30px; 
+            border-right: none;
+            opacity: 0.9;
+        }
+        
+        #memory {
+            padding: 0 8px;
+            margin: 2px 5px;
+            margin-left: 0px;
+            min-width: 50px;
+            color : rgba(255,255,255,0.8);
+            border-right: 0.5px solid rgba(170, 170, 170,0.6);
+            border-radius: 0 30px 30px 0; 
+            border-left: none;
+            opacity: 0.9;
+        }
+        
+        #backlight {
+            padding: 0 8px;
+            margin: 2px 5px;
+            margin-right: 0px;
+            color : rgba(255,255,255,0.8);
+            border-left: 0.5px solid rgba(170, 170, 170,0.6);
+            border-radius: 30px 0 0 30px; 
+            border-right: none;
+            opacity: 0.9;
+        }
+        
+        #wireplumber {
+            min-width: 50px;
+            padding: 0 8px;
+            margin: 2px 5px;
+            margin-left: 0px;
+            color : rgba(255,255,255,0.8);
+            border-right: 0.5px solid rgba(170, 170, 170,0.6);
+            border-radius: 0 30px 30px 0; 
+            border-left: none;
+            opacity: 0.9;
+        }
+        
+        #battery {
+            color: white;
+            /* margin: 5px; */
+            margin-right: 10px;
+            padding: 0 10px;
+        }
+        
+        #battery.plugged {
+            transition: all 0.6s ease-in-out;
+            color: #42c0ff;
+            /* border: 1px solid #5EA1ff; */
+        }
+        
+        #tray {
+            /* background-color : rgba(170, 170, 170,0.15); */
+            margin-right: 10px;
+            padding: 0 8px;
+            border-radius: 0px;
+        }
+    '';
+}
