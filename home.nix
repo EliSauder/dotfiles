@@ -21,6 +21,10 @@
     "1password-gui"
     "1password"
     "1password-cli"
+    "steam"
+    "steam-original"
+    "steam-run"
+    "discord-ptb"
   ];
 
   # The home.packages option allows you to install Nix packages into your
@@ -30,6 +34,7 @@
     pkgs._1password-gui
     pkgs.cliphist
     pkgs.wl-clipboard
+    pkgs.discord-ptb
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -111,7 +116,7 @@
 
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "confirm";
+    addKeysToAgent = "yes 2h";
     matchBlocks = {
         "github.com" = {
 	    hostname = "github.com";
@@ -120,59 +125,10 @@
     };
   };
 
-  programs.git = {
-    enable = true;
-    userName = "EliSauder";
-    userEmail = "24995216+EliSauder@users.noreply.github.com";
-    lfs.enable = true;
-    signing = {
-        key = "${config.home.homeDirectory}/.ssh/git_ed25519";
-        signByDefault = true;
-    };
-    extraConfig = {
-        gpg = {
-            format = "ssh";
-        };
-        core = {
-            editor = "${pkgs.neovim}/bin/nvim";
-        };
-    };
-    maintenance.enable = true;
-    aliases = {
-      s = "status";
-      co = "checkout";
-      cob = "checkout -b";
-    };
-    difftastic.enable = true;
+  programs.steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
   };
 
   programs.kitty.enable = true;
-
-  #wayland.windowManager.hyprland = {
-  #  enable = true;
-  #  package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-  #  settings = {
-  #    "$mod" = "SUPER";
-  #    bind = [
-  #      "$mod, Q, exec, kitty"
-  #      "$mod, C, killactive,"
-  #      "$mod, F, exec, firefox"
-  #      "$mod, M, exit,"
-  #      "$mod, V, togglefloating,"
-  #      "$mod, m, movefocus, l"
-  #      "$mod, code:2f, movefocus, r"
-  #      "$mod, code:2e, movefocus, u"
-  #      "$mod, code:2c, movefocus, d"
-  #    ] ++ (
-  #      builtins.concatLists (builtins.genList(i:
-  #        let ws = i + 1;
-  #        in [
-  #          "$mod, code:1${toString i}, workspace, ${toString ws}"
-  #          "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-  #        ]
-  #      )
-  #      9)
-  #    );
-  #  };
-  #};
 }
