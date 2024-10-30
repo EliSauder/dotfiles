@@ -14,12 +14,20 @@
 	    "hypridle"
 	    "cliphist --type text --watch cliphist store"
 	    "cliphist --type image --watch cliphist store"
-	    "exec-once = test -d \"$HOME/Pictures/Screenshots\" || mkdir -p \"$HOME/Pictures/Screenshots\" 2>/dev/null"
+	    "test -d \"$HOME/Pictures/Screenshots\" || mkdir -p \"$HOME/Pictures/Screenshots\" 2>/dev/null"
+	    "[workspace 1 silent] kitty"
+	    "[workspace 2 silent] firefox"
+	    "[workspace 5 silent] steam"
+	    "[workspace 4 silent] discord"
+	    "[workspace 9 silent] obs"
 	];
 	env = [
 	    "XCURSOR_SIZE,24"
+	    "XCURSOR_THEME,BreezeX-RosePine"
 	    "HYPRCURSOR_SIZE,24"
 	    "GDK_SCALE,2"
+	    "QT_AUTO_SCREEN_SCALE_FACTOR,1"
+	    "HYPRCURSOR_THEME,rose-pine-hyprcursor"
 	];
 	general = {
 	   gaps_in = 5;
@@ -86,6 +94,7 @@
 	    follow_mouse = 1;
 	    sensitivity = 0;
 	    touchpad.natural_scroll = false;
+	    numlock_by_default = true;
 	};
 	gestures = {
 	    workspace_swipe = false;
@@ -103,6 +112,7 @@
 	    "ignorezero, wofi"
 	    "ignorezero, notifications"
 	    "ignorezero, anyrun"
+	    "noanim, wofi"
 	    "noanim, selection"
 	    "noanim, hyprpicker"
 	];
@@ -114,8 +124,6 @@
 	    "size 1299 701, mpv"
 	    "float, nemo"
 	    "float, pavucontrol"
-	    "move 0 0, title:^(Vivado)(.*)$"
-	    "workspace 10, title:^(Vivado)(.*)$"
 	];
 	windowrulev2 = [
 	    "float, class:(^wofi$)"
@@ -125,22 +133,37 @@
 	    "opacity 0.3, class:(^wofi$)"
 	    "dimaround, class:(^wofi$)"
 	    "stayfocused, class:(^wofi$)"
-	    "animation popin 95%, class:(^wofi$)"
+	    "noanim, class:(^wofi$)"
 	    "suppressevent maximize, class:.*"
 	    "nofocus,class:^$,title:^$wayland:1,floating:1,fullscreen:0,pinned:0"
+            "opacity 0.0 override, class:^(xwaylandvideobridge)$"
+            "noanim, class:^(xwaylandvideobridge)$"
+            "noinitialfocus, class:^(xwaylandvideobridge)$"
+            "maxsize 1 1, class:^(xwaylandvideobridge)$"
+            "noblur, class:^(xwaylandvideobridge)$"
+
+	    "workspace 2, class:^(firefox)$"
+	    "size 450 100%, class:^(steam)$,title:^(Friends List)$"
+	    "workspace 5 silent, class:^(steam)$"
+	    "workspace 5 silent, title:^(Steam)$"
+	    "workspace 5 silent, class:^(XIVLauncher.Core)$"
+	    "workspace 4 silent, class:^(discord)$"
+	    "workspace 9 silent, class:^(com.obsproject.Studio)$"
+
+	    "workspace 10, title:^(Vivado)(.*)$"
+	    "center, title:^(Vivado)(.*)$"
+	    "tile, title:^(Vivado)(.*)$"
 	];
         bind = [
           "$mod, Q, exec, $terminal"
           "$mod, C, killactive,"
-          "$mod, F, exec, $browser"
+	  "$mod, F, fullscreen,"
+          "$mod, B, exec, $browser"
           "$mod, M, exit,"
           "$mod, V, togglefloating,"
-	  "$mod, R, exec, $menu"
+	  "$mod, R, exec, pkill $menu ; $menu"
 	  "$mod, J, togglesplit,"
-          "$mod, m, movefocus, l"
-          "$mod, code:2f, movefocus, r"
-          "$mod, code:2e, movefocus, u"
-          "$mod, code:2c, movefocus, d"
+	  "$mod, D, exec, ${pkgs.discord}/bin/discord"
 	  "$mod, P, exec, pkill slurp || grim -g \"$(slurp)\" \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..:: Slurp ::..\" \"partial screenshot captured\""
 	  "$mod SHIFT, P, exec, grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""
 	  "$mod SHIFT, P, exec, grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""

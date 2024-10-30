@@ -7,6 +7,7 @@
     home.packages = [
         pkgs.waybar_now_playing
 	pkgs.wireplumber
+	pkgs.playerctl
     ];
 
     programs.waybar = {
@@ -43,13 +44,13 @@
 
 	        "custom/player" = {
 	            interval = 5;
-	    	    exec = "${pkgs.waybar_now_playing}/bin/waybar_now_playing";
-                    format = "    {}";
+	    	    exec = "${pkgs.waybar_now_playing}/bin/waybar_player";
+                    format = "Playing: {}";
 	    	    return-type = "json";
-	    	    max-length = 30;
-	    	    on-click = "${pkgs.waybar_now_playing}/bin/waybar_now_playing play-pause";
-	    	    on-click-right = "${pkgs.waybar_now_playing}/bin/waybar_now_playing next";
-	    	    on-click-middle = "${pkgs.waybar_now_playing}/bin/waybar_now_playing previous";
+	    	    max-length = 45;
+	    	    on-click = "${pkgs.waybar_now_playing}/bin/waybar_player play-pause";
+	    	    on-click-right = "${pkgs.waybar_now_playing}/bin/waybar_player next";
+	    	    on-click-middle = "${pkgs.waybar_now_playing}/bin/waybar_player previous";
 	        };
 	        
 	        "clock" = {
@@ -87,7 +88,7 @@
 	            format = "{volume}";
 	    	    format-muted = "🔇 sssh..";
 	    	    scroll-step = 1;
-	    	    on-click = "${pkgs.helvum}";
+	    	    on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
 	        };
 
 	        "battery" = {

@@ -9,6 +9,11 @@
         };
 	systems.url = "github:nix-systems/default";
 	hyprland.url = "github:hyprwm/Hyprland";
+	rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
+	nix-gaming = {
+	    url = "github:fufexan/nix-gaming";
+	    inputs.nixpkgs.follows = "nixpkgs";
+	};
     };
 
     outputs = inputs@{self, nixpkgs, home-manager, systems, hyprland, ... }:

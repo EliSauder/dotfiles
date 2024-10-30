@@ -18,23 +18,24 @@
   ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "1password-gui"
     "1password"
     "1password-cli"
     "steam"
-    "steam-original"
-    "steam-run"
-    "discord-ptb"
+    "steam-unwrapped"
+    "discord"
   ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs._1password
+    pkgs._1password-cli
     pkgs._1password-gui
     pkgs.cliphist
     pkgs.wl-clipboard
-    pkgs.discord-ptb
+    pkgs.discord
+    pkgs.kdePackages.xwaylandvideobridge
+    pkgs.steam
+    pkgs.steam-run
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -65,6 +66,17 @@
     pkgs.slurp
     pkgs.grim
     pkgs.satty
+
+    pkgs.layan-gtk-theme
+    pkgs.layan-kde
+    pkgs.tela-icon-theme
+    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    #inputs.nix-gaming.packages.${pkgs.system}.wine-ge
+    inputs.nix-gaming.packages.${pkgs.system}.wine-discord-ipc-bridge
+    #inputs.nix-gaming.packages.${pkgs.system}.modrinth-app
+
+    pkgs.xivlauncher
+    #pkgs.wineWowPackages.waylandFull
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -103,7 +115,32 @@
   #
   home.sessionVariables = {
     EDITOR = "nvim";
+    GTK_USE_PORTAL = 1;
   };
+  
+
+  home.pointerCursor = {
+      gtk.enable = true;
+      package = pkgs.rose-pine-cursor;
+      name = "BreezeX-RosePine";
+      size = 24;
+  };
+  gtk = {
+      enable = true;
+      theme.package = pkgs.layan-gtk-theme;
+      theme.name = "Layan-Dark";
+      iconTheme.package = pkgs.tela-icon-theme;
+      iconTheme.name = "Tela";
+      cursorTheme.package = pkgs.rose-pine-cursor;
+      cursorTheme.name = "BreezeX-RosePine";
+  };
+
+  qt.enable = true;
+  qt.platformTheme.name = "kde";
+  qt.style.package = pkgs.layan-kde;
+  qt.style.name = "Layan-Dark";
+
+
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -125,9 +162,48 @@
     };
   };
 
-  programs.steam = {
+  programs.firefox = {
       enable = true;
-      remotePlay.openFirewall = true;
+      package = pkgs.firefox.override {
+          nativeMessagingHosts = [
+	      pkgs.gnome-browser-connector
+	  ];
+      };
+      profiles = {
+          personal = {
+	      id = 0;
+	      name = "personal";
+	      isDefault = true;
+	      settings = {
+	          "browser.search.defaultenginename" = "DuckDuckGo";
+		  "browser.search.order.1" = "DuckDuckGo";
+		  "signon.rememberSignons" = false;
+		  "widget.use-xdg-desktop-portal.file-picker" = 1;
+		  "browser.aboutConfig.showWarning" = false;
+		  "browser.compactmode.show" = true;
+		  "browser.cache.disk.enable" = false;
+	      };
+	      search = {
+	          force = true;
+		  default = "DuckDuckGo";
+		  order = [ "DuckDuckGo" "Brave" "Google" ];
+	      };
+	  };
+      };
+  };
+
+  programs.obs-studio = {
+      enable = true;
+      plugins = with pkgs.obs-studio-plugins; [
+          wlrobs
+          obs-pipewire-audio-capture
+	  obs-vkcapture
+	  obs-vaapi
+	  obs-vintage-filter
+	  obs-tuna
+	  input-overlay
+	  obs-backgroundremoval
+      ];
   };
 
   programs.kitty.enable = true;
