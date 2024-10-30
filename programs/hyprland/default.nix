@@ -1,4 +1,4 @@
-{config, pkgs, ...}: {
+{config, pkgs, inputs, ...}: {
     wayland.windowManager.hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
@@ -25,10 +25,8 @@
 	   gaps_in = 5;
 	   gaps_out = 10;
 	   border_size = 2;
-	   col = {
-	       active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-	       inactive_border = "rgba(595959aa)";
-	   };
+	   "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+	   "col.inactive_border" = "rgba(595959aa)";
 	   resize_on_border = false;
 	   allow_tearing = false;
 	   layout = "dwindle";
@@ -42,7 +40,7 @@
 	    shadow_range = 4;
 	    shadow_render_power = 3;
 
-	    col.shadow = "rgba(1a1a1aee)";
+	    "col.shadow" = "rgba(1a1a1aee)";
 	    
 	    blur = {
 	        enabled = true;
@@ -54,11 +52,13 @@
 	animations = {
 	    enabled = true;
 
-	    bezier = "myBezier, 0.05, 0.9, 0.1, 1.05";
+	    bezier = [
+	        "myBezier, 0.05, 0.9, 0.1, 1.05"
+	    ];
 
 	    animation = [
-	        "windows, 1, 1, 7, myBezier"
-	        "windowsOut 1, 7, default, popin 80%"
+	        "windows, 1, 7, myBezier"
+	        "windowsOut, 1, 7, default, popin 80%"
 		"border, 1, 10, default"
 		"borderangle, 1, 8, default"
 		"fade, 1, 7, default"
@@ -122,7 +122,7 @@
 	    "center, class:(^wofi$)"
 	    "pin, class:(^wofi$)"
 	    "opaque, class:(^wofi$)"
-	    "opacity 0.3, class(^wofi$)"
+	    "opacity 0.3, class:(^wofi$)"
 	    "dimaround, class:(^wofi$)"
 	    "stayfocused, class:(^wofi$)"
 	    "animation popin 95%, class:(^wofi$)"
@@ -170,10 +170,10 @@
 	    "$mod, mouse:272, movewindow"
 	    "$mod, mouse:273, resizewindow"
 	];
-        );
 	monitor = [
 	    ", preferred, auto, 1"
-	    "desc: Microstep MAG321UX OLED, 3840x2160$239.99, auto, 1.5"
+	    "desc:Microstep MAG321UX OLED, 3840x2160@239.99, auto, 1.5"
 	];
       };
+    };
 }
