@@ -8,9 +8,10 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 	systems.url = "github:nix-systems/default";
+	hyprland.url = "github:hyprwm/Hyprland";
     };
 
-    outputs = inputs@{self, nixpkgs, home-manager, systems, ... }:
+    outputs = inputs@{self, nixpkgs, home-manager, systems, hyprland, ... }:
     let
        eachSystem = nixpkgs.lib.genAttrs (import systems);
     in

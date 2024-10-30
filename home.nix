@@ -69,12 +69,9 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-    ".config/hypr/hyprland.conf" = {
-        source = ./config/hypr/hyprland.conf;
-    };
-    ".config/nvim" = {
-        source = lib.file.mkOutOfStoreSymlink ./config/nvim;
-    };
+    #".config/hypr/hyprland.conf" = {
+    #    source = ./config/hypr/hyprland.conf;
+    #};
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -151,30 +148,31 @@
 
   programs.kitty.enable = true;
 
-  wayland.windowManager.hyprland = {
-    enable = false;
-    #settings = {
-    #  "$mod" = "SUPER";
-    #  bind = [
-    #    "$mod, Q, exec, kitty"
-    #    "$mod, C, killactive,"
-    #    "$mod, F, exec, firefox"
-    #    "$mod, M, exit,"
-    #    "$mod, V, togglefloating,"
-    #    "$mod, m, movefocus, l"
-    #    "$mod, code:2f, movefocus, r"
-    #    "$mod, code:2e, movefocus, u"
-    #    "$mod, code:2c, movefocus, d"
-    #  ] ++ (
-    #    builtins.concatLists (builtins.genList(i:
-    #      let ws = i + 1;
-    #      in [
-    #        "$mod, code:1${toString i}, workspace, ${toString ws}"
-    #        "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
-    #      ]
-    #    )
-    #    9)
-    #  );
-    #};
-  };
+  #wayland.windowManager.hyprland = {
+  #  enable = true;
+  #  package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  #  settings = {
+  #    "$mod" = "SUPER";
+  #    bind = [
+  #      "$mod, Q, exec, kitty"
+  #      "$mod, C, killactive,"
+  #      "$mod, F, exec, firefox"
+  #      "$mod, M, exit,"
+  #      "$mod, V, togglefloating,"
+  #      "$mod, m, movefocus, l"
+  #      "$mod, code:2f, movefocus, r"
+  #      "$mod, code:2e, movefocus, u"
+  #      "$mod, code:2c, movefocus, d"
+  #    ] ++ (
+  #      builtins.concatLists (builtins.genList(i:
+  #        let ws = i + 1;
+  #        in [
+  #          "$mod, code:1${toString i}, workspace, ${toString ws}"
+  #          "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+  #        ]
+  #      )
+  #      9)
+  #    );
+  #  };
+  #};
 }
