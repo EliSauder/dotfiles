@@ -15,11 +15,11 @@
 	    "cliphist --type text --watch cliphist store"
 	    "cliphist --type image --watch cliphist store"
 	    "test -d \"$HOME/Pictures/Screenshots\" || mkdir -p \"$HOME/Pictures/Screenshots\" 2>/dev/null"
-	    "[workspace 1 silent] kitty"
-	    "[workspace 2 silent] firefox"
-	    "[workspace 5 silent] steam"
-	    "[workspace 4 silent] discord"
-	    "[workspace 9 silent] obs"
+	    "kitty"
+	    "firefox"
+	    "steam"
+	    "discord"
+	    "obs"
 	];
 	env = [
 	    "XCURSOR_SIZE,24"

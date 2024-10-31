@@ -33,7 +33,6 @@
     pkgs.cliphist
     pkgs.wl-clipboard
     pkgs.discord
-    pkgs.kdePackages.xwaylandvideobridge
     pkgs.steam
     pkgs.steam-run
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -153,7 +152,7 @@
 
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes 2h";
+    addKeysToAgent = "confirm 2h";
     matchBlocks = {
         "github.com" = {
 	    hostname = "github.com";
