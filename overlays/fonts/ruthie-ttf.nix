@@ -1,12 +1,11 @@
 { config, pkgs, lib, ...}: {
     nixpkgs.overlays = [
         (final: prev: {
-	    party-let-plain-ttf = pkgs.stdenv.mkDerivation {
-	        pname = "party-let-plain-ttf";
-		version = "1.0";
+	    ruthie-ttf = pkgs.stdenv.mkDerivation {
+	        pname = "ruthie-ttf";
 
 	        src = pkgs.fetchurl {
-		    url = "https://www.fontsplace.com/free/fonts/p/party_let_plain1.0.ttf";
+		    url = "https://www.1001fonts.com/download/font/ruthie.regular.ttf";
 		    sha256 = "sha256-jNOn8yVoakgfBG6R0JSvX4X8ZyVDVKIwS4xlPSeaTsA=";
 		};
 
@@ -19,9 +18,10 @@
 		'';
 
 		meta = with lib; {
-		    description = "Party LET Plain";
-		    homepage = "https://www.fontsplace.com";
+		    description = "Ruthie";
+		    homepage = "https://www.1001fonts.com/";
 		    platforms = platforms.all;
+		    license = lib.licenses.ofl;
 		};
 	    };
 	})

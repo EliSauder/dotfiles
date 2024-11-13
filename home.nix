@@ -78,6 +78,12 @@
     pkgs.libreoffice-qt
     pkgs.hunspell
     pkgs.hunspellDicts.en_US
+
+    pkgs.inkscape
+
+    pkgs.party-let-plain-ttf
+    pkgs.perfecto-calligraphy-pu-ttf
+    pkgs.ruthie-ttf
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
