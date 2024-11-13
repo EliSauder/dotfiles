@@ -6,7 +6,7 @@
 
 	        src = pkgs.fetchurl {
 		    url = "https://www.1001fonts.com/download/font/alex-brush.regular.ttf";
-		    sha256 = "sha256-fFob+82bC/b3CWhr3O+ksGMF9g/s3SkMHCeC3jFVkjI=";
+		    sha256 = "sha256-iBcv7+rqhcUj0djD7IIC76jul4zJvNdnSaoYb6ZC2R4=";
 		};
 
 		phases = [ "installPhase" ];
