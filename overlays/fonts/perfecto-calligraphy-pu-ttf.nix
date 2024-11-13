@@ -2,11 +2,11 @@
     nixpkgs.overlays = [
         (final: prev: {
 	    perfecto-calligraphy-pu-ttf = pkgs.stdenv.mkDerivation {
-	        pname = "perfecto-calligraphy-pu-ttf";
+	        name = "perfecto-calligraphy-pu-ttf";
 
 	        src = pkgs.fetchurl {
 		    url = "https://www.1001fonts.com/download/font/perfecto-calligraphy-personal-use.regular.ttf";
-		    sha256 = "sha256-jNOn8yVoakgfBG6R0JSvX4X8ZyVDVKIwS4xlPSeaTsA=";
+		    sha256 = "sha256-hZBWvPW1LAVehJHjmMvWxCLL/88kEA6bm8fzifDNmHo=";
 		};
 
 		phases = [ "installPhase" ];
@@ -21,7 +21,7 @@
 		    description = "Perfecto Calligraphy - Personal Use";
 		    homepage = "https://www.1001fonts.com/";
 		    platforms = platforms.all;
-		    license = lib.licenses.mkLicense = {
+		    license = {
 		        url = "https://st.1001fonts.net/license/perfecto-calligraphy-personal-use/READ%20ME.txt";
 			fullName = "Perfecto Calligraphy Non-Commercial";
 			free = false;

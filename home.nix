@@ -24,6 +24,7 @@
     "steam-unwrapped"
     "discord"
     "obsidian"
+    "perfecto-calligraphy-pu-ttf"
   ];
 
   # The home.packages option allows you to install Nix packages into your
@@ -84,6 +85,10 @@
     pkgs.party-let-plain-ttf
     pkgs.perfecto-calligraphy-pu-ttf
     pkgs.ruthie-ttf
+    pkgs.shelley-allegro-otf
+    pkgs.shelley-andante-otf
+    pkgs.shelley-andante-script-otf
+    pkgs.shelley-volante-otf
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

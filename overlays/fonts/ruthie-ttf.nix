@@ -2,11 +2,11 @@
     nixpkgs.overlays = [
         (final: prev: {
 	    ruthie-ttf = pkgs.stdenv.mkDerivation {
-	        pname = "ruthie-ttf";
+	        name = "ruthie-ttf";
 
 	        src = pkgs.fetchurl {
 		    url = "https://www.1001fonts.com/download/font/ruthie.regular.ttf";
-		    sha256 = "sha256-jNOn8yVoakgfBG6R0JSvX4X8ZyVDVKIwS4xlPSeaTsA=";
+		    sha256 = "sha256-fFob+82bC/b3CWhr3O+ksGMF9g/s3SkMHCeC3jFVkjI=";
 		};
 
 		phases = [ "installPhase" ];
