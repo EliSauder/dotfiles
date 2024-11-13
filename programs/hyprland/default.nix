@@ -1,7 +1,11 @@
 {config, pkgs, inputs, ...}: {
-    wayland.windowManager.hyprland = {
+  wayland.windowManager.hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+      systemd.enable = true;
+      systemd.variables = [ "--all" ];
+      xwayland.enable = true;
+
       settings = {
         "$mod" = "SUPER";
 	"$terminal" = "kitty";
@@ -25,13 +29,15 @@
 	    "XCURSOR_SIZE,24"
 	    "XCURSOR_THEME,BreezeX-RosePine"
 	    "HYPRCURSOR_SIZE,24"
+	    "HYPRCURSOR_THEME,rose-pine-hyprcursor"
 	    "GDK_SCALE,2"
 	    "QT_AUTO_SCREEN_SCALE_FACTOR,1"
-	    "HYPRCURSOR_THEME,rose-pine-hyprcursor"
+	    "GDK_BACKEND,wayland,x11,*"
+	    "QT_QPA_PLATFORM,wayland;xcb"
 	];
 	general = {
-	   gaps_in = 5;
-	   gaps_out = 10;
+	   gaps_in = 0;
+	   gaps_out = 2;
 	   border_size = 2;
 	   "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
 	   "col.inactive_border" = "rgba(595959aa)";
@@ -40,25 +46,25 @@
 	   layout = "dwindle";
 	};
 	decoration = {
-	    rounding = 10;
+
+	    shadow = {
+	        enabled = true;
+		range = 4;
+		render_power = 3;
+		color = "rgba(1a1a1aee)";
+	    };
+
 	    active_opacity = 1.0;
-	    inactive_opacity = 0.9;
-
-	    drop_shadow = true;
-	    shadow_range = 4;
-	    shadow_render_power = 3;
-
-	    "col.shadow" = "rgba(1a1a1aee)";
-	    
+	    inactive_opacity = 0.95;
 	    blur = {
 	        enabled = true;
-		size = 3;
+		size = 20;
 		passes = 1;
 		vibrancy = 0.1696;
 	    };
 	};
 	animations = {
-	    enabled = true;
+	    enabled = false;
 
 	    bezier = [
 	        "myBezier, 0.05, 0.9, 0.1, 1.05"
@@ -143,12 +149,16 @@
             "noblur, class:^(xwaylandvideobridge)$"
 
 	    "workspace 2, class:^(firefox)$"
-	    "size 450 100%, class:^(steam)$,title:^(Friends List)$"
 	    "workspace 5 silent, class:^(steam)$"
-	    "workspace 5 silent, title:^(Steam)$"
+	    "workspace 5 silent, class:^(steam)$,title:^(notification)(.*)$"
+	    "size 25% 100%, class:^(steam)$,title:^(Friends List)$"
 	    "workspace 5 silent, class:^(XIVLauncher.Core)$"
 	    "workspace 4 silent, class:^(discord)$"
 	    "workspace 9 silent, class:^(com.obsproject.Studio)$"
+
+	    "workspace 8 silent, class:^(factorio)$"
+	    "workspace 8 silent, class:^(steam_app_431960)$"
+	    "fullscreen, class:^(steam_app_431960)$"
 
 	    "workspace 10, title:^(Vivado)(.*)$"
 	    "center, title:^(Vivado)(.*)$"

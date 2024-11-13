@@ -23,6 +23,7 @@
     "steam"
     "steam-unwrapped"
     "discord"
+    "obsidian"
   ];
 
   # The home.packages option allows you to install Nix packages into your
@@ -59,9 +60,8 @@
     pkgs.hypridle
 
     pkgs.neovim
+    pkgs.obsidian
 
-    #(pkgs.flameshot.override { enableWlrSupport = true; })
-    #pkgs.shotman
     pkgs.slurp
     pkgs.grim
     pkgs.satty
@@ -70,12 +70,14 @@
     pkgs.layan-kde
     pkgs.tela-icon-theme
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-    #inputs.nix-gaming.packages.${pkgs.system}.wine-ge
     inputs.nix-gaming.packages.${pkgs.system}.wine-discord-ipc-bridge
-    #inputs.nix-gaming.packages.${pkgs.system}.modrinth-app
 
     pkgs.xivlauncher
-    #pkgs.wineWowPackages.waylandFull
+
+
+    pkgs.libreoffice-qt
+    pkgs.hunspell
+    pkgs.hunspellDicts.en_US
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -193,16 +195,16 @@
 
   programs.obs-studio = {
       enable = true;
-      plugins = with pkgs.obs-studio-plugins; [
-          wlrobs
-          obs-pipewire-audio-capture
-	  obs-vkcapture
-	  obs-vaapi
-	  obs-vintage-filter
-	  obs-tuna
-	  input-overlay
-	  obs-backgroundremoval
-      ];
+      #plugins = with pkgs.obs-studio-plugins; [
+      #    wlrobs
+      #    obs-pipewire-audio-capture
+      #    obs-vkcapture
+      #    obs-vaapi
+      #    obs-vintage-filter
+      #    obs-tuna
+      #    input-overlay
+      #    obs-backgroundremoval
+      #];
   };
 
   programs.kitty.enable = true;

@@ -1,6 +1,5 @@
 {config, ...}: {
     imports = [ 
-        ./waybar_now_playing.nix
-	./fonts
+        ./party-let-plain-ttf.nix
     ];
 }
