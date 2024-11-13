@@ -1,11 +1,11 @@
 { config, pkgs, lib, ...}: {
     nixpkgs.overlays = [
         (final: prev: {
-	    ruthie-ttf = pkgs.stdenv.mkDerivation {
-	        name = "ruthie-ttf";
+	    alex-brush-ttf = pkgs.stdenv.mkDerivation {
+	        name = "alex-brush-ttf";
 
 	        src = pkgs.fetchurl {
-		    url = "https://www.1001fonts.com/download/font/ruthie.regular.ttf";
+		    url = "https://www.1001fonts.com/download/font/alex-brush.regular.ttf";
 		    sha256 = "sha256-fFob+82bC/b3CWhr3O+ksGMF9g/s3SkMHCeC3jFVkjI=";
 		};
 
@@ -17,7 +17,7 @@
 		'';
 
 		meta = with lib; {
-		    description = "Ruthie";
+		    description = "Alex Brush";
 		    homepage = "https://www.1001fonts.com/";
 		    platforms = platforms.all;
 		    license = lib.licenses.ofl;

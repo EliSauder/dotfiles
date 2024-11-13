@@ -6,7 +6,7 @@
 
 	        src = pkgs.fetchzip {
 		    url = "https://media.fontsgeek.com/download/zip/s/h/shelley-allegro_zuRYK.zip";
-		    sha256 = "sha256-fFob+82bC/b3CWhr3O+ksGMF9g/s3SkMHCeC3jFVkjI=";
+		    sha256 = "sha256-2Gd98nv4PVU1iTJJ1hX6dKKfC1TkxQETBSNmpXeGvJk=";
 		    nativeBuildInputs = [
 		        pkgs.unzip
 		    ];
@@ -14,7 +14,7 @@
 
 		installPhase = ''
 		    mkdir -p $out/share/fonts/opentype/
-		    install -Dm644 "$src/*.otf" -t "$out/share/fonts/opentype"
+		    install -Dm644 "$PWD/"*/*.otf -t "$out/share/fonts/opentype"
 		'';
 
 		meta = with lib; {

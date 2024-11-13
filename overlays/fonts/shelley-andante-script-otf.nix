@@ -6,7 +6,7 @@
 
 	        src = pkgs.fetchzip {
 		    url = "https://media.fontsgeek.com/download/zip/s/h/shelley-andante-script_kN7rf.zip";
-		    sha256 = "sha256-fFob+82bC/b3CWhr3O+ksGMF9g/s3SkMHCeC3jFVkjI=";
+		    sha256 = "sha256-KAieZzSAlD/2/YAlvzAZWMghjzdib9/1Z60Lmsu8rAg=";
 		    nativeBuildInputs = [
 		        pkgs.unzip
 		    ];
@@ -14,7 +14,7 @@
 
 		installPhase = ''
 		    mkdir -p $out/share/fonts/opentype/
-		    install -Dm644 "$src/*.otf" -t "$out/share/fonts/opentype"
+		    install -Dm644 "$PWD/"*/*.otf -t "$out/share/fonts/opentype"
 		'';
 
 		meta = with lib; {

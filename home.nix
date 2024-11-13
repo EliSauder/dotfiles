@@ -89,6 +89,7 @@
     pkgs.shelley-andante-otf
     pkgs.shelley-andante-script-otf
     pkgs.shelley-volante-otf
+    pkgs.alex-brush-ttf
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
