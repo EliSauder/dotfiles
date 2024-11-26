@@ -87,7 +87,7 @@
     pkgs.party-let-plain-ttf
     pkgs.perfecto-calligraphy-pu-ttf
     pkgs.ruthie-ttf
-    pkgs.shelley-allegro-script-otf
+    pkgs.shelley-allegro-otf
     pkgs.shelley-andante-otf
     pkgs.shelley-andante-script-otf
     pkgs.shelley-volante-otf

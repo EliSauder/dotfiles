@@ -1,11 +1,11 @@
 { config, pkgs, lib, ...}: {
     nixpkgs.overlays = [
         (final: prev: {
-	    shelley-allegro-script-otf = pkgs.stdenv.mkDerivation {
-	        name = "shelley-allegro-script-otf";
+	    shelley-allegro-bt-otf = pkgs.stdenv.mkDerivation {
+	        name = "shelley-allegro-bt-otf";
 
 	        src = pkgs.fetchzip {
-		    url = "https://www.freefontdownload.org/download-font-otf/shelley-allegro-script-regular";
+		    url = "https://www.cufonfonts.com/get/font/download/5144780b954ad3c578b73876eadc703f";
 		    sha256 = "sha256-2Gd98nv4PVU1iTJJ1hX6dKKfC1TkxQETBSNmpXeGvJk=";
 		    nativeBuildInputs = [
 		        pkgs.unzip
@@ -18,9 +18,13 @@
 		'';
 
 		meta = with lib; {
-		    description = "Shelley Allegro Script";
-		    homepage = "https://www.freefontdownload.org";
+		    description = "Shelley Allegro BT";
+		    homepage = "https://fontsgeek.com/";
 		    platforms = platforms.all;
+		    license = {
+			fullName = "free for personal use";
+			free = false;
+		    };
 		};
 	    };
 	})

@@ -5,7 +5,7 @@
 	        name = "shelley-volante-otf";
 
 	        src = pkgs.fetchzip {
-		    url = "https://media.fontsgeek.com/download/zip/s/h/shelley-volante_RtX7K.zip";
+		    url = "https://fontsgeek.com/shelley-volante-font/download";
 		    sha256 = "sha256-fxbgEc35xZogktuhkeFDazYCaOMQQTOFtvDhnGB9IdQ=";
 		    nativeBuildInputs = [
 		        pkgs.unzip
