@@ -1,11 +1,11 @@
 { config, pkgs, lib, ...}: {
     nixpkgs.overlays = [
         (final: prev: {
-	    shelley-allegro-otf = pkgs.stdenv.mkDerivation {
-	        name = "shelley-allegro-otf";
+	    shelley-allegro-script-otf = pkgs.stdenv.mkDerivation {
+	        name = "shelley-allegro-script-otf";
 
 	        src = pkgs.fetchzip {
-		    url = "https://media.fontsgeek.com/download/zip/s/h/shelley-allegro_zuRYK.zip";
+		    url = "https://www.freefontdownload.org/download-font-otf/shelley-allegro-script-regular";
 		    sha256 = "sha256-2Gd98nv4PVU1iTJJ1hX6dKKfC1TkxQETBSNmpXeGvJk=";
 		    nativeBuildInputs = [
 		        pkgs.unzip
@@ -18,8 +18,8 @@
 		'';
 
 		meta = with lib; {
-		    description = "Shelley Allegro";
-		    homepage = "https://fontsgeek.com/";
+		    description = "Shelley Allegro Script";
+		    homepage = "https://www.freefontdownload.org";
 		    platforms = platforms.all;
 		};
 	    };

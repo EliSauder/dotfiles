@@ -25,6 +25,7 @@
     "discord"
     "obsidian"
     "perfecto-calligraphy-pu-ttf"
+    "reaper"
   ];
 
   # The home.packages option allows you to install Nix packages into your
@@ -62,6 +63,7 @@
 
     pkgs.neovim
     pkgs.obsidian
+    pkgs.reaper
 
     pkgs.slurp
     pkgs.grim
@@ -85,7 +87,7 @@
     pkgs.party-let-plain-ttf
     pkgs.perfecto-calligraphy-pu-ttf
     pkgs.ruthie-ttf
-    pkgs.shelley-allegro-otf
+    pkgs.shelley-allegro-script-otf
     pkgs.shelley-andante-otf
     pkgs.shelley-andante-script-otf
     pkgs.shelley-volante-otf
