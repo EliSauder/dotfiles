@@ -104,6 +104,8 @@
     #    source = ./config/hypr/hyprland.conf;
     #};
 
+    ".scripts/statefullock.sh".source = ./scripts/statefullock.sh;
+
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose

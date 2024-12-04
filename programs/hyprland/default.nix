@@ -211,7 +211,9 @@
           "$mod SHIFT, KP_Up, movetoworkspace, 8"
           "$mod SHIFT, KP_Page_Up, movetoworkspace, 9"
           "$mod SHIFT, KP_Insert, movetoworkspace, 10"
+
 	  "$mod SHIFT, X, exec, ${pkgs.hyprpicker}/bin/hyprpicker -a -n"
+	  "$mod, L, exec, ~/.scripts/statefullock.sh"
         ];
 	bindm = [
 	    "$mod, mouse:272, movewindow"

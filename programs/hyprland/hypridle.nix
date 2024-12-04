@@ -1,9 +1,9 @@
 {config, pkgs, inputs, ...}: {
-    programs.hypridle = {
+    services.hypridle = {
         enable = true;
 	settings = {
 	    general = {
-                lock_cmd = "pidof hyprlock || hyprlock";
+	        lock_cmd = "~/.scripts/statefullock.sh";
                 after_sleep_cmd = "hyprctl dispatch dpms on";
                 ignore_dbus_inhibit = false;
             };
@@ -11,7 +11,8 @@
             listener = [
 	    	{
                     timeout = 600;
-		    on-timeout = "hyprlock";
+		    on-timeout = "~/.scripts/statefullock.sh";
+                    #on-timeout = "hyprctl dispatch workspace 11 ; pidof hyprlock || hyprlock";
 		}
 		{
                     timeout = 900;

@@ -6,13 +6,14 @@
 	settings = {
 	    general = {
 	       hide_cursor = true;
+	       no_fade_out = true;
 	    };
 
 	    background = {
 	        path = "screenshot";
-		color = "rgba(0,0,0,0.5)";
-		blur_passes = 2;
-		blur_size = 4;
+		color = "rgba(0,0,0,0.9)";
+		blur_passes = 3;
+		blur_size = 8;
 		noise = 0.01;
 		contrast = 1;
 		brightness = 1;
@@ -47,7 +48,7 @@
                 position = "0, 80";
                 halign = "center";
                 valign = "center";
-            }
+            };
 	};
     };
 }
