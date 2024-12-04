@@ -82,6 +82,7 @@
     pkgs.inkscape
 
     pkgs.hyprpicker
+    pkgs.jq
 
     #pkgs.party-let-plain-ttf
     #pkgs.perfecto-calligraphy-pu-ttf

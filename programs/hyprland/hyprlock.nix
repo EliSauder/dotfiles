@@ -7,6 +7,8 @@
 	    general = {
 	       hide_cursor = true;
 	       no_fade_out = true;
+	       no_fade_in = true;
+	       immediate_render = true;
 	    };
 
 	    background = {
