@@ -1,4 +1,9 @@
 {config, pkgs, inputs, ...}: {
+  imports = [
+     ./hypridle.nix
+     ./hyprlock.nix
+  ];
+
   wayland.windowManager.hyprland = {
       enable = true;
       package = inputs.hyprland.packages.${pkgs.system}.hyprland;
@@ -130,6 +135,7 @@
 	    "size 1299 701, mpv"
 	    "float, nemo"
 	    "float, pavucontrol"
+	    "noanim,^(REAPER)$"
 	];
 	windowrulev2 = [
 	    "float, class:(^wofi$)"
@@ -163,6 +169,13 @@
 	    "workspace 10, title:^(Vivado)(.*)$"
 	    "center, title:^(Vivado)(.*)$"
 	    "tile, title:^(Vivado)(.*)$"
+
+	    "workspace 3, class:REAPER, initialTitle:^(REAPER v[0-9]*)(.*)$"
+	    "workspace 6, class:REAPER, title:^FX:(.*)$"
+	    "tile, initialTitle:^(REAPER v[0-9]*)(.*)$"
+	    "tile, title:^FX:(.*)$"
+	    "nofocus,class:REAPER,title:^$"
+	    "center,class:REAPER,title:^(?!menu)(.*)$"
 	];
         bind = [
           "$mod, Q, exec, $terminal"
@@ -198,6 +211,7 @@
           "$mod SHIFT, KP_Up, movetoworkspace, 8"
           "$mod SHIFT, KP_Page_Up, movetoworkspace, 9"
           "$mod SHIFT, KP_Insert, movetoworkspace, 10"
+	  "$mod SHIFT, X, exec, ${pkgs.hyprpicker}/bin/hyprpicker -a -n"
         ];
 	bindm = [
 	    "$mod, mouse:272, movewindow"

@@ -18,21 +18,18 @@
   ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "1password"
-    "1password-cli"
     "steam"
     "steam-unwrapped"
     "discord"
     "obsidian"
     "perfecto-calligraphy-pu-ttf"
+    "shelley-allegro-bt-otf"
     "reaper"
   ];
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs._1password-cli
-    pkgs._1password-gui
     pkgs.cliphist
     pkgs.wl-clipboard
     pkgs.discord
@@ -84,14 +81,16 @@
 
     pkgs.inkscape
 
-    pkgs.party-let-plain-ttf
-    pkgs.perfecto-calligraphy-pu-ttf
-    pkgs.ruthie-ttf
-    pkgs.shelley-allegro-otf
-    pkgs.shelley-andante-otf
-    pkgs.shelley-andante-script-otf
-    pkgs.shelley-volante-otf
-    pkgs.alex-brush-ttf
+    pkgs.hyprpicker
+
+    #pkgs.party-let-plain-ttf
+    #pkgs.perfecto-calligraphy-pu-ttf
+    #pkgs.ruthie-ttf
+    #pkgs.shelley-allegro-bt-otf
+    #pkgs.shelley-andante-otf
+    #pkgs.shelley-andante-script-otf
+    #pkgs.shelley-volante-otf
+    #pkgs.alex-brush-ttf
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
