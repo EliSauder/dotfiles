@@ -1,13 +1,28 @@
-{config, pkgs, ...}: {
+{config, pkgs, ...}: 
+let
+    cfg = config.ui.waybar;
+in {
     
     imports = [
         ./style.nix
     ];
 
+    options.ui = {
+        waybar.enable = lib.mkEnableOption "Enable waybar";
+        waybar.terminal = lib.mkOption {
+            type = with types; uniq str;
+        };
+    };
+
+    config = lib.mkIf cfg.enable {
+
     home.packages = [
+        pkgs.waybar
         pkgs.waybar_now_playing
-	pkgs.wireplumber
-	pkgs.playerctl
+	    pkgs.wireplumber
+	    pkgs.playerctl
+        pkgs.networkmanager
+        pkgs.pavucontrol
     ];
 
     programs.waybar = {
@@ -70,7 +85,7 @@
 	    	    format-linked = "{ifname} (No IP) ";
 	    	    format-disconnected = "! Disconnected";
 	    	    tooltip-format-wifi = "{signalStrength}% | ⬇ {bandwidthDownBits} ⬆ {bandwidthUpBits} | {ipaddr}/{cidr}";
-	    	    on-click = "${pkgs.kitty}/bin/kitty --name nmtui --title nmtui ${pkgs.networkmanager}/bin/nmtui";
+	    	    on-click = "${cfg.kitty}/bin/kitty --name nmtui --title nmtui ${pkgs.networkmanager}/bin/nmtui";
 	        };
 
 	        "cpu" = {
@@ -112,5 +127,6 @@
 	        };
 	    };
 	};
+    };
     };
 }

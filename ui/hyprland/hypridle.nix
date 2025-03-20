@@ -1,10 +1,17 @@
-{config, pkgs, inputs, ...}: {
+{config, pkgs, inputs, ...}:
+let
+    hyprctlbin = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/hyprctl";
+in {
+    home.packages = [ 
+        pkgs.hypridle
+    ];
+
     services.hypridle = {
         enable = true;
 	settings = {
 	    general = {
 	        lock_cmd = "~/.scripts/statefullock.sh";
-                after_sleep_cmd = "hyprctl dispatch dpms on";
+            after_sleep_cmd = "${hyprctlbin} dispatch dpms on"
                 ignore_dbus_inhibit = false;
             };
             
@@ -16,8 +23,8 @@
 		}
 		{
                     timeout = 900;
-		    on-timeout = "hyprctl dispatch dpms off";
-		    on-resume = "hyprctl dispatch dpms on";
+		    on-timeout = "${hyprctlbin} dispatch dpms off";
+		    on-resume = "${hyprctlbin} dispatch dpms on";
 		}
 		{
 		    timeout = 1800;

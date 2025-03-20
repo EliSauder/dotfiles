@@ -1,7 +1,49 @@
-{config, pkgs, inputs, ...}: {
+{config, pkgs, inputs, ...}: 
+let
+    cfg = config.ui.wayland;
+in {
+
   imports = [
-     ./hypridle.nix
-     ./hyprlock.nix
+    ../waybar/
+    ../wofi/
+    ./hypridle.nix
+  ];
+
+  options = {
+      wayland.enable lib.mkEnableOption "Enable wayland";
+      wayland.terminal = lib.mkOption {
+          type = with types; uniq str;
+          default = [];
+      };
+      wayland.browser = lib.mkOption {
+          type = with types; uniq str;
+          default = [];
+      };
+      wayland.fileManager = lib.mkOption {
+          type = with types; uniq str;
+          default = [];
+      };
+      wayland.startupItems = lib.mkOption {
+          type = with types; listOf str;
+          default = [];
+      };
+      wayland.keybinds = lib.mkOption {
+          type = with types; listOf str;
+          default = [];
+      }
+  };
+
+  config = lib.mkIf cfg.enable {
+
+  home.packages = [
+    pkgs.cliphist
+    pkgs.wl-clipboard
+    pkgs.swww
+    pkgs.mako
+    pkgs.hyprpicker
+    pkgs.grim
+    pkgs.slurp
+    pkgs.satty
   ];
 
   wayland.windowManager.hyprland = {
@@ -13,23 +55,21 @@
 
       settings = {
         "$mod" = "SUPER";
-	"$terminal" = "kitty";
-	"$fileManager" = "dolphin";
+	"$terminal" = "${cfg.terminal}";
+	"$fileManager" = "${cfg.fileManager}";
 	"$menu" = "wofi --show drun";
-	"$browser" = "firefox";
+	"$browser" = "${cfg.browser}";
 	exec-once = [
-	    "waybar"
-	    "mako"
-	    "hypridle"
-	    "cliphist --type text --watch cliphist store"
-	    "cliphist --type image --watch cliphist store"
+	    "${pkgs.waybar}/bin/waybar"
+	    "${pkgs.mako}/bin/mako"
+	    "${pkgs.hypridle}/bin/hypridle"
+	    "${pkgs.cliphist}/bin/cliphist --type text --watch cliphist store"
+	    "${pkgs.cliphist}/bin/cliphist --type image --watch cliphist store"
 	    "test -d \"$HOME/Pictures/Screenshots\" || mkdir -p \"$HOME/Pictures/Screenshots\" 2>/dev/null"
-	    "kitty"
-	    "firefox"
-	    "steam"
-	    "discord"
-	    "obs"
-	];
+	    "${cfg.terminal}"
+	    "${cfg.browser}"
+        ] 
+        ++ cfg.startupItems;
 	env = [
 	    "XCURSOR_SIZE,24"
 	    "XCURSOR_THEME,BreezeX-RosePine"
@@ -186,10 +226,10 @@
           "$mod, V, togglefloating,"
 	  "$mod, R, exec, pkill $menu ; $menu"
 	  "$mod, J, togglesplit,"
-	  "$mod, D, exec, ${pkgs.discord}/bin/discord"
-	  "$mod, P, exec, pkill slurp || grim -g \"$(slurp)\" \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..:: Slurp ::..\" \"partial screenshot captured\""
-	  "$mod SHIFT, P, exec, grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""
-	  "$mod SHIFT, P, exec, grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""
+	  #"$mod, D, exec, ${pkgs.discord}/bin/discord"
+	  "$mod, P, exec, pkill slurp || ${pkgs.grim}/bin/grim -g \"$(slurp)\" \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..:: Slurp ::..\" \"partial screenshot captured\""
+	  "$mod SHIFT, P, exec, ${pkgs.grim}/bin/grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""
+	  "$mod SHIFT, P, exec, ${pkgs.grim}/bin/grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""
           "$mod, KP_End, workspace, 1"
           "$mod, KP_Down, workspace, 2"
           "$mod, KP_Page_Down, workspace, 3"
@@ -214,7 +254,8 @@
 
 	  "$mod SHIFT, X, exec, ${pkgs.hyprpicker}/bin/hyprpicker -a -n"
 	  "$mod, L, exec, ~/.scripts/statefullock.sh"
-        ];
+        ]
+        ++ cfg.keybinds;
 	bindm = [
 	    "$mod, mouse:272, movewindow"
 	    "$mod, mouse:273, resizewindow"
@@ -225,4 +266,5 @@
 	];
       };
     };
+  };
 }
