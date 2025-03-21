@@ -13,11 +13,6 @@
   home.homeDirectory = if pkgs.stdenv.isLinux then "/home/esauder" else "/Users/esauder";
   home.username = "esauder";
 
-  imports = [
-    ./programs/
-     ./ui/
-  ];
-
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "steam"
     "steam-unwrapped"
@@ -28,24 +23,28 @@
     "reaper"
   ];
 
+  imports = [
+    ./programs/
+    ./ui/
+  ];
+
+    prog.steam.enable = true;
+    prog.discord.enable = true;
+    prog.floorp.enable = true;
+    prog.git.enable = true;
+    prog.inkscape.enable = true;
+    prog.libreoffice.enable = true;
+    prog.obs.enable = true;
+    prog.obsidian.enable = true;
+    prog.reaper.enable = true;
+    prog.spacedrive.enable = true;
+    prog.ssh.enable = true;
+    prog.wezterm.enable = true;
+
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs.discord
-
-    pkgs.nemo
-
-    pkgs.neovim
-    pkgs.obsidian
-    pkgs.reaper
-
     pkgs.xivlauncher
-
-    pkgs.libreoffice-qt
-    pkgs.hunspell
-    pkgs.hunspellDicts.en_US
-
-    pkgs.inkscape
 
     pkgs.jq
   ];
