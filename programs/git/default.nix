@@ -1,11 +1,11 @@
-{config, pkgs, ... }: 
+{config, types, pkgs, lib, ... }: 
 let
     cfg = config.prog.git;
 in {
     options.prog = {
         git.enable = lib.mkEnableOption "Enable git";
         git.editor = lib.mkOption {
-            type = with type; uniq str; 
+            type = with types; uniq str; 
         };
     };
 

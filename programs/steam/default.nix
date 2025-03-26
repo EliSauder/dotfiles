@@ -2,11 +2,11 @@
 let
     cfg = config.prog.steam;
 in {
-    config.prog = {
-        steam.enable = lib.mkEnableOption "Enable steam";
+    options = {
+        prog.steam.enable = lib.mkEnableOption "Enable steam";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
         home.packages = [
             "steam"
             "steam-original"

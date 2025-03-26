@@ -2,11 +2,11 @@
 let
     cfg = config.prog.inkscape;
 in {
-    config.prog = {
+    options.prog = {
         inkscape.enable = lib.mkEnableOption "Enable inkscape";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
         home.packages = [
             pkgs.inkscape-with-extensions
             pkgs.inkscape-with-extensions.inkcut

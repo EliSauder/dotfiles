@@ -2,11 +2,11 @@
 let 
     cfg = config.prog.libreoffice;
 in {
-    config.prog = {
+    options.prog = {
         libreoffice.enable = lib.mkEnableOption "Enable libreoffice";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
         home.packages = [
             pkgs.libreoffice-qt6
             pkgs.hunspell

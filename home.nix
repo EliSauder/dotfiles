@@ -24,8 +24,8 @@
   ];
 
   imports = [
-    ./programs/
-    ./ui/
+    ./programs
+    #./ui
   ];
 
     prog.steam.enable = true;

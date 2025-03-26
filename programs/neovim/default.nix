@@ -2,11 +2,11 @@
 let
     cfg = config.prog.neovim;
 in {
-    config.prog = {
+    options.prog = {
         neovim.enable = lib.mkEnableOption "Enable neovim";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
 
         programs.neovim = {
             enable = true;

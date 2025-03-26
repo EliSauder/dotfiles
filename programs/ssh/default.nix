@@ -1,12 +1,12 @@
-{config, pkgs, ... }: 
+{config, lib, pkgs, ... }: 
 let
     cfg = config.prog.ssh;
 in {
-    config.prog = {
+    options.prog = {
         ssh.enable = lib.mkEnableOption "Enable ssh";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
         programs.ssh = {
             enable = true;
             addKeysToAgent = "confirm 2h";

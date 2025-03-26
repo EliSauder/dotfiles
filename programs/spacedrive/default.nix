@@ -2,11 +2,11 @@
 let
     cfg = config.prog.spacedrive;
 in {
-    config.prog = {
+    options.prog = {
         spacedrive.enable = lib.mkEnableOption "NEnable spacedrive";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
         home.packages = [
             pkgs.spacedrive
         ];

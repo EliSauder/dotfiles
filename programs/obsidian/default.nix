@@ -2,11 +2,11 @@
 let
     cfg = config.prog.obsidian;
 in {
-    config.prog = {
+    options.prog = {
         obsidian.enable = lib.mkEnableOption "Enable obsidian";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
         home.packages = [
             pkgs.obsidian
         ];

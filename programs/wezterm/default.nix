@@ -2,18 +2,18 @@
 let
     cfg = config.prog.wezterm;
 in {
-    config.prog = {
+    options.prog = {
         wezterm.enable = lib.mkEnableOption "Enable wezterm";
     };
 
-    options = {
+    config = lib.mkIf cfg.enable {
         programs.wezterm = {
             enable = true;
             enableBashIntegration = true;
             enableZshIntegration = true;
             extraConfig = ''
                 return {}
-            ''
+            '';
         };
     };
 }

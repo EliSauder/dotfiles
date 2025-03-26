@@ -2,11 +2,11 @@
 let
     cfg = config.prog.reaper;
 in {
-    config.prog = {
+    options.prog = {
         reaper.enable = lib.mkEnableOption "Enable reaper";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
         home.packages = [
             pkgs.reaper
         ];

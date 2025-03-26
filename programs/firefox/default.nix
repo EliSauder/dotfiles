@@ -2,11 +2,11 @@
 let
     cfg = config.prog.firefox;
 in {
-    config.prog = {
+    options.prog = {
         firefox.enable = lib.mkEnableOption "Enable firefox";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
         programs.firefox = {
             enable = true;
             package = pkgs.firefox.override {

@@ -1,18 +1,18 @@
-{ config, pkgs, lib, ...}: 
+{ config, pkgs, lib, inputs, ...}: 
 let
     cfg = config.prog.floorp;
 in {
-    config.prog = {
+    options.prog = {
         floorp.enable = lib.mkEnableOption "Enable floorp";
     };
 
-    options = lib.mkIf cfg.enable {
+    config = lib.mkIf cfg.enable {
         programs.floorp = {
             enable = true;
             enableGnomeExtensions = true;
             languagePacks = [
-                "en-US",
-                "jp-JP",
+                "en-US"
+                "jp-JP"
             ];
             nativeMessagingHosts = [
                 pkgs.tridactyl-native               
@@ -21,16 +21,13 @@ in {
             profiles = {
                 personal = {
                     id = 0;
-                    path = if lib.stdenv.isDarwin then
+                    path = if pkgs.stdenv.isDarwin then
                         "${config.home.homeDirectory}/Library/Application Support/Floorp"
                         else
                             "${config.home.homeDirectory}/.floorp";
 
-                    user
-
                     isDefault = true;
-
-                    extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+                    extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
                         ublock-origin
                         noscript
                         clearurls
