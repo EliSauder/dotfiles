@@ -1,4 +1,9 @@
-{pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}:
+{
   programs.nixvim = {
     globals = {
       mapleader = " ";
@@ -56,8 +61,16 @@
       cursorline = true;
       cursorcolumn = false;
 
+      wrap = false;
+      sidescroll = 5;
+
       foldlevel = 99;
     };
+
+    extraConfigVim = ''
+      set listchars+=precedes:<,extends:>
+      set list
+    '';
 
     extraConfigLua = ''
       vim.highlight.priorities.semantic_tokens = 95

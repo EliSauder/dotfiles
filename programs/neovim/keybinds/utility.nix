@@ -3,8 +3,18 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   programs.nixvim.keymaps = [
+    # -- File viewer
+    {
+      mode = "n";
+      key = "<leader>pv";
+      action = "<cmd>Oil<cr>";
+      options = {
+        silent = true;
+      };
+    }
     # -- Center curosrs
     {
       mode = "n";
@@ -35,7 +45,10 @@
       action = ''"_dP'';
     }
     {
-      mode = ["n" "v"];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<leader>y";
       action = ''"+y'';
     }
@@ -56,7 +69,9 @@
             end
         end
       '';
-      options = {silent = true;};
+      options = {
+        silent = true;
+      };
     }
   ];
 }

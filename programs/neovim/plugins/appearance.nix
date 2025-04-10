@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.nixvim.plugins = {
     transparent.enable = true;
     mini = {
@@ -6,8 +7,10 @@
       autoLoad = true;
       mockDevIcons = true;
       modules = {
-        icons = {};
-        statusline = {};
+        icons = { };
+        statusline = {
+          use_icons = true;
+        };
       };
     };
   };

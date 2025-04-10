@@ -7,11 +7,10 @@ in {
     };
 
     config = lib.mkIf cfg.enable {
-        home.packages = [
-            "steam"
-            "steam-original"
-            "steam-unwrapped"
-            "steam-run"
+        home.packages = lib.mkIf pkgs.stdenv.isLinux [
+            pkgs.steam
+            pkgs.steam-unwrapped
+            pkgs.steam-run
         ];
     };
 }

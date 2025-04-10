@@ -4,7 +4,7 @@
   lib,
   ...
 }: {
-  programs.nixvim.keymaps = {
+  programs.nixvim.keymaps = [
     # -- Neogen
     {
       mode = "n";
@@ -15,5 +15,5 @@
         silent = true;
       };
     }
-  };
+  ];
 }

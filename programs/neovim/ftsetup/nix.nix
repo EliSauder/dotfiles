@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  programs.nixvim.audoCmd = [
+  programs.nixvim.autoCmd = [
     {
       event = "FileType";
       pattern = [

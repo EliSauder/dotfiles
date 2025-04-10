@@ -1,6 +1,9 @@
-{pkgs, ...}: {
+{ pkgs, lib, ... }:
+{
   programs.nixvim.plugins = {
-    fugitive = {enable = true;};
+    fugitive = {
+      enable = true;
+    };
 
     gitsigns = {
       enable = true;

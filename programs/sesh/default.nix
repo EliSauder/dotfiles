@@ -10,5 +10,17 @@ in {
         home.packages = [
             pkgs.sesh
         ];
+
+        home.file = {
+            ".config/sesh/sesh.toml".source = (pkgs.formats.toml {}).generate "config" {
+                session = [
+                    {
+                        name = "default";
+                        path = "~";
+                        disable_startup_command = true;
+                    }
+                ];
+            };
+        };
     };
 }

@@ -9,11 +9,11 @@ in {
     config = lib.mkIf cfg.enable {
         home.packages = [
             pkgs.inkscape-with-extensions
-            pkgs.inkscape-with-extensions.inkcut
-            pkgs.inkscape-with-extensions.hexmap
-            pkgs.inkscape-with-extensions.textext
-            pkgs.inkscape-with-extensions.silhouette
-            pkgs.inkscape-with-extensions.applytransforms
+            pkgs.inkscape-extensions.inkcut
+            pkgs.inkscape-extensions.hexmap
+            pkgs.inkscape-extensions.textext
+            pkgs.inkscape-extensions.silhouette
+            pkgs.inkscape-extensions.applytransforms
         ];
     };
 }

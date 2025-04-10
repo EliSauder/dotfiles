@@ -3,9 +3,10 @@
   pkgs,
   lib,
   ...
-}: {
-  import = [
-    ./colemak.nix
+}:
+{
+  imports = [
+    #./colemak.nix
     ./movements.nix
     ./utility.nix
     ./plugins

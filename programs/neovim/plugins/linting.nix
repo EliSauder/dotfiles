@@ -7,5 +7,5 @@
       };
       autoCmd.event = ["BufEnter" "BufWritePost" "InsertLeave"];
     };
-  }
+  };
 }

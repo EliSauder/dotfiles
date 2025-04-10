@@ -18,6 +18,6 @@ in {
             options = [
                 "--cmd cd"
             ];
-        }
+        };
     };
 }

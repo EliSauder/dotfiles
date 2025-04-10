@@ -4,7 +4,7 @@
   lib,
   ...
 }: {
-  programs.nixvim.keymaps = {
+  programs.nixvim.keymaps = [
     # -- Telescope
     {
       mode = "n";
@@ -18,5 +18,5 @@
       action = ":lua require('telescope.builtin').live_grep()<cr>";
       options = {silent = true;};
     }
-  };
+  ];
 }

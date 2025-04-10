@@ -16,5 +16,10 @@
         ./ssh
         ./wezterm
         ./steam
+        ./fish
+        ./starship
+        ./tmux
+        ./sesh
+        ./zoxide
     ];
 }

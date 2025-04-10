@@ -9,14 +9,15 @@ in {
     config = lib.mkIf cfg.enable {
         programs.floorp = {
             enable = true;
-            enableGnomeExtensions = true;
+                package = if pkgs.stdenv.isLinux then 
+                    pkgs.floorp.override {
+                        nativeMessagingHosts = [ pkgs.gnome-browser-connector ];
+                    }
+                    else
+                        pkgs.floorp;
             languagePacks = [
                 "en-US"
                 "jp-JP"
-            ];
-            nativeMessagingHosts = [
-                pkgs.tridactyl-native               
-                pkgs.gnome-browser-connector
             ];
             profiles = {
                 personal = {
@@ -71,6 +72,7 @@ in {
                         "floorp.browser.sidebar.enable" = true;
                         "floorp.browser.sidebar.is.displayed" = true;
                         "floorp.browser.sidebar.right" = true;
+                        "floorp.browser.workspace.closePopupAfterClick" = true;
 
                         # General
                         "browser.startup.homepage" = "about:blank";
@@ -119,6 +121,39 @@ in {
                         "captivedetect.canonicalURL" = "";
                         "network.captive-portal-service.enabled" = false;
                         "network.connectivity-service.enabled" = false;
+
+                        "browser.bookmarks.addedImportButton" = true;
+
+                        "browser.display.statusbar" = true;
+                        "browser.download.panel.shown" = true;
+                        "browser.download.useDownloadDir" = false;
+
+                        "dom.forms.autocomplete.formautofill" = false;
+                        "extensions.activeThemeID" = "default-theme@mozilla.org";
+                        "extensions.pictureinpicture.enable_picture_in_picture_overrides" = true;
+                        "privacy.bounceTrackingProtection.hasMigratedUserActivationData" = true;
+                        "privacy.sanitize.clearOnShutdown.hasMigratedToNewPrefs2" = true;
+                        "toolkit.telemetry.pioneer-new-studies-available" = false;
+
+                        "userChrome.autohide.back_button" = true;
+                        "userChrome.autohide.forward_button" = true;
+                        "userChrome.autohide.navbar" = false;
+                        "userChrome.autohide.page_action" = true;
+                        "userChrome.autohide.sidebar" = false;
+                        "userChrome.autohide.tab" = false;
+                        "userChrome.hidden.tab_icon" = false;
+                        "userChrome.hidden.tabbar" = false;
+                        "userChrome.icon.disabled" = false;
+                        "userChrome.sidebar.overlap" = false;
+                        "userChrome.tab.bottom_rounded_corner" = false;
+                        "userChrome.tab.box_shadow" = false;
+                        "userChrome.tab.connect_to_window" = false;
+                        "userChrome.tab.lepton_like_padding" = false;
+                        "userChrome.tab.newtab_button_like_tab" = false;
+                        "userChrome.tab.newtab_button_proton" = true;
+                        "userChrome.tabbar.as_titlebar" = false;
+                        "userChrome.tabbar.one_liner" = false;
+
                     };
                 };
             };
