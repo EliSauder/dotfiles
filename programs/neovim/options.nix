@@ -9,6 +9,8 @@
       mapleader = " ";
       transparent_enabled = true;
 
+      clipboard = "${pkgs.clipboard-jh}/bin/cp copy";
+
       editorconfig = {
         enable = true;
         properties = {

@@ -19,6 +19,7 @@ in
       pkgs.gum
       pkgs.fzf
       pkgs.tmux-harpoon
+      pkgs.reattach-to-user-namespace
     ];
 
     # tmux config
@@ -31,6 +32,7 @@ in
       historyLimit = 10000;
 
       plugins = [
+        pkgs.tmuxPlugins.prefix-highlight
         {
           plugin = pkgs.tmuxPlugins.vim-tmux-navigator;
           extraConfig = ''
@@ -57,17 +59,27 @@ in
       ];
 
       extraConfig = ''
+        ${
+          if pkgs.stdenv.isDarwin then
+            "set-option -g default-command '${pkgs.reattach-to-user-namespace}/bin/reattach-to-user-namespace -l $SHELL'"
+          else
+            ""
+        }
         set -g default-terminal "screen-256color"
+        set -g remain-on-exit off
+        set -gs copy-command "${pkgs.clipboard-jh}/bin/cb copy"
+
         unbind C-b
         set-option -g prefix C-a
         bind-key C-a send-prefix
 
         set -g mouse off
         set-window-option -g mode-keys vi
+        set-window-option -g mode-keys vi
         bind-key -T copy-mode-vi 'v' send -X begin-selection
         bind-key -T copy-mode-vi 'y' send -X copy-selection
 
-        bind k display-popup -E -w 40% "sesh connect \"$(sesh list - i | gum filter --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡' --no-strip-ansi)\""
+        bind k display-popup -E -w 40% "sesh connect \"$(sesh list --icons - i | gum filter --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡' --no-strip-ansi)\""
 
         unbind '"'
         unbind %
