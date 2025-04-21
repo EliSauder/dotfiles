@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.nixvim.plugins = {
     treesitter = {
       enable = true;
@@ -96,7 +97,13 @@
         clangd = {
           enable = true;
           package = pkgs.libclang;
-          filetypes = ["c" "cpp" "objc" "objcpp" "cuda"];
+          filetypes = [
+            "c"
+            "cpp"
+            "objc"
+            "objcpp"
+            "cuda"
+          ];
           settings = {
             checkUpdates = true;
             detectExtensionConflicts = true;
@@ -206,7 +213,6 @@
               unusedwrite = true;
               useany = true;
               shadow = true;
-              fieldalignment = true;
             };
             staticcheck = true;
           };
@@ -218,18 +224,27 @@
         ziggy = {
           enable = true;
           package = pkgs.ziggy;
-          cmd = ["${pkgs.ziggy}/bin/ziggy" "lsp"];
-          filetypes = ["ziggy" "ziggy_schema"];
+          cmd = [
+            "${pkgs.ziggy}/bin/ziggy"
+            "lsp"
+          ];
+          filetypes = [
+            "ziggy"
+            "ziggy_schema"
+          ];
         };
         superhtml = {
           enable = true;
           package = pkgs.superhtml;
-          cmd = ["${pkgs.superhtml}/bin/superhtml" "lsp"];
-          filetypes = ["superhtml"];
+          cmd = [
+            "${pkgs.superhtml}/bin/superhtml"
+            "lsp"
+          ];
+          filetypes = [ "superhtml" ];
         };
         nil_ls = {
           enable = true;
-          settings.formatting.command = [];
+          settings.formatting.command = [ ];
           onAttach.function = ''
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
@@ -237,7 +252,7 @@
         };
         nixd = {
           enable = true;
-          settings.formatting.command = [];
+          settings.formatting.command = [ ];
           onAttach.function = ''
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false

@@ -58,7 +58,7 @@ in
   # prog.libreoffice.enable = true;
   # prog.obs.enable = true;
 
-  prog.discord.enable = true;
+  prog.discord.enable = false;
   #prog.floorp.enable = true;
   prog.obsidian.enable = true;
   prog.reaper.enable = true;
@@ -83,6 +83,13 @@ in
     pkgs.util-linux
     pkgs.parallel
     pkgs.rsync
+
+    # Default dev env
+    pkgs.go
+    pkgs.gotools
+    pkgs.dotnet-sdk_9
+    pkgs.zig
+    pkgs.rust-bin.stable.latest.default
   ];
 
   home.file = {

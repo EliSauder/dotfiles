@@ -4,12 +4,39 @@
   ...
 }:
 {
+  home.packages = [
+    pkgs.clipboard-jh
+  ];
+
   programs.nixvim = {
     globals = {
       mapleader = " ";
       transparent_enabled = true;
 
-      clipboard = "${pkgs.clipboard-jh}/bin/cp copy";
+      clipboard = {
+        name = "clipboard-jh";
+        copy = {
+          "+" = [
+            "${pkgs.clipboard-jh}/bin/cb"
+            "copy"
+          ];
+          "*" = [
+            "${pkgs.clipboard-jh}/bin/cb"
+            "copy"
+          ];
+        };
+        paste = {
+          "+" = [
+            "${pkgs.clipboard-jh}/bin/cb"
+            "paste"
+          ];
+          "*" = [
+            "${pkgs.clipboard-jh}/bin/cb"
+            "paste"
+          ];
+        };
+        cache_enabled = 1;
+      };
 
       editorconfig = {
         enable = true;

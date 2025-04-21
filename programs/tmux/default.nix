@@ -20,6 +20,7 @@ in
       pkgs.fzf
       pkgs.tmux-harpoon
       pkgs.reattach-to-user-namespace
+      pkgs.clipboard-jh
     ];
 
     # tmux config

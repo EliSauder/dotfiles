@@ -33,9 +33,7 @@ in
       pkgs.lemminx
       pkgs.yaml-language-server
       pkgs.rust-analyzer
-      pkgs.cargo
-      pkgs.rustc
-      pkgs.rustfmt
+      #pkgs.rustfmt
       pkgs.taplo
       pkgs.gopls
       pkgs.zls

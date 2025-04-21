@@ -44,9 +44,26 @@
       url = "github:kristoff-it/ziggy";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixvim, gen-luarc, ziggy, nixpkgs, home-manager, systems, hyprland, nur, ... }:
+  outputs =
+    inputs@{
+      self,
+      nixvim,
+      gen-luarc,
+      ziggy,
+      nixpkgs,
+      home-manager,
+      systems,
+      hyprland,
+      nur,
+      ...
+    }:
     let
       eachSystem = nixpkgs.lib.genAttrs (import systems);
     in
