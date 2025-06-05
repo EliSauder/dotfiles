@@ -1,5 +1,8 @@
 { pkgs, ... }:
 {
+  home.packages = [
+    pkgs.sqlcmd
+  ];
   programs.nixvim.plugins = {
     vim-dadbod = {
       enable = true;

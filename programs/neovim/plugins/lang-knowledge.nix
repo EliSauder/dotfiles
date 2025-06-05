@@ -79,24 +79,29 @@
       move.enable = true;
     };
 
-    lsp = {
+    easy-dotnet = {
       enable = true;
-      inlayHints = true;
-      preConfig = ''
-        vim.diagnostic.config({
-            underline = true,
-            severity_sort = true
-        })
-      '';
+    };
+  };
 
-      servers = {
-        bashls = {
-          enable = true;
-          package = pkgs.bash-language-server;
-        };
-        clangd = {
-          enable = true;
-          package = pkgs.libclang;
+  programs.nixvim.lsp = {
+    inlayHints.enable = true;
+    #luaConfig.pre = ''
+    #  vim.diagnostic.config({
+    #      underline = true,
+    #      severity_sort = true
+    #  })
+    #'';
+
+    servers = {
+      bashls = {
+        enable = true;
+        package = pkgs.bash-language-server;
+      };
+      clangd = {
+        enable = true;
+        package = pkgs.libclang;
+        settings = {
           filetypes = [
             "c"
             "cpp"
@@ -104,156 +109,189 @@
             "objcpp"
             "cuda"
           ];
-          settings = {
-            checkUpdates = true;
-            detectExtensionConflicts = true;
-            enableCodeCompletion = true;
-            restartAfterCrash = true;
-            semanticHighlighting = true;
-            serverCompletionRanking = true;
-          };
+          checkUpdates = true;
+          detectExtensionConflicts = true;
+          enableCodeCompletion = true;
+          restartAfterCrash = true;
+          semanticHighlighting = true;
+          serverCompletionRanking = true;
         };
-        cmake = {
-          enable = true;
-          package = pkgs.cmake-language-server;
-        };
-        omnisharp = {
-          enable = true;
+      };
+      cmake = {
+        enable = true;
+        package = pkgs.cmake-language-server;
+      };
+      omnisharp = {
+        enable = true;
+        package = pkgs.omnisharp-roslyn;
 
-          settings = {
-            enableEditorConfigSupport = true;
+        settings = {
+          FormattingOptions = {
+            EnableEditorConfigSupport = true;
+            OrganizeImports = true;
+          };
+
+          RoslynExtensionOptions = {
             enableImportCompletion = true;
-            enableRoslynAnalyzers = true;
-            organizeImportsOnFormat = true;
+            enableDecompilationSupport = true;
+            enableAnalyzersSupport = true;
           };
-          onAttach.function = ''
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.documentRangeFormattingProvider = false
-          '';
-        };
-        #csharp_ls = {
-        #    enable = true;
-        #    package = pkgs.csharp-ls;
-        #    onAttach.function = ''
-        #        client.server_capabilities.documentFormattingProvider = false
-        #        client.server_capabilities.documentRangeFormattingProvider = false
-        #    '';
-        #};
-        jsonls = {
-          enable = true;
-          package = pkgs.vscode-langservers-extracted;
-        };
-        lua_ls = {
-          enable = true;
-          package = pkgs.lua-language-server;
-          settings = {
-            telemetry.enable = false;
-            hint.enable = true;
-          };
-        };
-        lemminx = {
-          enable = true;
-          package = pkgs.lemminx;
-        };
-        yamlls = {
-          enable = true;
-          package = pkgs.yaml-language-server;
-          settings = {
-            redhat.telemetry.enabled = false;
-            yaml = {
-              completion = true;
-              disableAdditionalProperties = false;
-              hover = true;
-              maxItemsComputed = 5000;
-              schemaStore = {
-                enable = true;
-                url = "https://www.schemastore.org/api/json/catalog.json";
-              };
-              tracke.server = "off";
-              validate = true;
-              format = {
-                enable = true;
-                singleQuote = false;
-                bracketSpacing = true;
-                printWidth = 80;
-                proseWrap = "preserve";
-              };
-              keyOrdering = false;
-              schemas = {
-                "https://json.schemastore.org/clang-format.json" = ".clang-format";
-                "https://json.schemastore.org/github-workflow.json" = "/.github/workflows/*";
-                "https://json.schemastore.org/clangd.json" = ".clangd";
-              };
-            };
-          };
-        };
 
-        rust_analyzer = {
-          enable = true;
-          installCargo = false;
-          installRustc = false;
-          installRustfmt = false;
-          rustcPackage = pkgs.rustc;
-          cargoPackage = pkgs.cargo;
-          rustfmtPackage = pkgs.rustfmt;
+          #on_attach.function = ''
+          #    client.server_capabilities.documentFormattingProvider = false
+          #    client.server_capabilities.documentRangeFormattingProvider = false
+          #'';
+
+          filetypes = [
+            "cs"
+            "vb"
+          ];
+
+          root_markers = [
+            ".sln"
+            ".csproj"
+            "omnisharp.json"
+            "function.json"
+          ];
+
+          cmd.__raw = ''
+            {
+                '${pkgs.omnisharp-roslyn}/bin/OmniSharp',
+                '-z',
+                '--hostPID',
+                tostring(vim.fn.getpid()),
+                'DotNet:enablePackageRestore=false',
+                '--encoding',
+                'utf-8',
+                '--languageserver',
+              }
+          '';
+          #root_dir.__raw = ''require('lspconfig.util').root_pattern("*.sln", "*.csproj")'';
         };
-        taplo = {
-          enable = true;
-          package = pkgs.taplo;
+      };
+      #csharp_ls = {
+      #  enable = true;
+      #  package = pkgs.csharp-ls;
+      #  onAttach.function = ''
+      #    client.server_capabilities.documentFormattingProvider = false
+      #    client.server_capabilities.documentRangeFormattingProvider = false
+      #  '';
+      #};
+      jsonls = {
+        enable = true;
+        package = pkgs.vscode-langservers-extracted;
+      };
+      lua_ls = {
+        enable = true;
+        package = pkgs.lua-language-server;
+        settings = {
+          telemetry.enable = false;
+          hint.enable = true;
         };
-        gopls = {
-          enable = true;
-          package = pkgs.gopls;
-          settings.gopls = {
-            completeUnimported = true;
-            usePlaceholders = true;
-            semanticTokens = true;
-            analyses = {
-              unusedparams = true;
-              unusedwrite = true;
-              useany = true;
-              shadow = true;
+      };
+      lemminx = {
+        enable = true;
+        package = pkgs.lemminx;
+      };
+      yamlls = {
+        enable = true;
+        package = pkgs.yaml-language-server;
+        settings = {
+          redhat.telemetry.enabled = false;
+          yaml = {
+            completion = true;
+            disableAdditionalProperties = false;
+            hover = true;
+            maxItemsComputed = 5000;
+            schemaStore = {
+              enable = true;
+              url = "https://www.schemastore.org/api/json/catalog.json";
             };
-            staticcheck = true;
+            tracke.server = "off";
+            validate = true;
+            format = {
+              enable = true;
+              singleQuote = false;
+              bracketSpacing = true;
+              printWidth = 80;
+              proseWrap = "preserve";
+            };
+            keyOrdering = false;
+            schemas = {
+              "https://json.schemastore.org/clang-format.json" = ".clang-format";
+              "https://json.schemastore.org/github-workflow.json" = "/.github/workflows/*";
+              "https://json.schemastore.org/clangd.json" = ".clangd";
+            };
           };
         };
-        zls = {
-          enable = true;
-          package = pkgs.zls;
+      };
+
+      rust_analyzer = {
+        enable = true;
+        package = pkgs.rust-analyzer;
+      };
+      taplo = {
+        enable = true;
+        package = pkgs.taplo;
+      };
+      gopls = {
+        enable = true;
+        package = pkgs.gopls;
+        settings.gopls = {
+          completeUnimported = true;
+          usePlaceholders = true;
+          semanticTokens = true;
+          analyses = {
+            unusedparams = true;
+            unusedwrite = true;
+            useany = true;
+            shadow = true;
+          };
+          staticcheck = true;
         };
-        ziggy = {
-          enable = true;
-          package = pkgs.ziggy;
-          cmd = [
-            "${pkgs.ziggy}/bin/ziggy"
-            "lsp"
-          ];
-          filetypes = [
-            "ziggy"
-            "ziggy_schema"
-          ];
-        };
-        superhtml = {
-          enable = true;
-          package = pkgs.superhtml;
+      };
+      zls = {
+        enable = true;
+        package = pkgs.zls;
+      };
+      #ziggy = {
+      #  enable = true;
+      #  package = pkgs.ziggy;
+      #  cmd = [
+      #    "${pkgs.ziggy}/bin/ziggy"
+      #    "lsp"
+      #  ];
+      #  filetypes = [
+      #    "ziggy"
+      #    "ziggy_schema"
+      #  ];
+      #};
+      superhtml = {
+        enable = true;
+        package = pkgs.superhtml;
+        settings = {
           cmd = [
             "${pkgs.superhtml}/bin/superhtml"
             "lsp"
           ];
           filetypes = [ "superhtml" ];
         };
-        nil_ls = {
-          enable = true;
-          settings.formatting.command = [ ];
-          onAttach.function = ''
+      };
+      nil_ls = {
+        enable = true;
+        settings = {
+          formatting.command = [ ];
+          on_attach.function = ''
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
           '';
         };
-        nixd = {
-          enable = true;
-          settings.formatting.command = [ ];
-          onAttach.function = ''
+      };
+      nixd = {
+        enable = true;
+        settings = {
+          formatting.command = [ ];
+          on_attach.function = ''
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
           '';

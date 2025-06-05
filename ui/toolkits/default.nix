@@ -7,7 +7,7 @@
 }:
 let
   cfg = config.ui.toolkits;
-  rosePineCursor = inputs.rose-pine-hyprcursor.package.${pkgs.system}.default;
+  rosePineCursor = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
 in
 {
   options.ui = {

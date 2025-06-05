@@ -12,16 +12,23 @@ in
 {
   options.prog = {
     tmux.enable = lib.mkEnableOption "Enable tmux";
+    tmux.shell = lib.mkOption {
+      type = lib.types.str;
+      description = "Which shell to use";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [
-      pkgs.gum
-      pkgs.fzf
-      pkgs.tmux-harpoon
-      pkgs.reattach-to-user-namespace
-      pkgs.clipboard-jh
-    ];
+    home.packages =
+      [
+        pkgs.gum
+        pkgs.fzf
+        pkgs.tmux-harpoon
+        pkgs.clipboard-jh
+      ]
+      ++ (lib.optionals pkgs.stdenv.isDarwin [
+        pkgs.reattach-to-user-namespace
+      ]);
 
     # tmux config
 
@@ -68,7 +75,9 @@ in
         }
         set -g default-terminal "screen-256color"
         set -g remain-on-exit off
-        set -gs copy-command "${pkgs.clipboard-jh}/bin/cb copy"
+        # set -gs copy-command "${pkgs.clipboard-jh}/bin/cb copy"
+
+        set-option -g default-shell "${cfg.shell}"
 
         unbind C-b
         set-option -g prefix C-a

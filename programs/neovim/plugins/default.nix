@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./dadbod.nix
     ./snippets.nix
     ./completion.nix
     ./linting.nix

@@ -13,30 +13,30 @@
       mapleader = " ";
       transparent_enabled = true;
 
-      clipboard = {
-        name = "clipboard-jh";
-        copy = {
-          "+" = [
-            "${pkgs.clipboard-jh}/bin/cb"
-            "copy"
-          ];
-          "*" = [
-            "${pkgs.clipboard-jh}/bin/cb"
-            "copy"
-          ];
-        };
-        paste = {
-          "+" = [
-            "${pkgs.clipboard-jh}/bin/cb"
-            "paste"
-          ];
-          "*" = [
-            "${pkgs.clipboard-jh}/bin/cb"
-            "paste"
-          ];
-        };
-        cache_enabled = 1;
-      };
+      #clipboard = {
+      #  name = "clipboard-jh";
+      #  copy = {
+      #    "+" = [
+      #      "${pkgs.clipboard-jh}/bin/cb"
+      #      "copy"
+      #    ];
+      #    "*" = [
+      #      "${pkgs.clipboard-jh}/bin/cb"
+      #      "copy"
+      #    ];
+      #  };
+      #  paste = {
+      #    "+" = [
+      #      "${pkgs.clipboard-jh}/bin/cb"
+      #      "paste"
+      #    ];
+      #    "*" = [
+      #      "${pkgs.clipboard-jh}/bin/cb"
+      #      "paste"
+      #    ];
+      #  };
+      #  cache_enabled = 1;
+      #};
 
       editorconfig = {
         enable = true;

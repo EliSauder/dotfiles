@@ -7,5 +7,6 @@
     ./tmux-harpoon.nix
     ./ziggy.nix
     ./rust-overlay.nix
+    ./omnisharp
   ];
 }

@@ -19,9 +19,9 @@ in
 
     programs.bash = {
       enable = true;
-      bashrcExtra = ''
-        fish
-      '';
+      #bashrcExtra = ''
+      #  fish -i -c 'exec ${pkgs.sesh}/bin/sesh connect default' && exit
+      #'';
     };
   };
 }

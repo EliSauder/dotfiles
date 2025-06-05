@@ -27,7 +27,6 @@ in
       pkgs.commitlint-rs
       pkgs.bash-language-server
       pkgs.cmake-language-server
-      pkgs.omnisharp-roslyn
       pkgs.vscode-langservers-extracted
       pkgs.lua-language-server
       pkgs.lemminx
@@ -37,7 +36,7 @@ in
       pkgs.taplo
       pkgs.gopls
       pkgs.zls
-      pkgs.ziggy
+      #pkgs.ziggy
       pkgs.superhtml
       pkgs.ripgrep
       pkgs.fd
@@ -52,7 +51,7 @@ in
       defaultEditor = true;
       vimdiffAlias = true;
 
-      nixpkgs.useGlobalPackages = true;
+      nixpkgs.useGlobalPackages = false;
     };
 
     #home.sessionVariables = {

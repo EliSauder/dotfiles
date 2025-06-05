@@ -1,6 +1,21 @@
 {
   description = "Home manager flake for esauder system";
 
+  nixConfig = {
+    substituters = [
+      "https://hyprland.cachix.org"
+      "https://nix-community.cachix.org"
+      "https://nix-gaming.cachix.org"
+      "https://cache.nixos.org"
+    ];
+    trusted-public-keys = [
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
@@ -21,6 +36,7 @@
     rose-pine-hyprcursor = {
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.hyprlang.follows = "hyprland/hyprlang";
     };
 
     nix-gaming = {
@@ -49,12 +65,17 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixgl = {
+      url = "github:nix-community/nixGL";
+    };
   };
 
   outputs =
     inputs@{
       self,
       nixvim,
+      nixgl,
       gen-luarc,
       ziggy,
       nixpkgs,
@@ -69,11 +90,31 @@
     in
     {
       packages = eachSystem (system: {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
+        home-manager.useGlobalPkgs = false;
+        home-manager.useUserPackages = false;
         homeConfigurations."esauder" = home-manager.lib.homeManagerConfiguration {
-          extraSpecialArgs = { inherit inputs system; };
-          pkgs = nixpkgs.legacyPackages.${system};
+          extraSpecialArgs = {
+            inherit inputs system;
+            distro = "nixos";
+          };
+          pkgs = import nixpkgs {
+            system = system;
+          };
+          modules = [
+            ./home.nix
+            (import ./overlays)
+            inputs.nixvim.homeManagerModules.nixvim
+          ];
+        };
+        homeConfigurations."esauder-ubuntu" = home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = {
+            inherit inputs system;
+            distro = "ubuntu";
+          };
+          pkgs = import nixpkgs {
+            system = system;
+            overlays = [ nixgl.overlay ];
+          };
           modules = [
             ./home.nix
             (import ./overlays)

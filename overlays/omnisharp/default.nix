@@ -2,59 +2,126 @@
   config,
   pkgs,
   lib,
+  runCommand,
+  expect,
   ...
 }:
+
 let
-  omnisharpRepoSrc = pkgs.fetchFromGitHub {
-    owner = "OmniSharp";
-    repo = "omnisharp-roslyn";
-    rev = "9b86af51a009e7e97003649b57d71e097c8ac961";
-    sha256 = "";
-  };
+  inherit (pkgs.dotnetCorePackages) sdk_8_0 sdk_9_0 runtime_8_0;
 in
 {
   nixpkgs.overlays = [
     (final: prev: {
-      omnisharp = pkgs.mkDerivation {
+      omnisharp = pkgs.buildDotnetModule rec {
         pname = "omnisharp-roslyn";
-        version = "1.39.13";
-        srcs = [
-          (pkgs.fetchurl {
-            url = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe";
-            sha256 = "";
-          })
-          (pkgs.fetchurl {
-            url = "https://cakebuild.net/download/bootstrapper/packages";
-            hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-          })
-          (omnisharpRepoSrc)
-          (pkgs.buildDotnetModule {
-            pname = "omnisharp-deps";
-            version = "1.39.13";
-            nugetDeps = ./deps.json;
-          })
+        version = "1.39.12";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "OmniSharp";
+          repo = "omnisharp-roslyn";
+          tag = "v${version}";
+          hash = "sha256-WQIBNqUqvVA0UhSoPdf179X+GYKp4LhPvYeEAet6TnY=";
+        };
+
+        projectFile = "src/OmniSharp.Stdio.Driver/OmniSharp.Stdio.Driver.csproj";
+        nugetDeps = ./deps.json;
+
+        dotnet-sdk = sdk_8_0;
+        dotnet-runtime = sdk_8_0;
+
+        dotnetInstallFlags = [ "--framework net8.0" ];
+        dotnetBuildFlags = [
+          "--framework net8.0"
+          "--no-self-contained"
+        ];
+        dotnetFlags = [
+          # These flags are set by the cake build.
+          "-property:PackageVersion=${version}"
+          "-property:AssemblyVersion=${version}.0"
+          "-property:FileVersion=${version}.0"
+          "-property:InformationalVersion=${version}"
+          "-property:RuntimeFrameworkVersion=${runtime_8_0.version}"
+          "-property:RollForward=LatestMajor"
         ];
 
-        unpackPhase = ''
-          mkdir tools
+        postPatch = ''
+          # Relax the version requirement
+          rm global.json
 
-          for src in $src; do
-            if [[ $src == *"nuget"* ]]; then
-              cp "$src" tools/nuget.exe
-            if [[ $src == *"package"* ]]; then
-              cp "$src" tools/packages.config
-            if [[ $src == *"omnisharp-deps"* ]]; then
-              ls -la $src
-            else
-              cp -r "$src/"* ./
-            fi
+          # Patch the project files so we can compile them properly
+          for project in src/OmniSharp.Http.Driver/OmniSharp.Http.Driver.csproj src/OmniSharp.LanguageServerProtocol/OmniSharp.LanguageServerProtocol.csproj src/OmniSharp.Stdio.Driver/OmniSharp.Stdio.Driver.csproj; do
+            substituteInPlace $project \
+              --replace-fail '<RuntimeIdentifiers>win7-x64;win7-x86;win10-arm64</RuntimeIdentifiers>' '<RuntimeIdentifiers>linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>'
           done
-
-          ${pkgs.coreutils-full}/bin/md5sum tools/packages.config | awk '{ print $1 }' >| tools/packages.config.md5sum
-
-          find ./ -type f -exec {} ${pkgs.dos2unix}/bin/dos2unix {} 2> /dev/null \;
+          substituteInPlace src/OmniSharp.Stdio.Driver/OmniSharp.Stdio.Driver.csproj \
+            --replace-fail 'net6.0' 'net8.0' \
+            --replace-fail '<RuntimeFrameworkVersion>6.0.0-preview.7.21317.1</RuntimeFrameworkVersion>' ""
         '';
 
+        useDotnetFromEnv = true;
+        executables = [ "OmniSharp" ];
+
+        passthru = {
+          tests =
+            let
+              with-sdk =
+                sdk:
+                runCommand "with-${if sdk ? version then sdk.version else "no"}-sdk"
+                  {
+                    nativeBuildInputs = [
+                      pkgs.omnisharp
+                      sdk
+                      expect
+                    ];
+                    meta.timeout = 60;
+                  }
+                  ''
+                    HOME=$TMPDIR
+                    expect <<"EOF"
+                      spawn OmniSharp
+                      expect_before timeout {
+                        send_error "timeout!\n"
+                        exit 1
+                      }
+                      expect ".NET Core SDK ${if sdk ? version then sdk.version else sdk_8_0.version}"
+                      expect "{\"Event\":\"started\","
+                      send \x03
+                      expect eof
+                      catch wait result
+                      exit [lindex $result 3]
+                    EOF
+                    touch $out
+                  '';
+            in
+            {
+              # Make sure we can run OmniSharp with any supported SDK version, as well as without
+              with-net8-sdk = with-sdk sdk_8_0;
+              with-net9-sdk = with-sdk sdk_9_0;
+              no-sdk = with-sdk null;
+            };
+
+          updateScript = ./update.sh;
+        };
+
+        meta = {
+          description = "OmniSharp based on roslyn workspaces";
+          homepage = "https://github.com/OmniSharp/omnisharp-roslyn";
+          changelog = "https://github.com/OmniSharp/omnisharp-roslyn/blob/v${version}/CHANGELOG.md";
+          sourceProvenance = with lib.sourceTypes; [
+            fromSource
+            binaryNativeCode # dependencies
+          ];
+          license = lib.licenses.mit;
+          maintainers = with lib.maintainers; [
+            corngood
+            ericdallo
+            gepbird
+            mdarocha
+            tesq0
+          ];
+          mainProgram = "OmniSharp";
+        };
       };
     })
   ];

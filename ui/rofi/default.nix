@@ -6,11 +6,11 @@
   ...
 }:
 let
-  cfg = config.ui.wofi;
+  cfg = config.ui.rofi;
 in
 {
   options.ui = {
-    wofi.enable = lib.mkEnableOption "Enable Wofi";
+    rofi.enable = lib.mkEnableOption "Enable Wofi";
   };
 
   config = lib.mkIf cfg.enable {
