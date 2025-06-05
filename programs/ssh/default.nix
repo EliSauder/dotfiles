@@ -23,5 +23,8 @@ in
         };
       };
     };
+
+    services.ssh-agent.enable = true;
+    services.yubikey-agent.enable = true;
   };
 }
