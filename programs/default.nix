@@ -12,6 +12,7 @@
     ./firefox
     ./floorp
     ./git
+    ./git-worktree-switcher
     ./inkscape
     ./kitty
     ./libreoffice

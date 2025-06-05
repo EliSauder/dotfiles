@@ -141,6 +141,7 @@ in
   prog.wezterm.enable = true;
   prog.kitty.enable = true;
   prog.neovim.enable = true;
+  prog.gitws.enable = true;
   prog.git = {
     enable = true;
     editor = "nvim";
