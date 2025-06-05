@@ -143,7 +143,7 @@ in
   prog.neovim.enable = true;
   prog.git = {
     enable = true;
-    editor = "${config.programs.nixvim.package}/bin/nvim";
+    editor = "nvim";
   };
   prog.bash.enable = true;
   prog.starship.enable = true;
