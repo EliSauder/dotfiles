@@ -22,6 +22,8 @@ in
         enableZshIntegration = true;
       };
 
+      enableGitIntegration = true;
+
       settings = {
         scrollback_lines = 10000;
         cursor_trail = 1;
