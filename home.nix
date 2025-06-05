@@ -128,6 +128,7 @@ in
   # prog.obs.enable = true;
 
   prog.discord.enable = false;
+  prog.direnv.enable = true;
   prog.librewolf.enable = true;
   prog.floorp = {
     enable = true;
