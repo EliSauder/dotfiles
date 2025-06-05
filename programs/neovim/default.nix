@@ -24,7 +24,6 @@ in
     home.packages = [
       pkgs.libclang
       pkgs.codespell
-      pkgs.commitlint-rs
       pkgs.bash-language-server
       pkgs.cmake-language-server
       pkgs.vscode-langservers-extracted

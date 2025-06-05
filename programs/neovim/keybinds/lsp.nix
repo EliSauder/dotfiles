@@ -47,14 +47,6 @@
       }
       {
         mode = "n";
-        key = "<leader>vd";
-        action = ":lua vim.diagnostic.open_float()<cr>";
-        options = {
-          silent = true;
-        };
-      }
-      {
-        mode = "n";
         key = "<leader>qf";
         action = ":lua vim.lsp.buf.code_action({ filter = function(a) return a.isPreferred end, apply = true })<cr>";
         options = {

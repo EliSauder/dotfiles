@@ -6,6 +6,14 @@
 }:
 {
   programs.nixvim.keymaps = [
+    {
+      mode = "n";
+      key = "<leader>vd";
+      action = ":lua vim.diagnostic.open_float()<cr>";
+      options = {
+        silent = true;
+      };
+    }
     # -- File viewer
     {
       mode = "n";
