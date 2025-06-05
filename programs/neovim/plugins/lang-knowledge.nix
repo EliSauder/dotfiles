@@ -291,10 +291,16 @@
         enable = true;
         settings = {
           formatting.command = [ ];
-          on_attach.function = ''
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.documentRangeFormattingProvider = false
-          '';
+          #on_attach.function = ''
+          #  client.server_capabilities.documentFormattingProvider = false
+          #  client.server_capabilities.documentRangeFormattingProvider = false
+          #'';
+          cmd = [ "nixd" ];
+          filetypes = [ "nix" ];
+          root_markers = [
+            "flake.nix"
+            "git"
+          ];
         };
       };
     };
