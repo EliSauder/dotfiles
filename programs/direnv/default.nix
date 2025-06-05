@@ -17,7 +17,8 @@ in
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
-      enableFishIntegration = true;
+      #enabled by default
+      #enableFishIntegration = true;
       nix-direnv.enable = true;
     };
   };
