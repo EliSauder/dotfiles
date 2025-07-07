@@ -237,17 +237,34 @@
       gopls = {
         enable = true;
         package = pkgs.gopls;
-        settings.gopls = {
-          completeUnimported = true;
-          usePlaceholders = true;
-          semanticTokens = true;
-          analyses = {
-            unusedparams = true;
-            unusedwrite = true;
-            useany = true;
-            shadow = true;
+        settings = {
+          filetypes = [
+            "go"
+            "gomod"
+            "gowork"
+            "gotmpl"
+          ];
+
+          root_markers = [
+            "go.work"
+            "go.mod"
+            ".git"
+          ];
+
+          cmd = [ "gopls" ];
+
+          gopls = {
+            completeUnimported = true;
+            usePlaceholders = true;
+            semanticTokens = true;
+            analyses = {
+              unusedparams = true;
+              unusedwrite = true;
+              useany = true;
+              shadow = true;
+            };
+            staticcheck = true;
           };
-          staticcheck = true;
         };
       };
       zls = {

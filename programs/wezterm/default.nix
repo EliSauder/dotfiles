@@ -51,8 +51,9 @@ in
         config.enable_tab_bar = false;
 
         config.default_prog = {
-            os.getenv("SHELL"),
+            '${pkgs.fish}/bin/fish',
             '-i',
+            '-l',
             '-c', 
             'exec ${pkgs.sesh}/bin/sesh connect default'
         }

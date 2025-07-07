@@ -1,15 +1,21 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.nixvim.plugins = {
-    neogen = {enable = true;};
+    neogen = {
+      enable = true;
+    };
 
-    undotree = {enable = true;};
+    undotree = {
+      enable = true;
+    };
+
     mini = {
       enable = true;
       autoLoad = true;
       mockDevIcons = true;
       modules = {
-        surround = {}; # TODO: Learn keybinds
-        splitjoin = {}; # TODO: Learn keybinds
+        surround = { }; # TODO: Learn keybinds
+        splitjoin = { }; # TODO: Learn keybinds
         # TODO: Learn keybinds
         move = {
           mappings = {

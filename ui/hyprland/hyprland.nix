@@ -10,6 +10,11 @@ let
   cfg = config.ui.hyprland;
   isUbuntu = specialArgs.distro == "ubuntu";
   nixGLStart = if isUbuntu then "${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel " else "";
+  systemXdgPortal =
+    if isUbuntu then
+      pkgs.xdg-desktop-portal-gnome
+    else
+      inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
   startlockscript = "${pkgs.writeShellScriptBin "statefullock.sh" ''
     #!/bin/sh
 
@@ -99,14 +104,14 @@ in
     xdg.portal = {
       enable = true;
       xdgOpenUsePortal = true;
-      config.common = {
-        default = [
-          "hyprland"
-          "gtk"
-        ];
-      };
+      config.common.default = [
+        "${if isUbuntu then "gnome" else "hyprland"}"
+        "wlr"
+        "gtk"
+      ];
       extraPortals = [
-        #inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
+        systemXdgPortal
+        pkgs.xdg-desktop-portal-wlr
         pkgs.xdg-desktop-portal-gtk
       ];
     };
