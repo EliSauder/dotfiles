@@ -66,47 +66,65 @@ in
         }
       ];
 
-      extraConfig = ''
-        ${
-          if pkgs.stdenv.isDarwin then
-            "set-option -g default-command '${pkgs.reattach-to-user-namespace}/bin/reattach-to-user-namespace -l $SHELL'"
-          else
-            ""
-        }
-        set -g default-terminal "screen-256color"
-        set -g remain-on-exit off
-        # set -gs copy-command "${pkgs.clipboard-jh}/bin/cb copy"
+      extraConfig =
+        let
+          tmuxRemote = pkgs.writeText "tmux.remote.conf" ''
+            set -g mouse off
+            set-window-option -g mode-keys vi
+            set-window-option -g mode-keys vi
+            bind-key -T copy-mode-vi 'v' send -X begin-selection
+            bind-key -T copy-mode-vi 'y' send -X copy-selection
 
-        set-option -g default-shell "${cfg.shell}"
+            unbind '"'
+            unbind %
+            bind h split-window -h
+            bind v split-window -v
+          '';
+        in
+        ''
+          ${
+            if pkgs.stdenv.isDarwin then
+              "set-option -g default-command '${pkgs.reattach-to-user-namespace}/bin/reattach-to-user-namespace -l $SHELL'"
+            else
+              ""
+          }
+          set -g default-terminal "screen-256color"
+          set -g remain-on-exit off
+          # set -gs copy-command "${pkgs.clipboard-jh}/bin/cb copy"
 
-        unbind C-b
-        set-option -g prefix C-a
-        bind-key C-a send-prefix
+          set-option -g default-shell "${cfg.shell}"
 
-        set -g mouse off
-        set-window-option -g mode-keys vi
-        set-window-option -g mode-keys vi
-        bind-key -T copy-mode-vi 'v' send -X begin-selection
-        bind-key -T copy-mode-vi 'y' send -X copy-selection
+          unbind C-b
+          set-option -g prefix C-a
+          bind-key -n C-a send-prefix
 
-        bind k display-popup -E -w 40% "sesh connect \"$(sesh list --icons - i | gum filter --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡' --no-strip-ansi)\""
+          set -g mouse off
+          set-window-option -g mode-keys vi
+          set-window-option -g mode-keys vi
+          bind-key -T copy-mode-vi 'v' send -X begin-selection
+          bind-key -T copy-mode-vi 'y' send -X copy-selection
 
-        unbind '"'
-        unbind %
-        bind h split-window -h
-        bind v split-window -v
+          bind k display-popup -E -w 40% "sesh connect \"$(sesh list --icons - i | gum filter --limit 1 --no-sort --fuzzy --placeholder 'Pick a sesh' --height 50 --prompt='⚡' --no-strip-ansi)\""
 
-        unbind r
-        bind r source-file ~/.config/tmux/tmux.conf
+          unbind '"'
+          unbind %
+          bind h split-window -h
+          bind v split-window -v
 
-        bind a run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -a'
-        bind A run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -A'
-        bind m run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -e'
-        bind n run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -s 1'
-        bind t run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -s 2'
-        bind f run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -s 3'
-        bind s run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -s 4'
-      '';
+          unbind r
+          bind r source-file ~/.config/tmux/tmux.conf
+
+          bind a run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -a'
+          bind A run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -A'
+          bind m run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -e'
+          bind n run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -s 1'
+          bind t run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -s 2'
+          bind f run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -s 3'
+          bind s run '${pkgs.tmux-harpoon}/bin/tmux-harpoon -s 4'
+
+          if-shell 'test -n "$SSH_CLIENT"' \
+            'source-file ${tmuxRemote}'
+        '';
       # bind -n M-b run 'harpoon -a'
       #bind -n .   run 'harpoon -A'
       #bind -n M-v run 'harpoon -l'
