@@ -87,6 +87,7 @@ in
       "shelley-allegro-bt-otf"
       "reaper"
       "winbox"
+      "mqtt-explorer"
 
       # Browser plugins
       "onepassword-password-manager"
@@ -188,6 +189,7 @@ in
     pkgs.mysql_jdbc
     pkgs.sqlite-jdbc
     pkgs.nuget-to-json
+    pkgs.mqtt-explorer
 
     dotnet-combined
   ];
