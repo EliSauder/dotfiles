@@ -1,6 +1,7 @@
 { config, ... }:
 {
   imports = [
+    ./dbeaver-with-drivers.nix
     ./waybar_now_playing.nix
     ./fonts
     ./nur.nix
