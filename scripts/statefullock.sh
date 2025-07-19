@@ -9,7 +9,7 @@ fi
 touch ~/.hyprlock.lock
 hyprctl activeworkspace -j | jq '.id' > ~/.hyprlock.lock
 hyprctl dispatch workspace $(( $(hyprctl workspaces -j | jq '[.[].id] | max') + 1 ));
-nixGLIntel hyprlock
+nixGL hyprlock
 
 if [ "$(cat ~/.hyprlock.lock | grep -c "^[0-9]*$")" -eq 1 ]; then
     hyprctl dispatch workspace "$(cat ~/.hyprlock.lock | xargs)"

@@ -9,7 +9,7 @@
 let
   cfg = config.ui.hyprland;
   isUbuntu = specialArgs.distro == "ubuntu";
-  nixGLStart = if isUbuntu then "${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel " else "";
+  nixGLStart = if isUbuntu then "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL " else "";
   systemXdgPortal =
     if isUbuntu then
       pkgs.xdg-desktop-portal-gnome
@@ -300,13 +300,13 @@ in
           "center,class:REAPER,title:^(?!menu)(.*)$"
         ];
         bind = [
-          "$mod, Q, exec, uwsm app -- $terminal"
+          "$mod, Q, exec, uwsm app -- ${nixGLStart}$terminal"
           "$mod, C, killactive,"
           "$mod, F, fullscreen,"
-          "$mod, B, exec, uwsm app -- $browser"
+          "$mod, B, exec, uwsm app -- ${nixGLStart}$browser"
           "$mod SHIFT CTRL, M, exec, uwsm stop"
           "$mod, V, togglefloating,"
-          "$mod, H, exec, uwsm app -- $menu -show-icons"
+          "$mod, H, exec, uwsm app -- ${nixGLStart}$menu -show-icons"
           #"$mod, R, exec, rofi -show drun -show-icons -log ~/rofi.log"
           "$mod, J, togglesplit,"
           #"$mod, D, exec, ${pkgs.discord}/bin/discord"

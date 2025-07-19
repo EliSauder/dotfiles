@@ -13,6 +13,9 @@ let
     pathsToLink = "/Applications";
   };
 
+  isUbuntu = specialArgs.distro == "ubuntu";
+  nixGLStart = if isUbuntu then "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL " else "";
+
   dotnet-combined =
     (pkgs.dotnetCorePackages.combinePackages [
       pkgs.dotnet-sdk_9
@@ -108,12 +111,11 @@ in
   ui.hyprland = {
     enable = true;
     terminal = "${pkgs.wezterm}/bin/wezterm";
-    #browser = "${pkgs.firefox}/bin/firefox";
-    browser = "${pkgs.floorp}/bin/floorp";
-    fileManager = "${pkgs.spacedrive}/bin/spacedrive";
+    browser = "${pkgs.firefox}/bin/firefox";
+    fileManager = "${pkgs.nemo}/bin/nemo";
     useNvidia = specialArgs.distro == "ubuntu";
     keybinds = [
-      "$mod, R, exec, uwsm app -- ${pkgs.remmina}/bin/remmina"
+      "$mod, R, exec, uwsm app -- ${nixGLStart}${pkgs.remmina}/bin/remmina"
     ];
   };
 
@@ -137,7 +139,7 @@ in
   };
   prog.obsidian.enable = true;
   prog.reaper.enable = true;
-  prog.spacedrive.enable = true;
+  prog.spacedrive.enable = false;
   prog.ssh.enable = true;
   prog.wezterm.enable = true;
   prog.kitty.enable = true;
@@ -160,7 +162,6 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
-    pkgs.nemo
     pkgs.util-linux
     pkgs.parallel
     pkgs.rsync
@@ -175,23 +176,29 @@ in
     pkgs.dotnet-outdated
     pkgs.zig
     pkgs.rust-bin.stable.latest.default
+    pkgs.pandoc
+    pkgs.texliveFull
 
-    pkgs.nixgl.nixGLIntel
+    pkgs.nixgl.auto.nixGLDefault
+    #pkgs.nixgl.auto.nixGLNvidia
     pkgs.remmina
     pkgs.spacedrive
     pkgs.pgadmin4
     pkgs.grpcurl
     pkgs.grpcui
     pkgs.squirrel-sql
-    pkgs.dbeaver-bin
+    #pkgs.dbeaver-bin
+    pkgs.dbeaver-with-drivers
     pkgs.mssql_jdbc
     pkgs.postgresql_jdbc
     pkgs.mysql_jdbc
     pkgs.sqlite-jdbc
     pkgs.nuget-to-json
     pkgs.mqtt-explorer
+    pkgs.yaak
 
     dotnet-combined
+    pkgs.dotnet-ef
   ];
 
   programs.java.enable = true;
