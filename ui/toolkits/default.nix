@@ -7,7 +7,6 @@
 }:
 let
   cfg = config.ui.toolkits;
-  rosePineCursor = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
 in
 {
   options.ui = {
@@ -25,7 +24,8 @@ in
       pkgs.layan-gtk-theme
       pkgs.layan-kde
       pkgs.tela-icon-theme
-      inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+      pkgs.rose-pine-cursor
+      #inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
       inputs.nix-gaming.packages.${pkgs.system}.wine-discord-ipc-bridge
     ];
 
@@ -35,19 +35,31 @@ in
       theme.name = "Layan-Dark";
       iconTheme.package = pkgs.tela-icon-theme;
       iconTheme.name = "Tela";
-      cursorTheme.package = rosePineCursor;
-      cursorTheme.name = "BreezeX-RosePine";
+      cursorTheme.package = pkgs.rose-pine-cursor;
+      cursorTheme.name = "BreezeX-RosePine-Linux";
     };
 
     home.sessionVariables = lib.mkIf cfg.enableGtk {
       GTK_USE_PORTAL = 1;
     };
 
-    home.pointerCursor = lib.mkIf cfg.enableGtk {
-      gtk.enable = true;
-      package = rosePineCursor;
-      name = "BreezeX-RosePine";
+    home.pointerCursor = {
+      enable = true;
+      dotIcons.enable = true;
+      gtk = lib.mkIf cfg.enableGtk {
+        enable = true;
+      };
+      name = "BreezeX-RosePine-Linux";
+      #package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
+      package = pkgs.rose-pine-cursor;
+      hyprcursor = {
+        size = 24;
+        enable = true;
+      };
       size = 24;
+      x11 = {
+        enable = true;
+      };
     };
 
     qt = lib.mkIf cfg.enableQt {

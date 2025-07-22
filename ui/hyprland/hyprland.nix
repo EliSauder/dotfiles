@@ -91,6 +91,7 @@ in
     };
 
     home.packages = [
+      inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
       pkgs.cliphist
       pkgs.wl-clipboard
       pkgs.swww
@@ -140,11 +141,12 @@ in
         ] ++ cfg.startupItems;
         env =
           [
+            #"WLR_NO_HARDWARE_CURSORS,1"
             "CLIPBOARD_NOGUI,1"
-            "XCURSOR_SIZE,24"
-            "XCURSOR_THEME,BreezeX-RosePine"
-            "HYPRCURSOR_SIZE,24"
-            "HYPRCURSOR_THEME,rose-pine-hyprcursor"
+            #"XCURSOR_SIZE,24"
+            #"XCURSOR_THEME,BreezeX-RosePine"
+            #"HYPRCURSOR_SIZE,24"
+            #"HYPRCURSOR_THEME,rose-pine-hyprcursor"
             "GDK_SCALE,2"
             "QT_AUTO_SCREEN_SCALE_FACTOR,1"
             "GDK_BACKEND,wayland,x11,*"
@@ -154,6 +156,7 @@ in
             "LIBVA_DRIVER_NAME,nvidia"
             "__GLX_VENDOR_LIBRARY_NAME,nvidia"
             "ELECTRON_OZONE_PLATFORM_HINT,auto"
+            "NVD_BACKEND,direct"
           ]);
         general = {
           gaps_in = 0;
