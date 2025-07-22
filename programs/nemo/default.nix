@@ -10,25 +10,25 @@ in
 {
   options.prog = {
     nemo.enable = lib.mkEnableOption "Enable libreoffice";
-    nemo.package = lib.mkOption
+    nemo.package = lib.mkPackagOption pkgs "nemo-with-extensions" { example = "nemo"; };
   };
 
   config = lib.mkIf cfg.enable {
     xdg.desktopEntries.nemo = {
       name = "Nemo";
-      exec = "${pkgs.nemo-with-extensions}/bin/nemo";
+      exec = "${pkgs.package}/bin/nemo";
     };
     xdg.mimeApps = {
       enable = true;
       defaultApplications = {
-        "inode/directory" = [ "${pkgs.nemo-with-extensions}/share/applications/nemo.desktop" ];
+        "inode/directory" = [ "${pkgs.package}/share/applications/nemo.desktop" ];
         "application/x-gnome-saved-search" = [
-          "${pkgs.nemo-with-extensions}/share/applications/nemo.desktop"
+          "${pkgs.package}/share/applications/nemo.desktop"
         ];
       };
     };
     home.packages = [
-      pkgs.nemo-with-extensions
+      cfg.package
       pkgs.nemo-python
       pkgs.nemo-emblems
     ];
