@@ -15,6 +15,10 @@ in
       enable = true;
       lintersByFt = {
         gitcommit = [ "commitlint" ];
+        tflint = [
+          "terraform"
+          "terraform-vars"
+        ];
       };
 
       linters.commitlint = {

@@ -304,6 +304,23 @@
           '';
         };
       };
+      terraformls = {
+        enable = true;
+        settings = {
+          root_markers = [
+            ".terraform"
+            ".git"
+          ];
+          cmd = [
+            "terraform-ls"
+            "serve"
+          ];
+          filetypes = [
+            "terraform"
+            "terraform-vars"
+          ];
+        };
+      };
       nixd = {
         enable = true;
         settings = {

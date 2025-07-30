@@ -18,6 +18,7 @@ let
 
   dotnet-combined =
     (pkgs.dotnetCorePackages.combinePackages [
+      pkgs.dotnet-sdk_7
       pkgs.dotnet-sdk_9
       pkgs.dotnet-sdk_8
     ]).overrideAttrs
@@ -79,6 +80,10 @@ in
 
   xsession.enable = true;
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-sdk-7.0.410"
+  ];
+
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     builtins.elem (lib.getName pkg) [
@@ -91,6 +96,7 @@ in
       "reaper"
       "winbox"
       "mqtt-explorer"
+      "terraform"
 
       # Browser plugins
       "onepassword-password-manager"
@@ -163,6 +169,7 @@ in
   # environment.
   home.packages = [
     pkgs.util-linux
+    pkgs.terraform
     pkgs.parallel
     pkgs.rsync
     #pkgs.bruno
@@ -178,6 +185,8 @@ in
     pkgs.rust-bin.stable.latest.default
     pkgs.pandoc
     pkgs.texliveFull
+    pkgs.k3d
+    pkgs.docker
 
     pkgs.nixgl.auto.nixGLDefault
     #pkgs.nixgl.auto.nixGLNvidia
