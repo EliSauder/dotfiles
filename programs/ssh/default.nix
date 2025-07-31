@@ -6,6 +6,7 @@
 }:
 let
   cfg = config.prog.ssh;
+  isLinux = pkgs.stdenv.isLinux;
 in
 {
   options.prog = {
@@ -24,7 +25,7 @@ in
       };
     };
 
-    services.ssh-agent.enable = true;
+    services.ssh-agent.enable = isLinux;
     services.yubikey-agent.enable = true;
   };
 }

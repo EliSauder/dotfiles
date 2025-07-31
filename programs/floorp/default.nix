@@ -7,6 +7,8 @@
 }:
 let
   cfg = config.prog.floorp;
+  isLinux = pkgs.stdenv.isLinux;
+  isDarwin = pkgs.stdenv.isDarwin;
 in
 {
   options.prog = {
@@ -28,7 +30,7 @@ in
     programs.floorp = {
       enable = true;
       package =
-        if pkgs.stdenv.isLinux then
+        if isLinux then
           pkgs.floorp.override {
             nativeMessagingHosts = [ pkgs.gnome-browser-connector ];
           }
@@ -42,7 +44,7 @@ in
         personal = {
           id = 0;
           path =
-            if pkgs.stdenv.isDarwin then
+            if isDarwin then
               "${config.home.homeDirectory}/Library/Application Support/Floorp"
             else
               "${config.home.homeDirectory}/.floorp";

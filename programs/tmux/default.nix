@@ -8,6 +8,7 @@
 let
   cfg = config.prog.tmux;
   homeDir = config.home.homeDirectory;
+  isDarwin = pkgs.stdenv.isDarwin;
 in
 {
   options.prog = {
@@ -26,7 +27,7 @@ in
         pkgs.tmux-harpoon
         pkgs.clipboard-jh
       ]
-      ++ (lib.optionals pkgs.stdenv.isDarwin [
+      ++ (lib.optionals isDarwin [
         pkgs.reattach-to-user-namespace
       ]);
 
@@ -83,7 +84,7 @@ in
         in
         ''
           ${
-            if pkgs.stdenv.isDarwin then
+            if isDarwin then
               "set-option -g default-command '${pkgs.reattach-to-user-namespace}/bin/reattach-to-user-namespace -l $SHELL'"
             else
               ""

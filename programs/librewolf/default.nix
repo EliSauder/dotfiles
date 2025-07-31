@@ -6,6 +6,7 @@
 }:
 let
   cfg = config.prog.librewolf;
+  isLinux = pkgs.stdenv.isLinux;
 in
 {
   options.prog = {
@@ -15,11 +16,12 @@ in
   config = lib.mkIf cfg.enable {
     programs.librewolf = {
       enable = true;
-      package = pkgs.librewolf.override {
+      package = if isLinux then 
+      	pkgs.librewolf.override {
         nativeMessagingHosts = [
           pkgs.gnome-browser-connector
         ];
-      };
+      } else pkgs.librewolf;
     };
   };
 }

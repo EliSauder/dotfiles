@@ -13,6 +13,8 @@ let
     pathsToLink = "/Applications";
   };
 
+  isLinux = pkgs.stdenv.isLinux;
+
   isUbuntu = specialArgs.distro == "ubuntu";
   nixGLStart = if isUbuntu then "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL " else "";
 
@@ -51,9 +53,9 @@ in
   home.homeDirectory = if pkgs.stdenv.isLinux then "/home/esauder" else "/Users/esauder";
   home.username = "esauder";
 
-  #home.sessionPath = [
-  #  "$HOME/.dotnet/tools"
-  #];
+  home.sessionPath = [
+    "$HOME/.dotnet/tools"
+  ];
 
   home.sessionVariables = {
     DOTNET_ROOT = "${dotnet-combined}";
@@ -63,22 +65,22 @@ in
     enable = true;
     autostart.enable = true;
     portal = {
-      enable = true;
+      enable = isLinux;
       xdgOpenUsePortal = true;
     };
     userDirs = {
-      enable = true;
+      enable = isLinux;
       createDirectories = true;
     };
-    mime.enable = true;
+    mime.enable = isLinux;
     mimeApps = {
-      enable = true;
+      enable = isLinux;
     };
   };
 
-  systemd.user.enable = true;
+  systemd.user.enable = isLinux;
 
-  xsession.enable = true;
+  #xsession.enable = isLinux;
 
   nixpkgs.config.permittedInsecurePackages = [
     "dotnet-sdk-7.0.410"
@@ -105,17 +107,17 @@ in
       "flagfox"
     ];
 
-  home.sessionVariables.GTK_IM_MODULE = lib.mkForce "";
+  #home.sessionVariables.GTK_IM_MODULE = lib.mkForce "";
 
   imports = [
     ./programs
     ./ui
   ];
 
-  targets.genericLinux.enable = specialArgs.distro != "nixos";
+  targets.genericLinux.enable = isLinux && specialArgs.distro != "nixos";
 
   ui.hyprland = {
-    enable = true;
+    enable = isLinux;
     terminal = "${pkgs.wezterm}/bin/wezterm";
     browser = "${pkgs.firefox}/bin/firefox";
     fileManager = "${pkgs.nemo}/bin/nemo";
@@ -126,7 +128,7 @@ in
   };
 
   ui.toolkits = {
-    enable = true;
+    enable = isLinux;
     enableGtk = true;
     enableQt = true;
   };
@@ -140,7 +142,7 @@ in
   prog.direnv.enable = true;
   prog.librewolf.enable = true;
   prog.floorp = {
-    enable = true;
+    enable = false;
     setdefault = true;
   };
   prog.obsidian.enable = true;
@@ -165,58 +167,60 @@ in
   prog.zoxide.enable = true;
   prog.sesh.enable = true;
 
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
-  home.packages = [
-    pkgs.util-linux
-    pkgs.terraform
-    pkgs.parallel
-    pkgs.rsync
-    #pkgs.bruno
-    #pkgs.bruno-cli
-    pkgs.freerdp
-    pkgs.xwayland
+  ## The home.packages option allows you to install Nix packages into your
+  ## environment.
+  home.packages =
+    [
+      pkgs.util-linux
+      pkgs.parallel
+      pkgs.rsync
+      #pkgs.bruno
+      #pkgs.bruno-cli
+      pkgs.freerdp
 
-    # Default dev env
-    pkgs.go
-    pkgs.gotools
-    pkgs.dotnet-outdated
-    pkgs.zig
-    pkgs.rust-bin.stable.latest.default
-    pkgs.pandoc
-    pkgs.texliveFull
-    pkgs.k3d
-    pkgs.docker
+      # Default dev env
+      pkgs.go
+      pkgs.gotools
+      pkgs.dotnet-outdated
+      pkgs.zig
+      pkgs.rust-bin.stable.latest.default
+      pkgs.pandoc
+      pkgs.texliveFull
+      pkgs.k3d
+      pkgs.docker
+      pkgs.terraform
 
-    pkgs.nixgl.auto.nixGLDefault
-    #pkgs.nixgl.auto.nixGLNvidia
-    pkgs.remmina
-    pkgs.spacedrive
-    pkgs.pgadmin4
-    pkgs.grpcurl
-    pkgs.grpcui
-    pkgs.squirrel-sql
-    #pkgs.dbeaver-bin
-    pkgs.dbeaver-with-drivers
-    pkgs.mssql_jdbc
-    pkgs.postgresql_jdbc
-    pkgs.mysql_jdbc
-    pkgs.sqlite-jdbc
-    pkgs.nuget-to-json
-    pkgs.mqtt-explorer
-    pkgs.yaak
+      pkgs.remmina
+      pkgs.spacedrive
+      pkgs.pgadmin4
+      pkgs.grpcurl
+      pkgs.grpcui
+      #pkgs.dbeaver-bin
+      pkgs.nuget-to-json
+      pkgs.mqtt-explorer
+      #pkgs.yaak
 
-    dotnet-combined
-    pkgs.dotnet-ef
-  ];
+      dotnet-combined
+      pkgs.dotnet-ef
+    ]
+    ++ (lib.optionals isLinux [
+      pkgs.squirrel-sql
+      pkgs.xwayland
+      pkgs.nixgl.auto.nixGLDefault
+      pkgs.dbeaver-with-drivers
+      pkgs.mssql_jdbc
+      pkgs.postgresql_jdbc
+      pkgs.mysql_jdbc
+      pkgs.sqlite-jdbc
+    ]);
 
-  programs.java.enable = true;
+  #programs.java.enable = true;
 
-  services.gnome-keyring.enable = true;
-  services.polkit-gnome.enable = true;
+  #services.gnome-keyring.enable = isLinux;
+  #services.polkit-gnome.enable = isLinux;
 
   i18n.inputMethod = {
-    enable = true;
+    enable = isLinux;
     type = "fcitx5";
     fcitx5 = {
       waylandFrontend = true;

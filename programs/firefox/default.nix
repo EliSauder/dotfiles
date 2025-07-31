@@ -6,6 +6,7 @@
 }:
 let
   cfg = config.prog.firefox;
+  isLinux = pkgs.stdenv.isLinux;
 in
 {
   options.prog = {
@@ -26,12 +27,12 @@ in
     programs.firefox = {
       enable = true;
       package =
-        if pkgs.stdenv.isLinux then
-          pkgs.floorp.override {
+        if isLinux then
+          pkgs.firefox.override {
             nativeMessagingHosts = [ pkgs.gnome-browser-connector ];
           }
         else
-          pkgs.floorp;
+          pkgs.firefox;
       languagePacks = [
         "en-US"
         "jp-JP"
@@ -45,7 +46,7 @@ in
             "browser.search.defaultenginename" = "DuckDuckGo";
             "browser.search.order.1" = "DuckDuckGo";
             "signon.rememberSignons" = false;
-            "widget.use-xdg-desktop-portal.file-picker" = pkgs.stdenv.isLinux;
+            "widget.use-xdg-desktop-portal.file-picker" = isLinux;
             "browser.aboutConfig.showWarning" = false;
             "browser.compactmode.show" = true;
 
