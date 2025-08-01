@@ -99,6 +99,8 @@ in
       "winbox"
       "mqtt-explorer"
       "terraform"
+      "1password"
+      "1password-cli"
 
       # Browser plugins
       "onepassword-password-manager"
