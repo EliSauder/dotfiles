@@ -8,11 +8,16 @@ let
   cfg = config.prog.ssh;
   isLinux = pkgs.stdenv.isLinux;
   isDarwin = pkgs.stdenv.isDarwin;
-  onePassPath =
+  onePassSignPath =
     if isLinux then
       "${lib.getExe pkgs._1password-gui "op-ssh-sign"}"
     else
-      "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+      "${pkgs._1password-gui}/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+  onePassAgentPath =
+    if isLinux then
+      "~/.1password/agent.sock"
+    else
+      "~/Library/Group\\ Containers/2BUA8C4S2C.com.1password/t/agent.sock";
 in
 {
   options.prog = {
@@ -28,14 +33,14 @@ in
     programs.ssh = {
       extraConfig = ''
         Host *
-          IdentityAgent ${onePassPath}
+          IdentityAgent ${onePassAgentPath}
       '';
     };
 
     programs.git = {
       extraConfig = {
         "gpg \"ssh\"" = {
-          program = "${onePassPath}";
+          program = "${onePassSignPath}";
         };
       };
     };
