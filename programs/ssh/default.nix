@@ -25,7 +25,7 @@ in
         };
         "*" = lib.mkIf isDarwin (
           lib.hm.dag.entryBefore [ "github.com" ] {
-            identityFile = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
+            identityFile = "~/Library/Group\\ Containers/2BUA8C4S2C.com.1password/t/agent.sock";
           }
         );
       };
