@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ./1password
     ./librewolf
     ./discord
     ./bash

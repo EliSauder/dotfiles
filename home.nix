@@ -145,6 +145,7 @@ in
     enable = false;
     setdefault = true;
   };
+  prog.onepassword.enable = true;
   prog.obsidian.enable = true;
   prog.reaper.enable = true;
   prog.spacedrive.enable = false;
