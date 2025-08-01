@@ -26,7 +26,7 @@ in
       userEmail = "24995216+EliSauder@users.noreply.github.com";
       lfs.enable = true;
       signing = {
-        key = "${config.home.homeDirectory}/.ssh/git_ed25519";
+        key = "${config.home.homeDirectory}/.ssh/git_ed25519.pub";
         signByDefault = true;
       };
       extraConfig = {
