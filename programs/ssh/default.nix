@@ -26,6 +26,7 @@ in
     };
 
     services.ssh-agent.enable = isLinux;
+
     services.yubikey-agent.enable = true;
   };
 }
