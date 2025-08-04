@@ -192,6 +192,10 @@ in
       pkgs.k3d
       pkgs.docker
       pkgs.terraform
+      pkgs.kubernetes-helm
+      pkgs.kubectl
+      pkgs.kubectx
+      pkgs.k9s
 
       pkgs.remmina
       pkgs.spacedrive
