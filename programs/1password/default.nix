@@ -5,12 +5,11 @@
   ...
 }:
 let
-  cfg = config.prog.ssh;
+  cfg = config.prog.onepassword;
   isLinux = pkgs.stdenv.isLinux;
-  isDarwin = pkgs.stdenv.isDarwin;
   onePassSignPath =
     if isLinux then
-      "${lib.getExe pkgs._1password-gui "op-ssh-sign"}"
+      "${lib.getExe' pkgs._1password-gui "op-ssh-sign"}"
     else
       "${pkgs._1password-gui}/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
   onePassAgentPath =
@@ -22,6 +21,12 @@ in
 {
   options.prog = {
     onepassword.enable = lib.mkEnableOption "Enable onepassword";
+    onepassword.sshIntegration = lib.mkOption {
+      default = false;
+    };
+    onepassword.gitIntegration = lib.mkOption {
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -30,14 +35,14 @@ in
       pkgs._1password-cli
     ];
 
-    programs.ssh = {
+    programs.ssh = lib.mkIf cfg.sshIntegration {
       extraConfig = ''
         Host *
           IdentityAgent ${onePassAgentPath}
       '';
     };
 
-    programs.git = {
+    programs.git = lib.mkIf cfg.gitIntegration {
       extraConfig = {
         "gpg \"ssh\"" = {
           program = "${onePassSignPath}";

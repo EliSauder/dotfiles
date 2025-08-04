@@ -8,11 +8,6 @@ let
   cfg = config.prog.ssh;
   isLinux = pkgs.stdenv.isLinux;
   isDarwin = pkgs.stdenv.isDarwin;
-  onePassPath =
-    if isLinux then
-      "~/.1password/agent.sock"
-    else
-      "~/Library/Group\\ Containers/2BUA8C4S2C.com.1password/t/agent.sock";
 in
 {
   options.prog = {
@@ -25,7 +20,7 @@ in
       addKeysToAgent = "yes";
       extraConfig = ''
         Host *
-          IdentityAgent ${onePassPath}
+          HashKnownHosts yes
       '';
       matchBlocks = {
         "github.com" = {

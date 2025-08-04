@@ -14,6 +14,7 @@ let
   };
 
   isLinux = pkgs.stdenv.isLinux;
+  isDarwin = pkgs.stdenv.isDarwin;
 
   isUbuntu = specialArgs.distro == "ubuntu";
   nixGLStart = if isUbuntu then "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL " else "";
@@ -147,11 +148,17 @@ in
     enable = false;
     setdefault = true;
   };
-  prog.onepassword.enable = true;
+  prog.onepassword = {
+    enable = true;
+    gitIntegration = isDarwin;
+    sshIntegration = isDarwin;
+  };
   prog.obsidian.enable = true;
   prog.reaper.enable = true;
   prog.spacedrive.enable = false;
-  prog.ssh.enable = true;
+  prog.ssh = {
+    enable = true;
+  };
   prog.wezterm.enable = true;
   prog.kitty.enable = true;
   prog.neovim.enable = true;
