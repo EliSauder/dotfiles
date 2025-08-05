@@ -207,6 +207,7 @@ in
       pkgs.kubectl
       pkgs.kubectx
       pkgs.k9s
+      pkgs.fluxcd
 
       pkgs.remmina
       pkgs.spacedrive
