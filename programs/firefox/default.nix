@@ -11,6 +11,9 @@ in
 {
   options.prog = {
     firefox.enable = lib.mkEnableOption "Enable firefox";
+    firefox.setdefault = lib.mkOption {
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {

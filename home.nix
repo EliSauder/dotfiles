@@ -148,6 +148,10 @@ in
     enable = false;
     setdefault = true;
   };
+  prog.firefox = {
+    enable = true;
+    setdefault = true;
+  };
   prog.onepassword = {
     enable = true;
     gitIntegration = isDarwin;
