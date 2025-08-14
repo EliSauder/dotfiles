@@ -151,7 +151,6 @@ in
 
             onepassword-password-manager
             languagetool
-            fakespot-fake-reviews-amazon
             flagfox
             modrinthify
             twitch-auto-points

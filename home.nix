@@ -106,7 +106,6 @@ in
       # Browser plugins
       "onepassword-password-manager"
       "languagetool"
-      "fakespot-fake-reviews-amazon"
       "flagfox"
     ];
 
