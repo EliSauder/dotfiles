@@ -36,7 +36,6 @@ let
   ''}/bin/statefullock.sh";
 in
 {
-
   imports = [
     ../waybar
     ../rofi
@@ -100,6 +99,9 @@ in
       pkgs.grim
       pkgs.slurp
       pkgs.satty
+      pkgs.jq
+      pkgs.sysvtools
+      pkgs.coreutils-full
     ];
 
     xdg.portal = {
@@ -138,26 +140,26 @@ in
           "uwsm app -- test -d \"$HOME/Pictures/Screenshots\" || mkdir -p \"$HOME/Pictures/Screenshots\" 2>/dev/null"
           #"uwsm app -- [workspace 1 silent] $terminal"
           #"uwsm app -- [workspace 2 silent] $browser"
-        ] ++ cfg.startupItems;
-        env =
-          [
-            #"WLR_NO_HARDWARE_CURSORS,1"
-            "CLIPBOARD_NOGUI,1"
-            #"XCURSOR_SIZE,24"
-            #"XCURSOR_THEME,BreezeX-RosePine"
-            #"HYPRCURSOR_SIZE,24"
-            #"HYPRCURSOR_THEME,rose-pine-hyprcursor"
-            "GDK_SCALE,2"
-            "QT_AUTO_SCREEN_SCALE_FACTOR,1"
-            "GDK_BACKEND,wayland,x11,*"
-            "QT_QPA_PLATFORM,wayland;xcb"
-          ]
-          ++ (lib.optionals cfg.useNvidia [
-            "LIBVA_DRIVER_NAME,nvidia"
-            "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-            "ELECTRON_OZONE_PLATFORM_HINT,auto"
-            "NVD_BACKEND,direct"
-          ]);
+        ]
+        ++ cfg.startupItems;
+        env = [
+          #"WLR_NO_HARDWARE_CURSORS,1"
+          "CLIPBOARD_NOGUI,1"
+          #"XCURSOR_SIZE,24"
+          #"XCURSOR_THEME,BreezeX-RosePine"
+          #"HYPRCURSOR_SIZE,24"
+          #"HYPRCURSOR_THEME,rose-pine-hyprcursor"
+          "GDK_SCALE,2"
+          "QT_AUTO_SCREEN_SCALE_FACTOR,1"
+          "GDK_BACKEND,wayland,x11,*"
+          "QT_QPA_PLATFORM,wayland;xcb"
+        ]
+        ++ (lib.optionals cfg.useNvidia [
+          "LIBVA_DRIVER_NAME,nvidia"
+          "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+          "ELECTRON_OZONE_PLATFORM_HINT,auto"
+          "NVD_BACKEND,direct"
+        ]);
         general = {
           gaps_in = 0;
           gaps_out = 2;
@@ -168,31 +170,30 @@ in
           allow_tearing = false;
           layout = "dwindle";
         };
-        decoration =
-          {
-            active_opacity = 1.0;
-            inactive_opacity = 0.95;
-            blur = {
-              enabled = true;
-              size = 20;
-              passes = 1;
-              vibrancy = 0.1696;
-            };
-          }
-          // lib.mkIf (!isUbuntu) {
-            shadow = {
-              enabled = true;
-              range = 4;
-              render_power = 3;
-              color = "rgba(1a1a1aee)";
-            };
-          }
-          // lib.mkIf (isUbuntu) {
-            drop_shadow = true;
-            shadow_range = 4;
-            "col.shadow" = "rgba(1a1a1aee)";
-            shadow_render_power = 3;
+        decoration = {
+          active_opacity = 1.0;
+          inactive_opacity = 0.95;
+          blur = {
+            enabled = true;
+            size = 20;
+            passes = 1;
+            vibrancy = 0.1696;
           };
+        }
+        // lib.mkIf (!isUbuntu) {
+          shadow = {
+            enabled = true;
+            range = 4;
+            render_power = 3;
+            color = "rgba(1a1a1aee)";
+          };
+        }
+        // lib.mkIf (isUbuntu) {
+          drop_shadow = true;
+          shadow_range = 4;
+          "col.shadow" = "rgba(1a1a1aee)";
+          shadow_render_power = 3;
+        };
         animations = {
           enabled = false;
 
@@ -366,7 +367,8 @@ in
           ",XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"
           ",XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+"
           ",XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ] ++ cfg.keybinds;
+        ]
+        ++ cfg.keybinds;
         bindm = [
           "$mod, mouse:272, movewindow"
           "$mod, mouse:273, resizewindow"
