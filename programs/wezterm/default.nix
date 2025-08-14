@@ -50,6 +50,14 @@ in
 
         config.enable_tab_bar = false;
 
+        wezterm.on("update-status", function(window, pane)
+            if wezterm.gui.screens().active.name == 'Microstep MAG321UX OLED' then
+                window:set_config_overrides({dpi = 386})
+            else
+                window:set_config_overrides({dpi = 196})
+            end
+        end)
+
         config.default_prog = {
             '${pkgs.fish}/bin/fish',
             '-i',
@@ -88,7 +96,9 @@ in
           { key = 'n', mods = 'SHIFT|CTRL', action = act.DisableDefaultAssignment },
           { key = 'm', mods = 'SUPER', action = act.DisableDefaultAssignment },
           { key = 'm', mods = 'SHIFT|CTRL', action = act.DisableDefaultAssignment },
-          { key = 'l', mods = 'SHIFT|CTRL', action = act.DisableDefaultAssignment },
+          { key = 'l', mods = 'SHIFT|CTRL', action = act.ShowDebugOverlay },
+          { key = 'l', mods = 'ALT', action = act.ShowDebugOverlay },
+          --{ key = 'l', mods = 'SHIFT|CTRL', action = act.DisableDefaultAssignment },
           { key = 'k', mods = 'SUPER', action = act.DisableDefaultAssignment },
           { key = 'k', mods = 'SHIFT|CTRL', action = act.DisableDefaultAssignment },
           { key = 'h', mods = 'SUPER', action = act.DisableDefaultAssignment },
@@ -145,7 +155,8 @@ in
           { key = 'M', mods = 'CTRL', action = act.DisableDefaultAssignment },
           { key = 'LeftArrow', mods = 'SHIFT|CTRL', action = act.DisableDefaultAssignment },
           { key = 'LeftArrow', mods = 'SHIFT|ALT|CTRL', action = act.DisableDefaultAssignment },
-          { key = 'L', mods = 'SHIFT|CTRL', action = act.DisableDefaultAssignment },
+          { key = 'L', mods = 'SHIFT|CTRL', action = act.ShowDebugOverlay },
+          --{ key = 'L', mods = 'SHIFT|CTRL', action = act.DisableDefaultAssignment },
           { key = 'L', mods = 'CTRL', action = act.DisableDefaultAssignment },
           { key = 'K', mods = 'SHIFT|CTRL', action = act.DisableDefaultAssignment },
           { key = 'K', mods = 'CTRL', action = act.DisableDefaultAssignment },

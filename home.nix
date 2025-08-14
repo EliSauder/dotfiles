@@ -27,16 +27,14 @@ let
     ]).overrideAttrs
       (
         finalAttrs: previousAttrs: {
-          postBuild =
-            (previousAttrs.postBuild or '''')
-            + ''
-              for i in $out/sdk/*
-              do
-                i=$(basename $i)
-                mkdir -p $out/metadata/workloads/''${i/-*}
-                touch $out/metadata/workloads/''${i/-*}/userlocal
-              done
-            '';
+          postBuild = (previousAttrs.postBuild or '''') + ''
+            for i in $out/sdk/*
+            do
+              i=$(basename $i)
+              mkdir -p $out/metadata/workloads/''${i/-*}
+              touch $out/metadata/workloads/''${i/-*}/userlocal
+            done
+          '';
         }
       );
 in
@@ -120,7 +118,7 @@ in
 
   ui.hyprland = {
     enable = isLinux;
-    terminal = "${pkgs.wezterm}/bin/wezterm";
+    terminal = "${pkgs.kitty}/bin/kitty";
     browser = "${pkgs.firefox}/bin/firefox";
     fileManager = "${pkgs.nemo}/bin/nemo";
     useNvidia = specialArgs.distro == "ubuntu";
@@ -162,7 +160,7 @@ in
   prog.ssh = {
     enable = true;
   };
-  prog.wezterm.enable = true;
+  prog.wezterm.enable = false;
   prog.kitty.enable = true;
   prog.neovim.enable = true;
   prog.gitws.enable = true;
@@ -182,55 +180,56 @@ in
 
   ## The home.packages option allows you to install Nix packages into your
   ## environment.
-  home.packages =
-    [
-      pkgs.util-linux
-      pkgs.parallel
-      pkgs.rsync
-      #pkgs.bruno
-      #pkgs.bruno-cli
-      pkgs.freerdp
+  home.packages = [
+    pkgs.util-linux
+    pkgs.parallel
+    pkgs.rsync
+    #pkgs.bruno
+    #pkgs.bruno-cli
+    pkgs.freerdp
 
-      # Default dev env
-      pkgs.go
-      pkgs.gotools
-      pkgs.dotnet-outdated
-      pkgs.zig
-      pkgs.rust-bin.stable.latest.default
-      pkgs.pandoc
-      pkgs.texliveFull
-      pkgs.k3d
-      pkgs.docker
-      pkgs.terraform
-      pkgs.kubernetes-helm
-      pkgs.kubectl
-      pkgs.kubectx
-      pkgs.k9s
-      pkgs.fluxcd
+    # Default dev env
+    pkgs.go
+    pkgs.gotools
+    pkgs.dotnet-outdated
+    pkgs.zig
+    pkgs.rust-bin.stable.latest.default
+    pkgs.pandoc
+    pkgs.texliveFull
+    pkgs.k3d
+    pkgs.docker
+    pkgs.terraform
+    pkgs.kubernetes-helm
+    pkgs.kubectl
+    pkgs.kubectx
+    pkgs.k9s
+    pkgs.fluxcd
 
-      pkgs.remmina
-      pkgs.spacedrive
-      pkgs.pgadmin4
-      pkgs.grpcurl
-      pkgs.grpcui
-      #pkgs.dbeaver-bin
-      pkgs.nuget-to-json
-      pkgs.mqtt-explorer
-      #pkgs.yaak
+    pkgs.remmina
+    pkgs.spacedrive
+    pkgs.pgadmin4
+    pkgs.grpcurl
+    pkgs.grpcui
+    #pkgs.dbeaver-bin
+    pkgs.nuget-to-json
+    pkgs.mqtt-explorer
+    #pkgs.yaak
 
-      dotnet-combined
-      pkgs.dotnet-ef
-    ]
-    ++ (lib.optionals isLinux [
-      pkgs.squirrel-sql
-      pkgs.xwayland
-      pkgs.nixgl.auto.nixGLDefault
-      pkgs.dbeaver-with-drivers
-      pkgs.mssql_jdbc
-      pkgs.postgresql_jdbc
-      pkgs.mysql_jdbc
-      pkgs.sqlite-jdbc
-    ]);
+    dotnet-combined
+    pkgs.dotnet-ef
+  ]
+  ++ (lib.optionals isLinux [
+    pkgs.squirrel-sql
+    pkgs.xwayland
+    pkgs.dbeaver-with-drivers
+    pkgs.mssql_jdbc
+    pkgs.postgresql_jdbc
+    pkgs.mysql_jdbc
+    pkgs.sqlite-jdbc
+  ])
+  ++ (lib.optionals isUbuntu [
+    pkgs.nixgl.auto.nixGLDefault
+  ]);
 
   #programs.java.enable = true;
 

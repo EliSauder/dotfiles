@@ -9,5 +9,6 @@
     ./ziggy.nix
     ./rust-overlay.nix
     ./omnisharp
+    ./nixgl.nix
   ];
 }

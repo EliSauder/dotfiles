@@ -35,6 +35,20 @@ in
           output.criteria = "LG Display 0x06B3 Unknown";
         }
         {
+          output.alias = "personal-dt-mon";
+          output.criteria = "Microstep MAG321UX OLED Unknown";
+          output.scale = 1.5;
+        }
+        {
+          profile.name = "personal";
+          profile.outputs = [
+            {
+              criteria = "$personal-dt-mon";
+              status = "enable";
+            }
+          ];
+        }
+        {
           profile.name = "worklaptop-undocked";
           profile.outputs = [
             {
