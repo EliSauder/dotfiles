@@ -1,14 +1,15 @@
 {
   description = "Home manager flake for esauder system";
-
   nixConfig = {
-    substituters = [
+    extra-substituters = [
+      "https://ghostty.cachix.org"
       "https://hyprland.cachix.org"
       "https://nix-community.cachix.org"
       "https://nix-gaming.cachix.org"
       "https://cache.nixos.org"
     ];
-    trusted-public-keys = [
+    extra-trusted-public-keys = [
+      "ghostty.cachix.org-1:QB389yTa6gTyneehvqG58y0WnHjQOqgnA+wBnpWWxns="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
@@ -22,7 +23,6 @@
     ghostty = {
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-unstable.follows = "nixpkgs";
     };
 
     home-manager = {
@@ -109,7 +109,7 @@
           modules = [
             ./home.nix
             (import ./overlays)
-            inputs.nixvim.homeManagerModules.nixvim
+            inputs.nixvim.homeModules.nixvim
           ];
         };
         homeConfigurations."esauder-ubuntu" = home-manager.lib.homeManagerConfiguration {
@@ -124,7 +124,7 @@
           modules = [
             ./home.nix
             (import ./overlays)
-            inputs.nixvim.homeManagerModules.nixvim
+            inputs.nixvim.homeModules.nixvim
           ];
         };
       });

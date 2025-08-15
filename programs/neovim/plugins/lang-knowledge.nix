@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  home.packages = [
+    pkgs.dotnet-ef
+    pkgs.netcoredbg
+  ];
   programs.nixvim.plugins = {
     treesitter = {
       enable = true;

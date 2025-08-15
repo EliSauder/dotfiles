@@ -160,7 +160,8 @@ in
   prog.ssh = {
     enable = true;
   };
-  prog.wezterm.enable = false;
+  prog.wezterm.enable = true;
+  prog.ghostty.enable = true;
   prog.kitty.enable = true;
   prog.neovim.enable = true;
   prog.gitws.enable = true;
@@ -204,6 +205,7 @@ in
     pkgs.kubectx
     pkgs.k9s
     pkgs.fluxcd
+    pkgs.gettext
 
     pkgs.remmina
     pkgs.spacedrive

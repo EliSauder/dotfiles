@@ -25,6 +25,7 @@
     ./spacedrive
     ./ssh
     ./wezterm
+    ./ghostty
     ./steam
     ./fish
     ./starship

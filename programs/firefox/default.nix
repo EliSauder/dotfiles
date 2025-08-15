@@ -162,8 +162,8 @@ in
             default = "ddg";
             order = [
               "ddg"
-              "Brave"
-              "Google"
+              "brave"
+              "google"
             ];
           };
         };
