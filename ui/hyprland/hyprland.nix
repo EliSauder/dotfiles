@@ -153,6 +153,7 @@ in
           "QT_AUTO_SCREEN_SCALE_FACTOR,1"
           "GDK_BACKEND,wayland,x11,*"
           "QT_QPA_PLATFORM,wayland;xcb"
+          "QT_QPA_PLATFORMTHEME,qt5ct"
         ]
         ++ (lib.optionals cfg.useNvidia [
           "LIBVA_DRIVER_NAME,nvidia"

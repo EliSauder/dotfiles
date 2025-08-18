@@ -79,7 +79,7 @@ in
 
   systemd.user.enable = isLinux;
 
-  #xsession.enable = isLinux;
+  xsession.enable = isLinux;
 
   nixpkgs.config.permittedInsecurePackages = [
     "dotnet-sdk-7.0.410"
@@ -100,6 +100,7 @@ in
       "terraform"
       "1password"
       "1password-cli"
+      "vault-bin"
 
       # Browser plugins
       "onepassword-password-manager"
@@ -212,10 +213,8 @@ in
     pkgs.pgadmin4
     pkgs.grpcurl
     pkgs.grpcui
-    #pkgs.dbeaver-bin
     pkgs.nuget-to-json
     pkgs.mqtt-explorer
-    #pkgs.yaak
 
     dotnet-combined
     pkgs.dotnet-ef

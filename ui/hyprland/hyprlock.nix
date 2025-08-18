@@ -3,10 +3,12 @@
   pkgs,
   inputs,
   lib,
+  specialArgs,
   ...
 }:
 let
   cfg = config.ui.hyprlock;
+  isUbuntu = specialArgs.distro == "ubuntu";
 in
 {
 
@@ -20,14 +22,32 @@ in
       enable = true;
 
       settings = {
-        general = {
-          hide_cursor = true;
-          no_fade_out = true;
-          no_fade_in = true;
-          immediate_render = true;
+        general =
+          if isUbuntu then
+            {
+              hide_cursor = false;
+              no_fade_out = true;
+              no_fade_in = true;
+            }
+          else
+            {
+              hide_cursor = false;
+              screencopy_mode = 1;
+              immediate_render = true;
+            };
+
+        auth = lib.mkIf (!isUbuntu) {
+          pam = {
+            enabled = true;
+          };
+        };
+
+        animations = lib.mkIf (!isUbuntu) {
+          enabled = false;
         };
 
         background = {
+          monitor = "";
           path = "screenshot";
           color = "rgba(0,0,0,0.9)";
           blur_passes = 3;
@@ -40,6 +60,7 @@ in
         };
 
         input-field = {
+          monitor = "";
           size = "400, 50";
           outline_thickness = 0;
           dots_size = 0.3; # Scale of input-field height, 0.2 - 0.8
@@ -50,6 +71,7 @@ in
           font_color = "rgb(255,255,255)";
           fade_on_empty = true;
           placeholder_text = "<i>Input Password...</i>"; # Text rendered in the input box when it's empty.
+          fail_text = "$PAMFAIL";
           hide_input = false;
 
           position = "0, -20";
@@ -58,6 +80,7 @@ in
         };
 
         label = {
+          monitor = "";
           text = "$TIME";
           color = "rgba(200, 200, 200, 1.0)";
           font_size = 25;
