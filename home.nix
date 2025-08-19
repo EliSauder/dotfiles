@@ -101,6 +101,7 @@ in
       "1password"
       "1password-cli"
       "vault-bin"
+      "nvidia"
 
       # Browser plugins
       "onepassword-password-manager"
@@ -186,6 +187,7 @@ in
     pkgs.util-linux
     pkgs.parallel
     pkgs.rsync
+    pkgs.grc
     #pkgs.bruno
     #pkgs.bruno-cli
     pkgs.freerdp
@@ -260,6 +262,10 @@ in
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  systemd.user.sessionVariables = {
+    PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH";
+  };
 
   home.activation = lib.mkIf pkgs.stdenv.isDarwin {
     addApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

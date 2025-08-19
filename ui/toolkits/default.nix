@@ -26,7 +26,7 @@ in
       pkgs.tela-icon-theme
       pkgs.rose-pine-cursor
       #inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-      inputs.nix-gaming.packages.${pkgs.system}.wine-discord-ipc-bridge
+      #inputs.nix-gaming.packages.${pkgs.system}.wine-discord-ipc-bridge
     ];
 
     dconf = {
@@ -51,30 +51,21 @@ in
 
       gtk2.extraConfig = ''
         gtk-color-scheme "prefer-dark"
-        color-scheme "prefer-dark"
       '';
+      #  color-scheme "prefer-dark"
+      #  '';
       gtk3.extraConfig = {
         gtk-color-scheme = "prefer-dark";
-        color-scheme = "prefer-dark";
+        #color-scheme = "prefer-dark";
         gtk-application-prefer-dark-theme = 1;
-        application-prefer-dark-theme = 1;
+        #application-prefer-dark-theme = 1;
       };
-      gtk3.extraCss = ''
-        :root {
-          --prefers-color-scheme: dark;
-        }
-      '';
       gtk4.extraConfig = {
         gtk-color-scheme = "prefer-dark";
-        color-scheme = "prefer-dark";
+        #color-scheme = "prefer-dark";
         gtk-application-prefer-dark-theme = 1;
-        application-prefer-dark-theme = 1;
+        #application-prefer-dark-theme = 1;
       };
-      gtk4.extraCss = ''
-        :root {
-          --prefers-color-scheme: dark;
-        }
-      '';
     };
 
     home.sessionVariables = lib.mkIf cfg.enableGtk {

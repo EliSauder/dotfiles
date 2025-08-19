@@ -16,7 +16,7 @@ let
     else
       inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
   startlockscript = "${pkgs.writeShellScriptBin "statefullock.sh" ''
-    #!/bin/sh
+    #!/bin/bash
 
     if ! which hyprctl hyprlock jq touch pidof; then
         exit 1
@@ -27,12 +27,15 @@ let
     touch ~/.hyprlock.lock
     hyprctl activeworkspace -j | jq '.id' > ~/.hyprlock.lock
     hyprctl dispatch workspace $(( $(hyprctl workspaces -j | jq '[.[].id] | max') + 1 ));
-    ${nixGLStart}${if isUbuntu then "/usr/local/bin/hyprlock" else "${pkgs.hyprlock}/bin/hyprlock"}
+    sleep 0.02
+    hyprctl dispatch exec ${if isUbuntu then "/usr/bin/hyprlock" else "${pkgs.hyprlock}/bin/hyprlock"}
+    sleep 0.02
 
     if [ "$(cat ~/.hyprlock.lock | grep -c "^[0-9]*$")" -eq 1 ]; then
         hyprctl dispatch workspace "$(cat ~/.hyprlock.lock | xargs)"
     fi
     rm ~/.hyprlock.lock
+    rm ~/.hyprlock-status.lock
   ''}/bin/statefullock.sh";
 in
 {
@@ -102,6 +105,7 @@ in
       pkgs.jq
       pkgs.sysvtools
       pkgs.coreutils-full
+      pkgs.inotify-tools
     ];
 
     xdg.portal = {
@@ -134,7 +138,7 @@ in
         "$terminal" = "${nixGLStart}${cfg.terminal}";
         "$fileManager" = "${nixGLStart}${cfg.fileManager}";
         #"$menu" = "${nixGLStart}wofi --show drun";
-        "$menu" = "${nixGLStart}rofi -show drun";
+        "$menu" = "${nixGLStart}${pkgs.rofi-wayland}/bin/rofi -show drun";
         "$browser" = "${nixGLStart}${cfg.browser}";
         exec-once = [
           "uwsm app -- test -d \"$HOME/Pictures/Screenshots\" || mkdir -p \"$HOME/Pictures/Screenshots\" 2>/dev/null"
@@ -180,21 +184,19 @@ in
             passes = 1;
             vibrancy = 0.1696;
           };
-        }
-        // lib.mkIf (!isUbuntu) {
           shadow = {
             enabled = true;
             range = 4;
             render_power = 3;
             color = "rgba(1a1a1aee)";
           };
-        }
-        // lib.mkIf (isUbuntu) {
-          drop_shadow = true;
-          shadow_range = 4;
-          "col.shadow" = "rgba(1a1a1aee)";
-          shadow_render_power = 3;
         };
+        #// lib.mkIf (isUbuntu) {
+        #  drop_shadow = true;
+        #  shadow_range = 4;
+        #  "col.shadow" = "rgba(1a1a1aee)";
+        #  shadow_render_power = 3;
+        #};
         animations = {
           enabled = false;
 
@@ -302,16 +304,17 @@ in
           "tile, initialTitle:^(REAPER v[0-9]*)(.*)$"
           "tile, title:^FX:(.*)$"
           "nofocus,class:REAPER,title:^$"
-          "center,class:REAPER,title:^(?!menu)(.*)$"
+          #"center,class:REAPER,title:^(?!menu)(.*)$"
         ];
         bind = [
-          "$mod, Q, exec, uwsm app -- ${nixGLStart}$terminal"
+          "$mod, Q, exec, uwsm app -- $terminal"
+          "$mod SHIFT, Q, exec, uwsm app -- ${nixGLStart}gnome-terminal"
           "$mod, C, killactive,"
           "$mod, F, fullscreen,"
-          "$mod, B, exec, uwsm app -- ${nixGLStart}$browser"
+          "$mod, B, exec, uwsm app -- $browser"
           "$mod SHIFT CTRL, M, exec, uwsm stop"
           "$mod, V, togglefloating,"
-          "$mod, H, exec, uwsm app -- ${nixGLStart}$menu -show-icons"
+          "$mod, H, exec, uwsm app -- $menu -show-icons"
           #"$mod, R, exec, rofi -show drun -show-icons -log ~/rofi.log"
           "$mod, J, togglesplit,"
           #"$mod, D, exec, ${pkgs.discord}/bin/discord"

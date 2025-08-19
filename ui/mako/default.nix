@@ -2,10 +2,13 @@
   config,
   lib,
   pkgs,
+  specialArgs,
   ...
 }:
 let
   cfg = config.ui.mako;
+  isUbuntu = specialArgs.distro == "ubuntu";
+  nixGLStart = if isUbuntu then "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL " else "";
 in
 {
   options.ui = {
@@ -36,8 +39,8 @@ in
         Type = "dbus";
         BusName = "org.freedesktop.Notifications";
         ExecCondition = "/bin/sh -c '[ -n \"$WAYLAND_DISPLAY\" ]'";
-        ExecStart = "${pkgs.mako}/bin/mako";
-        ExecReload = "${pkgs.mako}/bin/makoctl reload";
+        ExecStart = "${nixGLStart}${pkgs.mako}/bin/mako";
+        ExecReload = "${nixGLStart}${pkgs.mako}/bin/makoctl reload";
       };
 
       Install = {
