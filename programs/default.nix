@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ./remmina
     ./1password
     ./librewolf
     ./discord

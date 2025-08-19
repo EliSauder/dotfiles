@@ -180,6 +180,7 @@ in
   };
   prog.zoxide.enable = true;
   prog.sesh.enable = true;
+  prog.remmina.enable = true;
 
   ## The home.packages option allows you to install Nix packages into your
   ## environment.
@@ -210,7 +211,6 @@ in
     pkgs.fluxcd
     pkgs.gettext
 
-    pkgs.remmina
     pkgs.spacedrive
     pkgs.pgadmin4
     pkgs.grpcurl
