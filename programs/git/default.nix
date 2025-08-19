@@ -28,6 +28,7 @@ in
       signing = {
         key = "${config.home.homeDirectory}/.ssh/git_ed25519.pub";
         signByDefault = true;
+        format = "ssh";
       };
       extraConfig = {
         gpg = {
@@ -43,7 +44,10 @@ in
         co = "checkout";
         cob = "checkout -b";
       };
-      difftastic.enable = true;
+      difftastic = {
+        enable = true;
+        enableAsDifftool = true;
+      };
     };
 
   };

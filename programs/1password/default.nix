@@ -31,8 +31,21 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs._1password-gui
-      pkgs._1password-cli
+      (pkgs._1password-gui.overrideAttrs (
+        fin: prev: {
+          polkitPolicyOwners = [ "esauder" ];
+          fixupPhase = ''
+            runHook preFixup
+            sed -i 's/Exec=\(.*\)/Exec=\1 --no-sandbox/' "$out/share/applications/${prev.pname}.desktop"
+            runHook postFixup
+          '';
+        }
+      ))
+      (pkgs._1password-cli.overrideAttrs (
+        fin: prev: {
+          polkitPolicyOwners = [ "esauder" ];
+        }
+      ))
     ];
 
     programs.ssh = lib.mkIf cfg.sshIntegration {

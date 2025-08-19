@@ -22,7 +22,7 @@ in
         enableZshIntegration = true;
       };
 
-      enableGitIntegration = true;
+      enableGitIntegration = false;
 
       settings = {
         scrollback_lines = 10000;
