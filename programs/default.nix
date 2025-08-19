@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ./dolphin
     ./remmina
     ./1password
     ./librewolf

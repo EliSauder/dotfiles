@@ -122,7 +122,7 @@ in
     enable = isLinux;
     terminal = "${pkgs.kitty}/bin/kitty";
     browser = "${pkgs.firefox}/bin/firefox";
-    fileManager = "${pkgs.nemo}/bin/nemo";
+    fileManager = "${pkgs.dolphin}/bin/dolphin";
     useNvidia = specialArgs.distro == "ubuntu";
     keybinds = [
       "$mod, R, exec, uwsm app -- ${nixGLStart}${pkgs.remmina}/bin/remmina"
@@ -151,6 +151,7 @@ in
     enable = true;
     setdefault = true;
   };
+  prog.dolphin.enable = true;
   prog.onepassword = {
     enable = true;
     gitIntegration = isDarwin;
