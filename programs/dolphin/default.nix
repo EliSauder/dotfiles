@@ -10,24 +10,27 @@ in
 {
   options.prog = {
     dolphin.enable = lib.mkEnableOption "Enable libreoffice";
+    dolphin.package = lib.mkPackageOption pkgs.kdePackages "dolphin" { example = "dolphin"; };
+    dolphin.default = lib.mkOption {
+      default = false;
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    xdg.desktopEntries.nemo = {
-      name = "Dolphin";
-      exec = "${pkgs.dolphin}/bin/dolphin";
-    };
-    xdg.mimeApps = {
-      enable = true;
+    #xdg.desktopEntries.dolphin = {
+    #  name = "Dolphin";
+    #  exec = "${cfg.package}/bin/dolphin";
+    #};
+    xdg.mimeApps = lib.mkIf cfg.default {
       defaultApplications = {
-        "inode/directory" = [ "${pkgs.dolphin}/share/applications/dolphin.desktop" ];
+        "inode/directory" = [ "${cfg.package}/share/applications/dolphin.desktop" ];
         "application/x-gnome-saved-search" = [
-          "${pkgs.dolphin}/share/applications/dolphin.desktop"
+          "${cfg.package}/share/applications/dolphin.desktop"
         ];
       };
     };
     home.packages = [
-      pkgs.kdePackages.dolphin
+      cfg.package
       pkgs.kdePackages.dolphin-plugins
     ];
   };

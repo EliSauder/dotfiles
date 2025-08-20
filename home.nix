@@ -109,7 +109,7 @@ in
       "flagfox"
     ];
 
-  #home.sessionVariables.GTK_IM_MODULE = lib.mkForce "";
+  home.sessionVariables.GTK_IM_MODULE = lib.mkForce "";
 
   imports = [
     ./programs
@@ -120,9 +120,9 @@ in
 
   ui.hyprland = {
     enable = isLinux;
-    terminal = "${pkgs.kitty}/bin/kitty";
+    terminal = "${config.prog.ghostty.package}/bin/ghostty";
     browser = "${pkgs.firefox}/bin/firefox";
-    fileManager = "${pkgs.dolphin}/bin/dolphin";
+    fileManager = "${config.prog.dolphin.package}/bin/dolphin";
     useNvidia = specialArgs.distro == "ubuntu";
     keybinds = [
       "$mod, R, exec, uwsm app -- ${nixGLStart}${pkgs.remmina}/bin/remmina"
@@ -151,7 +151,11 @@ in
     enable = true;
     setdefault = true;
   };
-  prog.dolphin.enable = true;
+  prog.dolphin = {
+    enable = true;
+    default = true;
+  };
+  prog.nemo.enable = false;
   prog.onepassword = {
     enable = true;
     gitIntegration = isDarwin;

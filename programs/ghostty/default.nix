@@ -54,6 +54,7 @@ in
 {
   options.prog = {
     ghostty.enable = lib.mkEnableOption "Enable ghostty";
+    ghostty.package = lib.mkPackageOption pkgs "ghostty" { };
   };
 
   config = lib.mkIf cfg.enable {
@@ -111,6 +112,7 @@ in
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableZshIntegration = true;
+      package = cfg.package;
 
       settings = settings;
 

@@ -27,9 +27,9 @@ let
     touch ~/.hyprlock.lock
     hyprctl activeworkspace -j | jq '.id' > ~/.hyprlock.lock
     hyprctl dispatch workspace $(( $(hyprctl workspaces -j | jq '[.[].id] | max') + 1 ));
-    sleep 0.02
+    sleep 0.05
     hyprctl dispatch exec ${if isUbuntu then "/usr/bin/hyprlock" else "${pkgs.hyprlock}/bin/hyprlock"}
-    sleep 0.02
+    sleep 0.1
 
     if [ "$(cat ~/.hyprlock.lock | grep -c "^[0-9]*$")" -eq 1 ]; then
         hyprctl dispatch workspace "$(cat ~/.hyprlock.lock | xargs)"

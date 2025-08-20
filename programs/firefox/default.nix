@@ -7,6 +7,13 @@
 let
   cfg = config.prog.firefox;
   isLinux = pkgs.stdenv.isLinux;
+  pkg =
+    if isLinux then
+      pkgs.firefox.override {
+        nativeMessagingHosts = [ pkgs.gnome-browser-connector ];
+      }
+    else
+      pkgs.firefox;
 in
 {
   options.prog = {
@@ -29,13 +36,7 @@ in
     };
     programs.firefox = {
       enable = true;
-      package =
-        if isLinux then
-          pkgs.firefox.override {
-            nativeMessagingHosts = [ pkgs.gnome-browser-connector ];
-          }
-        else
-          pkgs.firefox;
+      package = pkg;
       languagePacks = [
         "en-US"
         "jp-JP"

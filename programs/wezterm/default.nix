@@ -11,6 +11,7 @@ in
 {
   options.prog = {
     wezterm.enable = lib.mkEnableOption "Enable wezterm";
+    wezterm.package = lib.mkPackageOption pkgs "wezterm" { };
   };
 
   config = lib.mkIf cfg.enable {
@@ -30,6 +31,7 @@ in
 
     programs.wezterm = {
       enable = true;
+      package = cfg.package;
       enableBashIntegration = true;
       enableZshIntegration = true;
       extraConfig = ''

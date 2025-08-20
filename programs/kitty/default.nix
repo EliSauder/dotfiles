@@ -10,11 +10,13 @@ in
 {
   options.prog = {
     kitty.enable = lib.mkEnableOption "Enable kitty";
+    kitty.package = lib.mkPackageOption pkgs "kitty" { };
   };
 
   config = lib.mkIf cfg.enable {
     programs.kitty = {
       enable = true;
+      package = cfg.package;
 
       shellIntegration = {
         enableBashIntegration = true;
@@ -29,7 +31,6 @@ in
         cursor_trail = 1;
         wayland_enable_ime = true;
         clear_all_shortcuts = true;
-        #shell = "${pkgs.fish}/bin/fish -i -l -c ${pkgs.sesh}/bin/sesh connect default";
         shell = "${pkgs.fish}/bin/fish -i -l -c 'exec ${pkgs.sesh}/bin/sesh connect default'";
       };
 
