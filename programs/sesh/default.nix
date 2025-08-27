@@ -25,6 +25,16 @@ in
             path = "~";
             disable_startup_command = true;
           }
+          {
+            name = "ssh1";
+            path = "~";
+            disable_startup_command = true;
+          }
+          {
+            name = "ssh2";
+            path = "~";
+            disable_startup_command = true;
+          }
         ];
       };
     };

@@ -1,14 +1,26 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
+  home.packages = [
+    pkgs.libclang
+    pkgs.codespell
+    pkgs.nixfmt-rfc-style
+    pkgs.fixjson
+  ];
+
   programs.nixvim.plugins = {
     conform-nvim = {
       enable = true;
       settings = {
         formatters_by_ft = {
-          nix = ["nixfmt"];
-          flake = ["nixfmt"];
-          cs = ["clang-format"];
-          "_" = ["trim_whitespace" "trim_newlines"];
-          "*" = ["codespell"];
+          nix = [ "nixfmt" ];
+          flake = [ "nixfmt" ];
+          cs = [ "clang-format" ];
+          json = [ "fixjson" ];
+          "_" = [
+            "trim_whitespace"
+            "trim_newlines"
+          ];
+          "*" = [ "codespell" ];
         };
 
         format_on_save = {
@@ -17,9 +29,18 @@
         };
 
         formatters = {
-          clang-format = {command = "${pkgs.libclang}/bin/clang-format";};
-          codespell = {command = "${pkgs.codespell}/bin/codespell";};
-          nixfmt = {command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";};
+          clang-format = {
+            command = "${pkgs.libclang}/bin/clang-format";
+          };
+          codespell = {
+            command = "${pkgs.codespell}/bin/codespell";
+          };
+          nixfmt = {
+            command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
+          };
+          fixjson = {
+            command = "${pkgs.fixjson}/bin/fixjson";
+          };
         };
       };
     };

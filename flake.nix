@@ -104,7 +104,7 @@
     {
       packages = eachSystem (system: {
         home-manager.useGlobalPkgs = false;
-        home-manager.useUserPackages = false;
+        home-manager.useUserPackages = true;
         homeConfigurations."esauder" = home-manager.lib.homeManagerConfiguration {
           extraSpecialArgs = {
             inherit inputs system;

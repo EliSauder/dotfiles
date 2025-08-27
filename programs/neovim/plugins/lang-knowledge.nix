@@ -3,6 +3,10 @@
   home.packages = [
     pkgs.dotnet-ef
     pkgs.netcoredbg
+    pkgs.vscode-langservers-extracted
+    pkgs.nixd
+    pkgs.omnisharp-roslyn
+    pkgs.gopls
   ];
   programs.nixvim.plugins = {
     treesitter = {
@@ -187,6 +191,14 @@
             "vscode-json-language-server"
             "--stdio"
           ];
+          json = {
+            format = {
+              enable = true;
+            };
+            trace = {
+              server = "off";
+            };
+          };
           filetypes = [
             "json"
             "jsonc"
@@ -269,7 +281,7 @@
             ".git"
           ];
 
-          cmd = [ "gopls" ];
+          cmd = [ "${pkgs.gopls}/bin/gopls" ];
 
           gopls = {
             completeUnimported = true;

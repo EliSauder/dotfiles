@@ -10,11 +10,12 @@ let
   cfg = config.ui.hyprland;
   isUbuntu = specialArgs.distro == "ubuntu";
   nixGLStart = if isUbuntu then "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL " else "";
-  systemXdgPortal =
-    if isUbuntu then
-      pkgs.xdg-desktop-portal-gnome
-    else
-      inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+  systemXdgPortal = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+  #systemXdgPortal =
+  #  if isUbuntu then
+  #    pkgs.xdg-desktop-portal-gnome
+  #  else
+  #    inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
   startlockscript = "${pkgs.writeShellScriptBin "statefullock.sh" ''
     #!/bin/bash
 
@@ -108,18 +109,32 @@ in
       pkgs.inotify-tools
     ];
 
+    xdg.configFile."xdg-desktop-portal/hyprland-portals.conf".text = ''
+      [preferred]
+      default = hyprland;gtk
+      org.freedesktop.impl.portal.FileChooser = kde
+    '';
+
     xdg.portal = {
       enable = true;
       xdgOpenUsePortal = true;
-      config.common.default = [
-        "${if isUbuntu then "gnome" else "hyprland"}"
-        "wlr"
-        "gtk"
-      ];
+      config = {
+        common.default = [
+          "hyprland"
+          "gtk"
+          "kde"
+        ]
+        ++ lib.optionals isUbuntu [
+          "gnome"
+        ];
+      };
       extraPortals = [
         systemXdgPortal
-        pkgs.xdg-desktop-portal-wlr
         pkgs.xdg-desktop-portal-gtk
+        pkgs.kdePackages.xdg-desktop-portal-kde
+      ]
+      ++ lib.optionals isUbuntu [
+        pkgs.xdg-desktop-portal-gnome
       ];
     };
 
