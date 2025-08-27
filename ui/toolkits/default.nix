@@ -24,8 +24,8 @@ in
       pkgs.rose-pine-cursor
       inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
       (pkgs.catppuccin-kvantum.override {
-        accent = "Teal";
-        variant = "Mocha";
+        accent = "teal";
+        variant = "mocha";
       })
       pkgs.libsForQt5.qtstyleplugin-kvantum
       pkgs.libsForQt5.qt5ct
@@ -82,7 +82,7 @@ in
       enable = true;
       theme.package = (
         pkgs.catppuccin-gtk.override {
-          accents = "teal";
+          accents = [ "teal" ];
           variant = "mocha";
         }
       );
@@ -131,7 +131,7 @@ in
 
     qt = lib.mkIf cfg.enableQt {
       enable = true;
-      platformTheme.name = "qtct";
+      platformTheme.name = "kvantum";
       style.name = "kvantum";
     };
 
