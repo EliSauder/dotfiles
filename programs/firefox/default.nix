@@ -134,37 +134,73 @@ in
             "userChrome.tabbar.as_titlebar" = false;
             "userChrome.tabbar.one_liner" = false;
           };
+          extensions.force = true;
           extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
             ublock-origin
             noscript
             clearurls
             duckduckgo-privacy-essentials
-            add-custom-search-engine
             canvasblocker
             don-t-fuck-with-paste
             consent-o-matic
             istilldontcareaboutcookies
+            wayback-machine
+            indie-wiki-buddy
 
-            github-file-icons
-            github-isometric-contributions
-            octolinker
-            octotree
-
-            onepassword-password-manager
-            languagetool
-            flagfox
+            protondb-for-steam
             modrinthify
             twitch-auto-points
             youtube-shorts-block
+
+            catppuccin-web-file-icons
+            github-issue-link-status
+
+            onepassword-password-manager
+            multi-account-containers
+            languagetool
+            flagfox
             zotero-connector
           ];
+          containers = {
+            personal = {
+              color = "blue";
+              id = 1;
+              icon = "fingerprint";
+              name = "Personal";
+            };
+            work = {
+              id = 2;
+              color = "orange";
+              icon = "briefcase";
+              name = "Work";
+            };
+            lorelei = {
+              id = 3;
+              color = "pink";
+              icon = "tree";
+              name = "Lorelei";
+            };
+          };
+          containersForce = true;
           search = {
+            engines = {
+              google-udm = {
+                name = "Google No Ai";
+                urls = [
+                  {
+                    template = "https://www.google.com/search?udm=14&q=%s";
+                  }
+                ];
+                definedAliases = [ "@gudm" ];
+              };
+            };
             force = true;
-            default = "ddg";
+            default = "gudm";
             order = [
+              "gudm"
+              "google"
               "ddg"
               "brave"
-              "google"
             ];
           };
         };
