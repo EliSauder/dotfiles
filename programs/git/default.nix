@@ -30,6 +30,9 @@ in
         signByDefault = true;
       };
       extraConfig = {
+        pull = {
+          rebase = true;
+        };
         gpg = {
           format = "ssh";
         };
