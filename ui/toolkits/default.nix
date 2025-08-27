@@ -21,15 +21,18 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.layan-gtk-theme
-      pkgs.layan-kde
-      pkgs.tela-icon-theme
       pkgs.rose-pine-cursor
-      #inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-      #inputs.nix-gaming.packages.${pkgs.system}.wine-discord-ipc-bridge
+      inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+      (pkgs.catppuccin-kvantum.override {
+        accent = "Teal";
+        variant = "Mocha";
+      })
+      pkgs.libsForQt5.qtstyleplugin-kvantum
+      pkgs.libsForQt5.qt5ct
+      pkgs.kdePackages.qtstyleplugin-kvantum
     ];
 
-    dconf = {
+    dconf = lib.mkIf cfg.enableGtk {
       enable = true;
       settings = {
         "org/gnome/desktop/interface" = {
@@ -40,12 +43,50 @@ in
       };
     };
 
+    catppuccin = {
+      enable = true;
+      accent = "teal";
+      flavor = "mocha";
+      btop.enable = true;
+      fcitx5 = {
+        enable = true;
+        apply = true;
+        enableRounded = true;
+      };
+      firefox = {
+        enable = true;
+        force = true;
+      };
+      fish.enable = true;
+      ghostty.enable = true;
+      gtk = {
+        icon.enable = true;
+      };
+      hyprland.enable = true;
+      hyprlock.enable = true;
+      k9s.enable = true;
+      kvantum.enable = true;
+      librewolf.enable = true;
+      mako.enable = true;
+      mpv.enable = true;
+      nvim.enable = true;
+      obs.enable = true;
+      rofi.enable = true;
+      spotify-player.enable = true;
+      thunderbird.enable = true;
+      tmux.enable = true;
+      waybar.enable = true;
+    };
+
     gtk = lib.mkIf cfg.enableGtk {
       enable = true;
-      theme.package = pkgs.layan-gtk-theme;
-      theme.name = "Layan-Dark";
-      iconTheme.package = pkgs.tela-icon-theme;
-      iconTheme.name = "Tela";
+      theme.package = (
+        pkgs.catppuccin-gtk.override {
+          accents = "teal";
+          variant = "mocha";
+        }
+      );
+      theme.name = "catppuccin-mocha-teal";
       cursorTheme.package = pkgs.rose-pine-cursor;
       cursorTheme.name = "BreezeX-RosePine-Linux";
 
@@ -56,21 +97,17 @@ in
       #  '';
       gtk3.extraConfig = {
         gtk-color-scheme = "prefer-dark";
-        #color-scheme = "prefer-dark";
         gtk-application-prefer-dark-theme = 1;
-        #application-prefer-dark-theme = 1;
       };
       gtk4.extraConfig = {
         gtk-color-scheme = "prefer-dark";
-        #color-scheme = "prefer-dark";
         gtk-application-prefer-dark-theme = 1;
-        #application-prefer-dark-theme = 1;
       };
     };
 
     home.sessionVariables = lib.mkIf cfg.enableGtk {
       GTK_USE_PORTAL = 1;
-      GTK_THEME = "Layan-Dark:dark";
+      #GTK_THEME = "Layan-Dark:dark";
     };
 
     home.pointerCursor = {
@@ -94,10 +131,13 @@ in
 
     qt = lib.mkIf cfg.enableQt {
       enable = true;
-      platformTheme.name = "qt5ct";
-      style = {
-        package = pkgs.layan-kde;
-        name = "Layan-Dark";
+      platformTheme.name = "qtct";
+      style.name = "kvantum";
+    };
+
+    xdg.configFile = lib.mkIf cfg.enableQt {
+      "Kvantum/kvantum.kvconfig".source = (pkgs.formats.ini { }).generate "kvantum.kvconfig" {
+        General.theme = "Catppuccin-Mocha-Teal";
       };
     };
   };

@@ -49,16 +49,13 @@ in
     ];
 
     programs.ssh = lib.mkIf cfg.sshIntegration {
-      extraConfig = ''
-        Host *
-          IdentityAgent ${onePassAgentPath}
-      '';
+      matchBlocks."*".identityAgent = onePassAgentPath;
     };
 
     programs.git = lib.mkIf cfg.gitIntegration {
       extraConfig = {
         "gpg \"ssh\"" = {
-          program = "${onePassSignPath}";
+          program = onePassSignPath;
         };
       };
     };

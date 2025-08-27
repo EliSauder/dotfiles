@@ -152,7 +152,7 @@ in
     setdefault = true;
   };
   prog.dolphin = {
-    enable = true;
+    enable = isLinux;
     default = true;
   };
   prog.nemo.enable = false;

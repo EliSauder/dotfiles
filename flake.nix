@@ -19,10 +19,15 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
 
     ghostty = {
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    catppuccin = {
+      url = "github:catppuccin/nix";
     };
 
     home-manager = {
@@ -59,7 +64,7 @@
 
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     ziggy = {
@@ -85,10 +90,12 @@
       gen-luarc,
       ziggy,
       nixpkgs,
+      nixpkgs-stable,
       home-manager,
       systems,
       hyprland,
       nur,
+      catppuccin,
       ...
     }:
     let
@@ -110,6 +117,7 @@
             ./home.nix
             (import ./overlays)
             inputs.nixvim.homeModules.nixvim
+            catppuccin.homeModules.catppuccin
           ];
         };
         homeConfigurations."esauder-ubuntu" = home-manager.lib.homeManagerConfiguration {
@@ -125,6 +133,7 @@
             ./home.nix
             (import ./overlays)
             inputs.nixvim.homeModules.nixvim
+            catppuccin.homeModules.catppuccin
           ];
         };
       });

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   home.packages = [
     pkgs.dotnet-ef
@@ -123,7 +123,6 @@
       };
       cmake = {
         enable = true;
-        package = pkgs.cmake-language-server;
       };
       omnisharp = {
         enable = true;
