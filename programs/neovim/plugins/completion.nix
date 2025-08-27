@@ -1,17 +1,24 @@
 { pkgs, ... }:
 {
   programs.nixvim.plugins = {
+    blink-compat = {
+      enable = true;
+      settings = {
+        impersonate_nvim_cmp = true;
+      };
+    };
+
     blink-cmp = {
       enable = true;
       setupLspCapabilities = true;
 
       settings = {
-        completion.accept.auto_brackets.semantic_token_resolution.enabled = true;
         signature.enabled = true;
         completion = {
           documentation.auto_show = true;
           accept.auto_brackets = {
             enabled = true;
+            semantic_token_resolution.enabled = true;
             blocked_filetypes = [ ];
             default_brackets = [
               "("
@@ -26,6 +33,7 @@
             "snippets"
             "buffer"
             "path"
+            "vimwiki-tags"
           ];
           providers = {
             dadbod.module = "vim_dadbod_completion.blink";
@@ -34,6 +42,10 @@
               module = "easy-dotnet.completion.blink";
               score_offset = 10000;
               async = true;
+            };
+            vimwiki-tags = {
+              name = "vimwiki-tags";
+              module = "blink.compat.source";
             };
           };
 

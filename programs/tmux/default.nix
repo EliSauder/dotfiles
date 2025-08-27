@@ -20,16 +20,15 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages =
-      [
-        pkgs.gum
-        pkgs.fzf
-        pkgs.tmux-harpoon
-        pkgs.clipboard-jh
-      ]
-      ++ (lib.optionals isDarwin [
-        pkgs.reattach-to-user-namespace
-      ]);
+    home.packages = [
+      pkgs.gum
+      pkgs.fzf
+      pkgs.tmux-harpoon
+      pkgs.clipboard-jh
+    ]
+    ++ (lib.optionals isDarwin [
+      pkgs.reattach-to-user-namespace
+    ]);
 
     # tmux config
 
@@ -63,6 +62,7 @@ in
           extraConfig = ''
             set -g @catppuccin_flavor "mocha"
             set -g @catppuccin_window_status_style "basic"
+            set -ogq @thm_bg "#000000"
           '';
         }
       ];

@@ -25,7 +25,6 @@ in
     xdg.configFile."fish/themes/Catppuccin Mocha.theme".text = ''
       # name: 'Catppuccin Mocha'
       # url: 'https://github.com/catppuccin/fish'
-      # preferred_background: 1e1e2e
 
       fish_color_normal cdd6f4
       fish_color_command 89b4fa
