@@ -5,6 +5,10 @@
   ...
 }:
 {
+  home.packages = [
+    pkgs.ripgrep
+  ];
+
   programs.nixvim.keymaps = [
     # -- Telescope
     {
