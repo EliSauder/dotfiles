@@ -32,6 +32,7 @@ in
     home.packages = [
       cfg.package
       pkgs.kdePackages.dolphin-plugins
+      pkgs.kdePackages.kdesu
     ];
   };
 

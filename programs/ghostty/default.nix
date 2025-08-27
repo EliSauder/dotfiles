@@ -13,11 +13,9 @@ let
   keyValue = pkgs.formats.keyValue keyValueSettings;
 
   settings = {
-    theme = "catppuccin-mocha";
+    theme = "catppuccin-mocha-manual";
     command = startupscript;
     background = "000000";
-    background-opacity = 0.8;
-    background-blur = true;
   };
   themes = {
     catppuccin-mocha-manual = {
@@ -74,8 +72,6 @@ in
     ];
 
     prog.sesh.enable = true;
-
-    catppuccin.ghostty.enable = true;
 
     xdg.configFile = lib.mkIf pkgs.stdenv.isDarwin (
       lib.mkMerge [

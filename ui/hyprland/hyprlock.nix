@@ -18,6 +18,8 @@ in
 
   config = lib.mkIf cfg.enable {
 
+    catppuccin.hyprlock.enable = true;
+
     programs.hyprlock = {
       enable = true;
 
@@ -59,37 +61,37 @@ in
           vibrancy_darkness = 0.9;
         };
 
-        input-field = {
-          monitor = "";
-          size = "400, 50";
-          outline_thickness = 0;
-          dots_size = 0.3; # Scale of input-field height, 0.2 - 0.8
-          dots_spacing = 0.4; # Scale of dots' absolute size, 0.0 - 1.0
-          dots_center = true;
-          outer_color = "rgba(0,0,0,0)";
-          inner_color = "rgba(200, 200, 200, 0)";
-          font_color = "rgb(255,255,255)";
-          fade_on_empty = true;
-          placeholder_text = "<i>Input Password...</i>"; # Text rendered in the input box when it's empty.
-          fail_text = "$PAMFAIL";
-          hide_input = false;
+        #input-field = {
+        #  monitor = "";
+        #  size = "400, 50";
+        #  outline_thickness = 0;
+        #  dots_size = 0.3; # Scale of input-field height, 0.2 - 0.8
+        #  dots_spacing = 0.4; # Scale of dots' absolute size, 0.0 - 1.0
+        #  dots_center = true;
+        #  outer_color = "rgba(0,0,0,0)";
+        #  inner_color = "rgba(200, 200, 200, 0)";
+        #  font_color = "rgb(255,255,255)";
+        #  fade_on_empty = true;
+        #  placeholder_text = "<i>Input Password...</i>"; # Text rendered in the input box when it's empty.
+        #  fail_text = "$PAMFAIL";
+        #  hide_input = false;
 
-          position = "0, -20";
-          halign = "center";
-          valign = "center";
-        };
+        #  position = "0, -20";
+        #  halign = "center";
+        #  valign = "center";
+        #};
 
-        label = {
-          monitor = "";
-          text = "$TIME";
-          color = "rgba(200, 200, 200, 1.0)";
-          font_size = 25;
-          font_family = "Noto Sans";
+        #label = {
+        #  monitor = "";
+        #  text = "$TIME";
+        #  color = "rgba(200, 200, 200, 1.0)";
+        #  font_size = 25;
+        #  font_family = "Noto Sans";
 
-          position = "0, 80";
-          halign = "center";
-          valign = "center";
-        };
+        #  position = "0, 80";
+        #  halign = "center";
+        #  valign = "center";
+        #};
       };
     };
   };

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  pkgs-stable,
   inputs,
   specialArgs,
   ...
@@ -153,6 +154,7 @@ in
   };
   prog.dolphin = {
     enable = isLinux;
+    package = pkgs-stable.kdePackages.dolphin;
     default = true;
   };
   prog.nemo.enable = false;
@@ -241,8 +243,7 @@ in
 
   #programs.java.enable = true;
 
-  #services.gnome-keyring.enable = isLinux;
-  #services.polkit-gnome.enable = isLinux;
+  services.gnome-keyring.enable = isLinux;
 
   i18n.inputMethod = {
     enable = isLinux;

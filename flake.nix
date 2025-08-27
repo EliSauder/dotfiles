@@ -18,8 +18,8 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     ghostty = {
       url = "github:ghostty-org/ghostty";
@@ -109,6 +109,9 @@
           extraSpecialArgs = {
             inherit inputs system;
             distro = "nixos";
+            pkgs-stable = import inputs.nixpkgs-stable {
+              system = system;
+            };
           };
           pkgs = import nixpkgs {
             system = system;
@@ -124,6 +127,10 @@
           extraSpecialArgs = {
             inherit inputs system;
             distro = "ubuntu";
+            pkgs-stable = import inputs.nixpkgs-stable {
+              system = system;
+              overlays = [ nixgl.overlay ];
+            };
           };
           pkgs = import nixpkgs {
             system = system;

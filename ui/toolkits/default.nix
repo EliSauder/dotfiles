@@ -58,7 +58,6 @@ in
         force = true;
       };
       fish.enable = true;
-      ghostty.enable = true;
       gtk = {
         icon.enable = true;
       };
@@ -86,7 +85,7 @@ in
           variant = "mocha";
         }
       );
-      theme.name = "catppuccin-mocha-teal";
+      theme.name = "catppuccin-mocha-teal-standard";
       cursorTheme.package = pkgs.rose-pine-cursor;
       cursorTheme.name = "BreezeX-RosePine-Linux";
 
@@ -107,7 +106,7 @@ in
 
     home.sessionVariables = lib.mkIf cfg.enableGtk {
       GTK_USE_PORTAL = 1;
-      #GTK_THEME = "Layan-Dark:dark";
+      GTK_THEME = "catppuccin-mocha-teal:dark";
     };
 
     home.pointerCursor = {
@@ -131,14 +130,14 @@ in
 
     qt = lib.mkIf cfg.enableQt {
       enable = true;
-      platformTheme.name = "kvantum";
       style.name = "kvantum";
+      platformTheme.name = "kvantum";
     };
 
-    xdg.configFile = lib.mkIf cfg.enableQt {
-      "Kvantum/kvantum.kvconfig".source = (pkgs.formats.ini { }).generate "kvantum.kvconfig" {
-        General.theme = "Catppuccin-Mocha-Teal";
-      };
-    };
+    #xdg.configFile = lib.mkIf cfg.enableQt {
+    #  "Kvantum/kvantum.kvconfig".source = (pkgs.formats.ini { }).generate "kvantum.kvconfig" {
+    #    General.theme = "Catppuccin-Mocha-Teal";
+    #  };
+    #};
   };
 }
