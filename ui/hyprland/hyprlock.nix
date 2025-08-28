@@ -18,6 +18,10 @@ in
 
   config = lib.mkIf cfg.enable {
 
+    xdg.configFile."background" = {
+      source = ./assets/gray0_ctp_on_line.svg;
+    };
+
     catppuccin.hyprlock.enable = true;
 
     programs.hyprlock = {
@@ -50,15 +54,13 @@ in
 
         background = {
           monitor = "";
-          path = "screenshot";
-          color = "rgba(0,0,0,0.9)";
-          blur_passes = 3;
-          blur_size = 8;
+          path = "$HOME/.config/background";
+          blur_passes = 0;
           noise = 0.01;
           contrast = 1;
           brightness = 1;
-          vibrancy = 0.1696;
-          vibrancy_darkness = 0.9;
+          #vibrancy = 0.1696;
+          #vibrancy_darkness = 0.9;
         };
 
         #input-field = {

@@ -6,6 +6,7 @@
 }:
 {
   imports = [
+    ./wallpaper.nix
     ./mako
     ./cliphist
     ./waybar

@@ -16,28 +16,6 @@ let
   #    pkgs.xdg-desktop-portal-gnome
   #  else
   #    inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
-  startlockscript = "${pkgs.writeShellScriptBin "statefullock.sh" ''
-    #!/bin/bash
-
-    if ! which hyprctl hyprlock jq touch pidof; then
-        exit 1
-    elif pidof hyprlock; then
-        exit 0
-    fi
-
-    touch ~/.hyprlock.lock
-    hyprctl activeworkspace -j | jq '.id' > ~/.hyprlock.lock
-    hyprctl dispatch workspace $(( $(hyprctl workspaces -j | jq '[.[].id] | max') + 1 ));
-    sleep 0.05
-    hyprctl dispatch exec ${if isUbuntu then "/usr/bin/hyprlock" else "${pkgs.hyprlock}/bin/hyprlock"}
-    sleep 0.1
-
-    if [ "$(cat ~/.hyprlock.lock | grep -c "^[0-9]*$")" -eq 1 ]; then
-        hyprctl dispatch workspace "$(cat ~/.hyprlock.lock | xargs)"
-    fi
-    rm ~/.hyprlock.lock
-    rm ~/.hyprlock-status.lock
-  ''}/bin/statefullock.sh";
 in
 {
   imports = [
@@ -90,7 +68,6 @@ in
 
     ui.hypridle = {
       enable = true;
-      lockScript = "${startlockscript}";
     };
 
     home.packages = [
@@ -380,7 +357,7 @@ in
           "$mod SHIFT, 0, movetoworkspace, 10"
 
           "$mod SHIFT, X, exec, uwsm app -- ${nixGLStart}${pkgs.hyprpicker}/bin/hyprpicker -a -n"
-          "$mod, L, exec, ${startlockscript}"
+          "$mod, L, exec, loginctl lock-session"
           ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%-"
           ",XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s +5%"
           ",XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"
