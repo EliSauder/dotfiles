@@ -33,6 +33,11 @@ in
       cfg.package
       pkgs.kdePackages.dolphin-plugins
       pkgs.kdePackages.kdesu
+      pkgs.kdePackages.kservice
+      pkgs.kdePackages.kio
+      pkgs.kdePackages.kio-fuse
+      pkgs.kdePackages.kio-extras
+      pkgs.kdePackages.plasma-workspace
     ];
   };
 

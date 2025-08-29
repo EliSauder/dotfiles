@@ -70,6 +70,8 @@ in
       enable = true;
     };
 
+    catppuccin.hyprland.enable = true;
+
     home.packages = [
       inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
       pkgs.cliphist
