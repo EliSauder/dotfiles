@@ -136,13 +136,10 @@ in
     enableQt = true;
   };
   # -- Handle in sys config
-  # prog.steam.enable = true;
   # prog.inkscape.enable = true;
   # prog.libreoffice.enable = true;
   # prog.obs.enable = true;
 
-  prog.discord.enable = false;
-  prog.direnv.enable = true;
   prog.librewolf.enable = true;
   prog.floorp = {
     enable = false;
@@ -166,77 +163,22 @@ in
   prog.obsidian.enable = true;
   prog.reaper.enable = true;
   prog.spacedrive.enable = false;
-  prog.ssh = {
-    enable = true;
-  };
-  prog.wezterm.enable = true;
-  prog.ghostty.enable = true;
-  prog.kitty.enable = true;
-  prog.neovim.enable = true;
-  prog.gitws.enable = true;
-  prog.git = {
-    enable = true;
-    editor = "nvim";
-  };
-  prog.bash.enable = true;
-  prog.starship.enable = true;
-  prog.fish.enable = true;
-  prog.tmux = {
-    enable = true;
-    shell = "${pkgs.fish}/bin/fish";
-  };
-  prog.zoxide.enable = true;
-  prog.sesh.enable = true;
   prog.remmina.enable = true;
 
   ## The home.packages option allows you to install Nix packages into your
   ## environment.
   home.packages = [
-    pkgs.prismlauncher
-    pkgs.util-linux
-    pkgs.parallel
-    pkgs.rsync
-    pkgs.grc
     #pkgs.bruno
     #pkgs.bruno-cli
     pkgs.freerdp
 
     # Default dev env
-    pkgs.go
-    pkgs.gotools
-    pkgs.dotnet-outdated
-    pkgs.zig
-    pkgs.rust-bin.stable.latest.default
-    pkgs.pandoc
-    pkgs.texliveFull
-    pkgs.k3d
-    pkgs.docker
-    pkgs.terraform
-    pkgs.kubernetes-helm
-    pkgs.kubectl
-    pkgs.kubectx
-    pkgs.k9s
-    pkgs.fluxcd
-    pkgs.gettext
 
     pkgs.spacedrive
-    pkgs.pgadmin4
-    pkgs.grpcurl
-    pkgs.grpcui
-    pkgs.nuget-to-json
-    pkgs.mqtt-explorer
 
-    dotnet-combined
-    pkgs.dotnet-ef
   ]
   ++ (lib.optionals isLinux [
-    pkgs.squirrel-sql
     pkgs.xwayland
-    pkgs.dbeaver-with-drivers
-    pkgs.mssql_jdbc
-    pkgs.postgresql_jdbc
-    pkgs.mysql_jdbc
-    pkgs.sqlite-jdbc
   ])
   ++ (lib.optionals isUbuntu [
     pkgs.nixgl.auto.nixGLDefault
@@ -256,14 +198,6 @@ in
         fcitx5-mozc
         catppuccin-fcitx5
       ];
-    };
-  };
-
-  home.file = {
-    ".parallel/will-cite" = {
-      recursive = true;
-      enable = true;
-      text = "";
     };
   };
 
