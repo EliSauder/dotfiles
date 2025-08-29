@@ -28,40 +28,54 @@ in
       enable = true;
 
       settings = {
-        general =
-          if isUbuntu then
-            {
-              hide_cursor = false;
-              no_fade_out = true;
-              no_fade_in = true;
-            }
-          else
-            {
-              hide_cursor = false;
-              screencopy_mode = 1;
-              immediate_render = true;
-            };
+        general = {
+          hide_cursor = false;
+          screencopy_mode = 1;
+          immediate_render = true;
+        };
 
-        auth = lib.mkIf (!isUbuntu) {
+        auth = {
           pam = {
             enabled = true;
           };
+          fingerprint = {
+            enabled = true;
+            ready_message = "";
+            present_message = "󰈷";
+          };
         };
 
-        animations = lib.mkIf (!isUbuntu) {
-          enabled = false;
+        animations = {
+          enabled = true;
         };
 
-        background = {
-          monitor = "";
-          path = "${./../../assets/gray0_ctp_on_line.svg}";
-          blur_passes = 0;
-          noise = 0.01;
-          contrast = 1;
-          brightness = 1;
-          #vibrancy = 0.1696;
-          #vibrancy_darkness = 0.9;
-        };
+        background = [
+          {
+            monitor = "";
+            path = "${./../../assets/gray0_ctp_on_line.svg}";
+            blur_passes = 0;
+            noise = 0.01;
+            contrast = 1;
+            brightness = 1;
+            #vibrancy = 0.1696;
+            #vibrancy_darkness = 0.9;
+          }
+        ];
+
+        label = [
+          {
+            monitor = "";
+            #text = ''cmd echo $FPRINTPROMPT | sed "s/$FPRINTFAIL//g"'';
+            text = "$FPRINTPROMPT";
+            color = "rgba(200, 200, 200, 1.0)";
+            font_size = 25;
+            font_family = "Noto Sans";
+
+            position = "-10, -10";
+            halign = "right";
+            valign = "bottom";
+          }
+        ];
 
         #input-field = {
         #  monitor = "";
