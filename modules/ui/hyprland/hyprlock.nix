@@ -8,7 +8,16 @@
 }:
 let
   cfg = config.ui.hyprlock;
-  isUbuntu = specialArgs.distro == "ubuntu";
+  fprintprompt = "${pkgs.writeShellScriptBin "fprintprompt.sh" ''
+    #!/bin/bash
+
+    if [[ -z "$FPRINTFAIL" ]]; then
+      echo "$FPRINTPROMPT"
+    else
+      echo "   "
+    fi
+
+  ''}/bin/fprintprompt.sh";
 in
 {
 
@@ -40,8 +49,8 @@ in
           };
           fingerprint = {
             enabled = true;
-            ready_message = "";
-            present_message = "󰈷";
+            ready_message = " ";
+            present_message = "󰈷 ";
           };
         };
 
@@ -59,21 +68,6 @@ in
             brightness = 1;
             #vibrancy = 0.1696;
             #vibrancy_darkness = 0.9;
-          }
-        ];
-
-        label = [
-          {
-            monitor = "";
-            #text = ''cmd echo $FPRINTPROMPT | sed "s/$FPRINTFAIL//g"'';
-            text = "$FPRINTPROMPT";
-            color = "rgba(200, 200, 200, 1.0)";
-            font_size = 25;
-            font_family = "Noto Sans";
-
-            position = "-10, -10";
-            halign = "right";
-            valign = "bottom";
           }
         ];
 
