@@ -28,13 +28,11 @@ in
       signing = {
         key = "${config.home.homeDirectory}/.ssh/git_ed25519.pub";
         signByDefault = true;
+        format = "ssh";
       };
       extraConfig = {
         pull = {
           rebase = true;
-        };
-        gpg = {
-          format = "ssh";
         };
         core = {
           editor = "${cfg.editor}";

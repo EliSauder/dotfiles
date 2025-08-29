@@ -35,9 +35,23 @@ in
           output.criteria = "LG Display 0x06B3 Unknown";
         }
         {
+          output.alias = "personal-dt-mon-alt";
+          output.criteria = "Microstep MAG321UX OLED 0x01010101";
+          output.scale = 1.5;
+        }
+        {
           output.alias = "personal-dt-mon";
           output.criteria = "Microstep MAG321UX OLED Unknown";
           output.scale = 1.5;
+        }
+        {
+          profile.name = "personal-alt";
+          profile.outputs = [
+            {
+              criteria = "$personal-dt-mon-alt";
+              status = "enable";
+            }
+          ];
         }
         {
           profile.name = "personal";
