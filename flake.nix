@@ -105,6 +105,24 @@
       packages = eachSystem (system: {
         home-manager.useGlobalPkgs = false;
         home-manager.useUserPackages = true;
+        homeConfigurations."esauder-macos" = home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = {
+            inherit inputs system;
+            distro = "darwin";
+            pkgs-stable = import inputs.nixpkgs-stable {
+              system = system;
+            };
+          };
+          pkgs = import nixpkgs {
+            system = system;
+          };
+          modules = [
+            ./platforms/macos/home.nix
+            (import ./overlays)
+            inputs.nixvim.homeModules.nixvim
+            catppuccin.homeModules.catppuccin
+          ];
+        };
         homeConfigurations."esauder" = home-manager.lib.homeManagerConfiguration {
           extraSpecialArgs = {
             inherit inputs system;
