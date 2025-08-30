@@ -7,17 +7,17 @@
 let
   cfg = config.module.development;
 
-  dotnet-combined = (
+  dotnet-combined =
     usedotnet7:
-    (
-      pkgs.dotnetCorePackages.combinePackages [
+    (pkgs.dotnetCorePackages.combinePackages (
+      [
         pkgs.dotnet-sdk_9
         pkgs.dotnet-sdk_8
       ]
       ++ lib.optionals usedotnet7 [
         pkgs.dotnet-sdk_7
       ]
-    ).overrideAttrs
+    )).overrideAttrs
       (
         finalAttrs: previousAttrs: {
           postBuild = (previousAttrs.postBuild or '''') + ''
@@ -29,13 +29,14 @@ let
             done
           '';
         }
-      )
-  );
+      );
 in
 {
   imports = [
     ./programs
     ./ui
+    ./development-darwin.nix
+    ./development-linux.nix
   ];
 
   options.module = {
@@ -46,14 +47,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate =
-      pkg:
-      builtins.elem (lib.getName pkg) [
-        "winbox"
-        "mqtt-explorer"
-        "terraform"
-        "vault-bin"
-      ];
 
     home.sessionPath = [
       "$HOME/.dotnet/tools"
@@ -67,15 +60,16 @@ in
       "dotnet-sdk-7.0.410"
     ];
 
+    module.development-linux.enable = pkgs.stdenv.isLinux;
+    module.development-darwin.enable = pkgs.stdenv.isDarwin;
+
     prog.direnv.enable = true;
 
     prog.ssh = {
       enable = true;
     };
 
-    prog.wezterm.enable = false;
     prog.ghostty.enable = true;
-    prog.kitty.enable = false;
 
     prog.neovim.enable = true;
     prog.gitws.enable = true;
@@ -122,14 +116,14 @@ in
       pkgs.k9s
       pkgs.fluxcd
       pkgs.gettext
-      (dotnet-combined cfg.dotnet-combined)
       pkgs.dotnet-ef
       pkgs.pgadmin4
       pkgs.grpcurl
       pkgs.grpcui
       pkgs.nuget-to-json
-      pkgs.mqtt-explorer
-      pkgs.winbox
+      pkgs.winbox4
+
+      (dotnet-combined cfg.enableDotnet7)
     ];
   };
 }

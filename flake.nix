@@ -123,7 +123,7 @@
             catppuccin.homeModules.catppuccin
           ];
         };
-        homeConfigurations."esauder" = home-manager.lib.homeManagerConfiguration {
+        homeConfigurations."esauder-nixos" = home-manager.lib.homeManagerConfiguration {
           extraSpecialArgs = {
             inherit inputs system;
             distro = "nixos";

@@ -14,9 +14,14 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.libreoffice-qt6
       pkgs.hunspell
       pkgs.hunspellDicts.en_US
+    ]
+    ++ lib.optionals pkgs.stdenv.isLinux [
+      pkgs.libreoffice
+    ]
+    ++ lib.optionals pkgs.stdenv.isDarwin [
+      pkgs.libreoffice-bin
     ];
   };
 }

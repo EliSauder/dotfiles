@@ -18,16 +18,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate =
-      pkg:
-      builtins.elem (lib.getName pkg) [
-        "steam"
-        "steam-unwrapped"
-        "discord"
-        "reaper"
-      ];
-    prog.discord.enable = false;
-    prog.steam.enable = true;
+    prog.discord.enable = true;
     home.packages = [
       pkgs.prismlauncher
     ];

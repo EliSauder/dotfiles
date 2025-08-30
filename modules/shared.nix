@@ -34,7 +34,6 @@ in
 
     prog.inkscape.enable = true;
     prog.libreoffice.enable = true;
-    prog.obs.enable = true;
 
     prog.firefox = {
       enable = true;
@@ -44,12 +43,6 @@ in
     prog.reaper.enable = true;
     prog.remmina.enable = true;
 
-    home.packages = [
-      pkgs.freerdp
-    ];
-
-    programs.home-manager.enable = true;
-
     prog.onepassword = {
       enable = true;
       gitIntegration = cfg.enableOnePasswordIntegrations;
@@ -57,6 +50,12 @@ in
     };
 
     prog.obsidian.enable = true;
+
+    home.packages = [
+      pkgs.freerdp
+    ];
+
+    programs.home-manager.enable = true;
 
   };
 

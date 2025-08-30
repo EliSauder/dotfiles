@@ -35,8 +35,6 @@ in
 
     services.gnome-keyring.enable = true;
 
-    prog.inkscape.enable = true;
-    prog.libreoffice.enable = true;
     prog.obs.enable = true;
 
     ui.hyprland = {

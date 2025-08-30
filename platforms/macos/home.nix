@@ -15,6 +15,21 @@ let
   };
 in
 {
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "discord"
+      "flagfox"
+      "languagetool"
+      "reaper"
+      "1password"
+      "1password-cli"
+      "onepassword-password-manager"
+      "winbox"
+      "mqtt-explorer"
+      "terraform"
+      "obsidian"
+    ];
 
   imports = [
     ../../modules

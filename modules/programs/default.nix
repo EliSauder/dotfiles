@@ -28,7 +28,6 @@
     ./ssh
     ./wezterm
     ./ghostty
-    ./steam
     ./fish
     ./starship
     ./tmux

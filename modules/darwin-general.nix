@@ -18,10 +18,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    prog.inkscape.enable = true;
-    prog.libreoffice.enable = true;
-    prog.obs.enable = true;
-
     xdg = {
       enable = true;
       autostart.enable = true;
