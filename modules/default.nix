@@ -6,7 +6,10 @@
 }:
 {
   imports = [
-    ./ui
-    ./programs
+    ./darwin-general.nix
+    ./linux-general.nix
+    ./development.nix
+    ./play.nix
+    ./shared.nix
   ];
 }

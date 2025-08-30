@@ -33,6 +33,11 @@ let
   );
 in
 {
+  imports = [
+    ./programs
+    ./ui
+  ];
+
   options.module = {
     development.enable = lib.mkEnableOption "Enable development module";
     development.enableDotnet7 = lib.mkOption {
