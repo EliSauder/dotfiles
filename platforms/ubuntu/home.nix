@@ -31,6 +31,10 @@ in
     ../../modules
   ];
 
+  systemd.user.sessionVariables = {
+    PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH";
+  };
+
   module.shared = {
     enable = true;
     enableOnePasswordIntegrations = false;
