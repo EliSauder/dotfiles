@@ -22,7 +22,7 @@ in
         "*" = {
           hashKnownHosts = true;
           forwardAgent = false;
-          addKeysToAgent = "yes";
+          addKeysToAgent = "confirm";
           serverAliveInterval = 3;
           serverAliveCountMax = 3;
           userKnownHostsFile = "~/.ssh/known_hosts";
@@ -32,7 +32,6 @@ in
         };
         github = lib.hm.dag.entryAfter [ "*" ] {
           hostname = "github.com";
-          addKeysToAgent = "yes";
           identityFile = "${config.home.homeDirectory}/.ssh/git_ed25519";
         };
       };
