@@ -1,3 +1,5 @@
+# getent passwd <username> may need to be called
+# or maybe installing nscd
 {
   config,
   lib,
@@ -8,6 +10,7 @@
   ...
 }:
 let
+
   nixGLStart = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ";
 in
 {
