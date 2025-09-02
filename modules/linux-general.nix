@@ -19,7 +19,7 @@ in
     linux-general.useNvidia = lib.mkOption {
       default = false;
     };
-    linux-general.commandPrefix = lib.mkOptions {
+    linux-general.commandPrefix = lib.mkOption {
       default = "";
     };
   };

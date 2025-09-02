@@ -117,7 +117,8 @@ in
       pkgs.fluxcd
       pkgs.gettext
       pkgs.dotnet-ef
-      pkgs.pgadmin4
+      #pkgs.pgadmin4
+      pkgs.pgadmin4-desktopmode
       pkgs.grpcurl
       pkgs.grpcui
       pkgs.nuget-to-json

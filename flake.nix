@@ -135,7 +135,7 @@
             system = system;
           };
           modules = [
-            ./home.nix
+            ./platforms/nixos/home.nix
             (import ./overlays)
             inputs.nixvim.homeModules.nixvim
             catppuccin.homeModules.catppuccin
@@ -155,7 +155,7 @@
             overlays = [ nixgl.overlay ];
           };
           modules = [
-            ./home.nix
+            ./platforms/ubuntu/home.nix
             (import ./overlays)
             inputs.nixvim.homeModules.nixvim
             catppuccin.homeModules.catppuccin

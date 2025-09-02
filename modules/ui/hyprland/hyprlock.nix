@@ -27,10 +27,6 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    xdg.configFile."background" = {
-      source = ./../../assets/gray0_ctp_on_line.svg;
-    };
-
     catppuccin.hyprlock.enable = true;
 
     programs.hyprlock = {
@@ -61,7 +57,7 @@ in
         background = [
           {
             monitor = "";
-            path = "${./../../assets/gray0_ctp_on_line.svg}";
+            path = "${./../../../assets/gray0_ctp_on_line.svg}";
             blur_passes = 0;
             noise = 0.01;
             contrast = 1;

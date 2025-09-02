@@ -11,6 +11,22 @@ let
   nixGLStart = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ";
 in
 {
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "discord"
+      "flagfox"
+      "languagetool"
+      "reaper"
+      "1password"
+      "1password-cli"
+      "onepassword-password-manager"
+      "winbox"
+      "mqtt-explorer"
+      "terraform"
+      "obsidian"
+    ];
+
   imports = [
     ../../modules
   ];
@@ -31,7 +47,7 @@ in
   };
 
   module.play = {
-    enable = true;
+    enable = false;
   };
 
   targets.genericLinux.enable = true;
