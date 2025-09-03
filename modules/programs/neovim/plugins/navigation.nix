@@ -1,18 +1,44 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
+
+  programs.nixvim.extraPlugins = [
+    (pkgs.vimUtils.buildVimPlugin {
+      name = "oil-lsp-diagnostics";
+      src = pkgs.fetchFromGitHub {
+        owner = "JezerM";
+        repo = "oil-lsp-diagnostics";
+        rev = "e04e3c387262b958fee75382f8ff66eae9d037f4";
+        hash = lib.fakeHash;
+      };
+    })
+  ];
+
+  programs.nixvim.extraConfigLua = ''
+    require("oil-lsp-diagnostics").setup({})
+  '';
+
   programs.nixvim.plugins = {
     oil = {
       enable = true;
       autoLoad = true;
       settings = {
         use_default_keymaps = false;
+        default_file_explorer = true;
         keymaps = {
           "<CR>" = "actions.select";
         };
+        win_options = {
+          signcolumn = "yes:2";
+        };
         view_options = {
+          natural_order = true;
           show_hidden = true;
         };
       };
+    };
+
+    oil-git-status = {
+      enable = true;
     };
 
     telescope = {
