@@ -238,6 +238,7 @@
               url = "https://www.schemastore.org/api/json/catalog.json";
             };
             tracke.server = "off";
+            track.server = "off";
             validate = true;
             format = {
               enable = true;
