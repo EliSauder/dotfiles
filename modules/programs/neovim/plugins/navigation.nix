@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
 
   programs.nixvim.extraPlugins = [
@@ -6,16 +6,15 @@
       name = "oil-lsp-diagnostics";
       src = pkgs.fetchFromGitHub {
         owner = "JezerM";
-        repo = "oil-lsp-diagnostics";
+        repo = "oil-lsp-diagnostics.nvim";
         rev = "e04e3c387262b958fee75382f8ff66eae9d037f4";
-        hash = lib.fakeHash;
+        hash = "sha256-E8jukH3I8XDdgrG4XHCo9AuFbY0sLX24pjk054xmB9E=";
       };
+      buildInputs = [
+        pkgs.vimPlugins.oil-nvim
+      ];
     })
   ];
-
-  programs.nixvim.extraConfigLua = ''
-    require("oil-lsp-diagnostics").setup({})
-  '';
 
   programs.nixvim.plugins = {
     oil = {
@@ -84,5 +83,7 @@
     Hooks.register(Hooks.type.DELETE, function ()
       vim.cmd(config.update_on_change_command)
     end)
+
+    require("oil-lsp-diagnostics").setup({})
   '';
 }
