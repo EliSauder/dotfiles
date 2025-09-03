@@ -34,5 +34,8 @@
     ./sesh
     ./zoxide
     ./direnv
+    ./mopidy
+    ./mpd
+    ./rmpc
   ];
 }

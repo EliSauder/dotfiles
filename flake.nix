@@ -26,6 +26,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
     catppuccin = {
       url = "github:catppuccin/nix";
     };
@@ -95,6 +100,7 @@
       systems,
       hyprland,
       nur,
+      sops-nix,
       catppuccin,
       ...
     }:
@@ -121,6 +127,7 @@
             (import ./overlays)
             inputs.nixvim.homeModules.nixvim
             catppuccin.homeModules.catppuccin
+            sops-nix.homeManagerModules.sops
           ];
         };
         homeConfigurations."esauder-nixos" = home-manager.lib.homeManagerConfiguration {
@@ -138,6 +145,7 @@
             ./platforms/nixos/home.nix
             (import ./overlays)
             inputs.nixvim.homeModules.nixvim
+            sops-nix.homeManagerModules.sops
             catppuccin.homeModules.catppuccin
           ];
         };
@@ -158,6 +166,7 @@
             ./platforms/ubuntu/home.nix
             (import ./overlays)
             inputs.nixvim.homeModules.nixvim
+            sops-nix.homeManagerModules.sops
             catppuccin.homeModules.catppuccin
           ];
         };

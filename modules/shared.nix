@@ -11,6 +11,7 @@ in
   imports = [
     ./programs
     ./ui
+    ./sops.nix
   ];
 
   options.module = {
