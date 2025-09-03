@@ -42,7 +42,7 @@ in
       Unit.After = [
         "sops-nix.service"
       ];
-      Service.ExecStart = "${pkgs.writeShellScriptBin "startmopidy.sh" ''
+      Service.ExecStart = lib.mkForce "${pkgs.writeShellScriptBin "startmopidy.sh" ''
         #!/bin/bash
 
         mopidy --config ${
@@ -50,9 +50,9 @@ in
             [ "${config.xdg.configHome}/mopidy/mopidy.conf" ] ++ config.services.mopidy.extraConfigFiles
           )
         } --option spotify/client_id="$(cat "${
-          config.sops.secrets."app/spotify/client_id".path
+          config.sops.secrets."apps/spotify/client_id".path
         }")" --option spotify/client_secret="$(cat "${
-          config.sops.secrets."app/spotify/client_secret".path
+          config.sops.secrets."apps/spotify/client_secret".path
         }")"
 
 
