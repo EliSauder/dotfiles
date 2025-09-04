@@ -5,11 +5,37 @@
   ...
 }:
 let
+  inherit (lib)
+    generators
+    mkIf
+    mkOption
+    types
+    ;
+
   cfg = config.prog.mopidy;
+
+  toMopidyConf = generators.toINI {
+    mkKeyValue = generators.mkKeyValueDefault {
+      mkValueString =
+        v:
+        if lib.isList v then
+          "\n " + lib.concatStringsSep "\n " v
+        else
+          generators.mkValueStringDefault { } v;
+    } " = ";
+  };
 
   mopidyEnv = pkgs.buildEnv {
     name = "mopidy-with-extensions-${pkgs.mopidy.version}";
-    paths = lib.closePropagation config.services.mopidy.extensionPackages;
+    paths = lib.closePropagation extensionPackages ++ [
+      pkgs.gst_all_1.gst-plugins-rs
+      pkgs.gst_all_1.gst-plugins-bad
+      pkgs.gst_all_1.gst-plugins-base
+      pkgs.gst_all_1.gst-plugins-good
+      pkgs.gst_all_1.gst-plugins-ugly
+      pkgs.gst_all_1.gstreamer
+      pkgs.gst-plugin-spotify
+    ];
     pathsToLink = [ "/${pkgs.mopidyPackages.python.sitePackages}" ];
     nativeBuildInputs = [ pkgs.makeWrapper ];
     ignoreCollisions = true;
@@ -18,12 +44,82 @@ let
         --prefix PYTHONPATH : $out/${pkgs.mopidyPackages.python.sitePackages}
     '';
   };
-in
-{
-  imports = [
-    ../mpd
+
+  mopidyConfFormat =
+    { }:
+    {
+      type =
+        with types;
+        let
+          valueType =
+            nullOr (oneOf [
+              bool
+              float
+              int
+              str
+              (listOf valueType)
+            ])
+            // {
+              description = "Mopidy config value";
+            };
+        in
+        attrsOf (attrsOf valueType);
+      generate = name: value: pkgs.writeText name (toMopidyConf value);
+    };
+
+  settingsFormat = mopidyConfFormat { };
+  extraConfigFiles = [ ];
+
+  configFilePaths = lib.concatStringsSep ":" (
+    [ "${config.xdg.configHome}/mopidy/mopidy.conf" ] ++ extraConfigFiles
+  );
+
+  extensionPackages = [
+    (pkgs.mopidy-spotify.overrideAttrs (
+      final: prev: {
+        buildInputs = [
+          pkgs.gst_all_1.gst-plugins-rs
+          pkgs.gst-plugin-spotify
+        ];
+      }
+    ))
+    pkgs.mopidy-mpd
+    pkgs.mopidy-mpris
+    pkgs.mopidy-local
+    pkgs.mopidy-notify
+    pkgs.mopidy-podcast
   ];
 
+  settings = {
+    core = {
+      cache_dir = "$XDG_CACHE_DIR/mopidy";
+      config_dir = "$XDG_CONFIG_DIR/mopidy";
+      data_dir = "$XDG_DATA_DIR/mopidy";
+    };
+    audio = {
+      output = "autoaudiosink";
+    };
+    logging = {
+      verbosity = 3;
+    };
+    spotify = {
+      enabled = true;
+      allow_cache = true;
+      allow_network = true;
+      search_album_count = 20;
+      search_artist_count = 10;
+      search_track_count = 50;
+      timeout = 10;
+    };
+    mpd = {
+      enabled = true;
+      hostname = cfg.network.listenAddress;
+      port = cfg.network.port;
+      connection_timeout = 60;
+    };
+  };
+in
+{
   options.prog = {
     mopidy.enable = lib.mkEnableOption "Enable mopidy";
     mopidy.enableDiscordRpc = lib.mkOption {
@@ -34,6 +130,9 @@ in
     };
     mopidy.network.port = lib.mkOption {
       default = 6600;
+    };
+    mopidy.commandPrefix = lib.mkOption {
+      default = "";
     };
   };
 
@@ -55,76 +154,70 @@ in
     };
 
     home.packages = [
+      pkgs.gst_all_1.gstreamer
+      pkgs.gst_all_1.gst-plugins-base
+      pkgs.gst_all_1.gst-plugins-bad
+      pkgs.gst_all_1.gst-plugins-ugly
+      pkgs.gst_all_1.gst-plugins-good
       pkgs.gst_all_1.gst-plugins-rs
-      pkgs.gst-plugins-spotify
+      pkgs.gst_all_1.gst-devtools
+      pkgs.gst_all_1.gst-rtsp-server
+      pkgs.gst_all_1.gst-libav
+      pkgs.gst_all_1.gst-editing-services
+      pkgs.gst-plugin-spotify
     ];
 
-    services.mopidy = {
-      enable = true;
-      extensionPackages = [
-        (pkgs.mopidy-spotify.overrideAttrs (
-          final: prev: {
-            buildInputs = [
-              pkgs.gst_all_1.gst-plugins-rs
-              pkgs.gst-plugins-spotify
-            ];
-          }
-        ))
-        pkgs.mopidy-mpd
-        pkgs.mopidy-mpris
-        pkgs.mopidy-local
-        pkgs.mopidy-notify
-        pkgs.mopidy-podcast
-      ];
-      settings = {
-        core = {
-          cache_dir = "$XDG_CACHE_DIR/mopidy";
-          config_dir = "$XDG_CONFIG_DIR/mopidy";
-          data_dir = "$XDG_DATA_DIR/mopidy";
-        };
-        audio = {
-          output = "autoaudiosink";
-        };
-        logging = {
-          verbosity = 3;
-        };
-        spotify = {
-          enabled = true;
-          allow_cache = true;
-          allow_network = true;
-          search_album_count = 20;
-          search_artist_count = 10;
-          search_track_count = 50;
-          timeout = 10;
-        };
-        mpd = {
-          enabled = true;
-          hostname = cfg.network.listenAddress;
-          port = cfg.network.port;
-          connection_timeout = 60;
-        };
+    xdg.configFile."mopidy/mopidy.conf".source =
+      settingsFormat.generate "mopidy-${config.home.username}" settings;
+
+    systemd.user.services.mopidy = {
+      Unit = {
+        Description = "mopidy music player daemon";
+        Documentation = [ "https://mopidy.com/" ];
+        After = [
+          "network.target"
+          "sound.target"
+          "sops-nix.service"
+        ];
+        X-Restart-Triggers = lib.mkIf (settings != { }) [
+          "${config.xdg.configFile."mopidy/mopidy.conf".source}"
+        ];
+      };
+      Install.WantedBy = [ "default.target" ];
+      Service = {
+        Environment = [
+          "GST_PLUGIN_SYSTEM_PATH_1_0=${pkgs.gst_all_1.gstreamer}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:${pkgs.gst-plugin-spotify}/lib"
+        ];
+        Restart = "on-failure";
+        ExecStart = lib.mkForce "${pkgs.writeShellScriptBin "startmopidy.sh" ''
+          #!/bin/bash
+
+          ${cfg.commandPrefix}${mopidyEnv}/bin/mopidy --config ${configFilePaths} --option spotify/client_id="$(cat "${
+            config.sops.secrets."apps/spotify/client_id".path
+          }")" --option spotify/client_secret="$(cat "${
+            config.sops.secrets."apps/spotify/client_secret".path
+          }")"
+
+
+        ''}/bin/startmopidy.sh";
       };
     };
 
-    systemd.user.services.mopidy = {
-      Unit.After = [
-        "sops-nix.service"
-      ];
-      Service.ExecStart = lib.mkForce "${pkgs.writeShellScriptBin "startmopidy.sh" ''
-        #!/bin/bash
+    systemd.user.services.mopidy-scan = {
+      Unit = {
+        Description = "mopidy local files scanner";
+        Documentation = [ "https://mopidy.com/" ];
+        After = [
+          "network.target"
+          "sound.target"
+        ];
+      };
+      Service = {
+        ExecStart = "${cfg.commandPrefix}${mopidyEnv}/bin/mopidy --config ${configFilePaths} local scan";
+        Type = "oneshot";
+      };
 
-        ${mopidyEnv}/bin/mopidy --config ${
-          lib.concatStringsSep ":" (
-            [ "${config.xdg.configHome}/mopidy/mopidy.conf" ] ++ config.services.mopidy.extraConfigFiles
-          )
-        } --option spotify/client_id="$(cat "${
-          config.sops.secrets."apps/spotify/client_id".path
-        }")" --option spotify/client_secret="$(cat "${
-          config.sops.secrets."apps/spotify/client_secret".path
-        }")"
-
-
-      ''}/bin/startmopidy.sh";
+      Install.WantedBy = [ "default.target" ];
     };
   };
 }
