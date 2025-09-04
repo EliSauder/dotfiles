@@ -19,6 +19,9 @@ in
     shared.enableOnePasswordIntegrations = lib.mkOption {
       default = false;
     };
+    shared.commandPrefix = lib.mkOption {
+      default = "";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -32,6 +35,8 @@ in
     # want to update the value, then make sure to first check the Home Manager
     # release notes.
     home.stateVersion = "24.05"; # Please read the comment before changing.
+
+    programs.fish.functions.homeupdate = "cd ${config.home.homeDirectory}/.dotfiles && nix flake update";
 
     prog.inkscape.enable = true;
     prog.libreoffice.enable = true;
@@ -56,8 +61,11 @@ in
     prog.ncmpcpp.enable = true;
     prog.vimpc.enable = true;
     prog.mpc.enable = true;
-    prog.mopidy.enable = true;
-    prog.mopidy.enableDiscordRpc = true;
+    prog.mopidy = {
+      enable = true;
+      enableDiscordRpc = true;
+      commandPrefix = cfg.commandPrefix;
+    };
 
     home.packages = [
       pkgs.freerdp

@@ -10,7 +10,6 @@
   ...
 }:
 let
-
   nixGLStart = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ";
 in
 {
@@ -34,13 +33,21 @@ in
     ../../modules
   ];
 
+  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-ubuntu --impure";
+
   systemd.user.sessionVariables = {
     PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH";
+    GST_PLUGIN_PATH = "$HOME/.nix-profile/lib/gstreamer-1.0/:$GST_PLUGIN_PATH";
+  };
+
+  home.sessionVariables = {
+    GST_PLUGIN_PATH = "$HOME/.nix-profile/lib/gstreamer-1.0/:$GST_PLUGIN_PATH";
   };
 
   module.shared = {
     enable = true;
     enableOnePasswordIntegrations = false;
+    commandPrefix = nixGLStart;
   };
 
   module.linux-general = {

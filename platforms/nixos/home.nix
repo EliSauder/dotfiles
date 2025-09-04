@@ -12,6 +12,8 @@
     ../../modules
   ];
 
+  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-nixos";
+
   module.shared = {
     enable = true;
     enableOnePasswordIntegrations = false;
