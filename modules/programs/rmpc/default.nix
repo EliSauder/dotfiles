@@ -18,7 +18,11 @@ in
   config = lib.mkIf cfg.enable {
     programs.rmpc = {
       enable = true;
-      config = "";
+      config =
+        builtins.replaceStrings
+          [ "address: \"127.0.0.1:6600\"" ]
+          [ "${config.services.mpd.network.listenAddress}:${config.services.mpd.network.port}" ]
+          (builtins.readFile ./config.ron);
     };
   };
 }
