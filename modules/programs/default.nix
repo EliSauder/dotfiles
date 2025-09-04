@@ -40,5 +40,6 @@
     ./tauon
     ./mpc
     ./vimpc
+    ./ncmpcpp
   ];
 }

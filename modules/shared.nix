@@ -53,6 +53,7 @@ in
     prog.obsidian.enable = true;
 
     prog.rmpc.enable = true;
+    prog.ncmpcpp.enable = true;
     prog.vimpc.enable = true;
     prog.mpc.enable = true;
     prog.mopidy.enable = true;
