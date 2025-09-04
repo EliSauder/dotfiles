@@ -56,6 +56,7 @@ in
 
     home.packages = [
       pkgs.gst_all_1.gst-plugins-rs
+      pkgs.gst-plugins-spotify
     ];
 
     services.mopidy = {
@@ -65,6 +66,7 @@ in
           final: prev: {
             buildInputs = [
               pkgs.gst_all_1.gst-plugins-rs
+              pkgs.gst-plugins-spotify
             ];
           }
         ))
