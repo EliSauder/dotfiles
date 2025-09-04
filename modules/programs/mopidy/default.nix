@@ -6,6 +6,18 @@
 }:
 let
   cfg = config.prog.mopidy;
+
+  mopidyEnv = pkgs.buildEnv {
+    name = "mopidy-with-extensions-${pkgs.mopidy.version}";
+    paths = lib.closePropagation config.services.mopidy.extensionPackages;
+    pathsToLink = [ "/${pkgs.mopidyPackages.python.sitePackages}" ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    ignoreCollisions = true;
+    postBuild = ''
+      makeWrapper ${pkgs.mopidy}/bin/mopidy $out/bin/mopidy \
+        --prefix PYTHONPATH : $out/${pkgs.mopidyPackages.python.sitePackages}
+    '';
+  };
 in
 {
   imports = [
@@ -14,14 +26,9 @@ in
 
   options.prog = {
     mopidy.enable = lib.mkEnableOption "Enable mopidy";
-    mopidy.package = lib.mkPackageOption pkgs "mopidy" { example = "mopidy"; };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [
-      cfg.package
-    ];
-
     prog.mpd.enable = true;
 
     services.mopidy = {
@@ -35,6 +42,14 @@ in
         pkgs.mopidy-podcast
       ];
       settings = {
+        mpd = {
+          enabled = true;
+          hostname = "${config.services.mpd.network.listenAddress}";
+          port = "${config.services.mpd.network.port}";
+        };
+        spotify = {
+          enabled = true;
+        };
       };
     };
 
@@ -45,7 +60,7 @@ in
       Service.ExecStart = lib.mkForce "${pkgs.writeShellScriptBin "startmopidy.sh" ''
         #!/bin/bash
 
-        mopidy --config ${
+        ${mopidyEnv}/bin/mopidy --config ${
           lib.concatStringsSep ":" (
             [ "${config.xdg.configHome}/mopidy/mopidy.conf" ] ++ config.services.mopidy.extraConfigFiles
           )
