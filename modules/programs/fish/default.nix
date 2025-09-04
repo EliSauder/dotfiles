@@ -22,6 +22,58 @@ in
       pkgs.bat
     ];
 
+    programs.fish = {
+      enable = true;
+      interactiveShellInit = ''
+        set fish_greeting
+
+        set sponge_allow_previously_successful true
+        set sponge_purge_only_on_exit true
+
+        fish_vi_key_bindings
+
+        fish_config theme choose 'Catppuccin Mocha'
+
+        function fish_user_key_bindings
+          fish_vi_key_bindings
+
+          bind --user -M visual -m default y "fish_clipboard_copy; commandline -f end-selection repaint-mode"
+        end
+
+        ${if isDarwin then "fish_ssh_agent" else ""}
+      '';
+      shellInit = '''';
+      functions = {
+        pidenv = "cat /proc/$argv/environ | xargs -0 -L1";
+      };
+      plugins = [
+        {
+          name = "grc";
+          src = pkgs.fishPlugins.grc.src;
+        }
+        {
+          name = "puffer";
+          src = pkgs.fishPlugins.puffer.src;
+        }
+        {
+          name = "sponge";
+          src = pkgs.fishPlugins.sponge.src;
+        }
+        {
+          name = "fzf";
+          src = pkgs.fishPlugins.fzf.src;
+        }
+        {
+          name = "autopair";
+          src = pkgs.fishPlugins.autopair.src;
+        }
+        {
+          name = "colored-man-pages";
+          src = pkgs.fishPlugins.colored-man-pages;
+        }
+      ];
+    };
+
     xdg.configFile."fish/themes/Catppuccin Mocha.theme".text = ''
       # name: 'Catppuccin Mocha'
       # url: 'https://github.com/catppuccin/fish'
@@ -238,53 +290,5 @@ in
       else
         "";
 
-    programs.fish = {
-      enable = true;
-      interactiveShellInit = ''
-        set fish_greeting
-
-        set sponge_allow_previously_successful true
-        set sponge_purge_only_on_exit true
-
-        fish_vi_key_bindings
-
-        fish_config theme choose 'Catppuccin Mocha'
-
-        function fish_user_key_bindings
-          fish_vi_key_bindings
-
-          bind --user -M visual -m default y "fish_clipboard_copy; commandline -f end-selection repaint-mode"
-        end
-
-        ${if isDarwin then "fish_ssh_agent" else ""}
-      '';
-      shellInit = '''';
-      plugins = [
-        {
-          name = "grc";
-          src = pkgs.fishPlugins.grc.src;
-        }
-        {
-          name = "puffer";
-          src = pkgs.fishPlugins.puffer.src;
-        }
-        {
-          name = "sponge";
-          src = pkgs.fishPlugins.sponge.src;
-        }
-        {
-          name = "fzf";
-          src = pkgs.fishPlugins.fzf.src;
-        }
-        {
-          name = "autopair";
-          src = pkgs.fishPlugins.autopair.src;
-        }
-        {
-          name = "colored-man-pages";
-          src = pkgs.fishPlugins.colored-man-pages;
-        }
-      ];
-    };
   };
 }
