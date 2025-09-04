@@ -53,9 +53,10 @@ in
     prog.obsidian.enable = true;
 
     prog.rmpc.enable = true;
-    prog.tauon.enable = true;
+    prog.vimpc.enable = true;
+    prog.mpc.enable = true;
     prog.mopidy.enable = true;
-    prog.mpd.enableDiscordRpc = true;
+    prog.mopidy.enableDiscordRpc = true;
 
     home.packages = [
       pkgs.freerdp

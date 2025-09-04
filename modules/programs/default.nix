@@ -38,5 +38,7 @@
     ./mpd
     ./rmpc
     ./tauon
+    ./mpc
+    ./vimpc
   ];
 }
