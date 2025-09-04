@@ -54,10 +54,20 @@ in
       enable = cfg.enableDiscordRpc;
     };
 
+    home.packages = [
+      pkgs.gst_all_1.gst-plugins-rs
+    ];
+
     services.mopidy = {
       enable = true;
       extensionPackages = [
-        pkgs.mopidy-spotify
+        (pkgs.mopidy-spotify.overrideAttrs (
+          final: prev: {
+            buildInputs = [
+              pkgs.gst_all_1.gst-plugins-rs
+            ];
+          }
+        ))
         pkgs.mopidy-mpd
         pkgs.mopidy-mpris
         pkgs.mopidy-local
@@ -65,13 +75,31 @@ in
         pkgs.mopidy-podcast
       ];
       settings = {
+        core = {
+          cache_dir = "$XDG_CACHE_DIR/mopidy";
+          config_dir = "$XDG_CONFIG_DIR/mopidy";
+          data_dir = "$XDG_DATA_DIR/mopidy";
+        };
+        audio = {
+          output = "autoaudiosink";
+        };
+        logging = {
+          verbosity = 3;
+        };
+        spotify = {
+          enabled = true;
+          allow_cache = true;
+          allow_network = true;
+          search_album_count = 20;
+          search_artist_count = 10;
+          search_track_count = 50;
+          timeout = 10;
+        };
         mpd = {
           enabled = true;
           hostname = cfg.network.listenAddress;
           port = cfg.network.port;
-        };
-        spotify = {
-          enabled = true;
+          connection_timeout = 60;
         };
       };
     };
