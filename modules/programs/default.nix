@@ -37,5 +37,6 @@
     ./mopidy
     ./mpd
     ./rmpc
+    ./tauon
   ];
 }
