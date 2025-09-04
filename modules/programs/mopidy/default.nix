@@ -26,10 +26,33 @@ in
 
   options.prog = {
     mopidy.enable = lib.mkEnableOption "Enable mopidy";
+    mopidy.enableDiscordRpc = lib.mkOption {
+      default = false;
+    };
+    mopidy.network.listenAddress = lib.mkOption {
+      default = "127.0.0.1";
+    };
+    mopidy.network.port = lib.mkOption {
+      default = 6600;
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    prog.mpd.enable = true;
+
+    assertions = [
+      {
+        assertion = !config.prog.mpd.enable;
+        message = "mopidy conflicts with mpd";
+      }
+      {
+        assertion = !config.services.mpd.enable;
+        message = "mopidy conflicts with mpd";
+      }
+    ];
+
+    services.mpd-discord-rpc = {
+      enable = cfg.enableDiscordRpc;
+    };
 
     services.mopidy = {
       enable = true;
@@ -44,8 +67,8 @@ in
       settings = {
         mpd = {
           enabled = true;
-          hostname = "${config.services.mpd.network.listenAddress}";
-          port = "${config.services.mpd.network.port}";
+          hostname = cfg.network.listenAddress;
+          port = cfg.network.port;
         };
         spotify = {
           enabled = true;

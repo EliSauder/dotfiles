@@ -13,6 +13,12 @@ in
 {
   options.prog = {
     rmpc.enable = lib.mkEnableOption "Enable remmina";
+    rmpc.mpd.address = lib.mkOption {
+      default = "127.0.0.1";
+    };
+    rmpc.mpd.port = lib.mkOption {
+      default = 6600;
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -21,7 +27,9 @@ in
       config =
         builtins.replaceStrings
           [ "address: \"127.0.0.1:6600\"" ]
-          [ "${config.services.mpd.network.listenAddress}:${config.services.mpd.network.port}" ]
+          [
+            "address: \"${cfg.mpd.address}:${builtins.toString cfg.mpd.port}\""
+          ]
           (builtins.readFile ./config.ron);
     };
   };
