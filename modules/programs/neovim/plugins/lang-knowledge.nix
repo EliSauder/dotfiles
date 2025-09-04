@@ -56,6 +56,7 @@
         markdown_inline
         nix
         regex
+        ron
         rust
         sql
         ssh_config
