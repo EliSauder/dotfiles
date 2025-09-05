@@ -27,8 +27,7 @@ in
         accent = "teal";
         variant = "mocha";
       })
-      pkgs.libsForQt5.qtstyleplugin-kvantum
-      pkgs.libsForQt5.qt5ct
+      pkgs.catppuccin-kde
       pkgs.kdePackages.qtstyleplugin-kvantum
       pkgs.kdePackages.qt6ct
       pkgs.kdePackages.qt5compat
@@ -138,8 +137,10 @@ in
     };
 
     xdg.configFile = lib.mkIf cfg.enableQt {
+      "Kvantum/catppuccin-mocha-teal".source =
+        "${pkgs.catppuccin-kvantum}/share/Kvantum/catppuccin-mocha-teal";
       "Kvantum/kvantum.kvconfig".source = (pkgs.formats.ini { }).generate "kvantum.kvconfig" {
-        General.theme = "Catppuccin-Mocha-Teal";
+        General.theme = "catppuccin-mocha-teal";
       };
     };
   };
