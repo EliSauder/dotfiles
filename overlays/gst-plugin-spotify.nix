@@ -7,6 +7,30 @@
 {
   nixpkgs.overlays = [
     (final: prev: {
+      gst-plugins-spotify = pkgs.stdenv.mkDerivation rec {
+        pname = "gst-plugins-spotify";
+        version = "0.15.0-alpha.1-2";
+        src = pkgs.fetchurl {
+          url = "https://github.com/kingosticks/gst-plugins-rs-build/releases/download/gst-plugin-spotify_0.15.0-alpha.1-2/libgstspotify.so";
+          sha256 = "sha256-lRuougWforiUuQz7jvf6qyhP2pepyYDAQ3ZbHHNdksE=";
+          #sha256 = lib.fakeHash;
+        };
+        phases = [ "installPhase" ];
+        buildInputs = [
+          pkgs.gst_all_1.gstreamer
+          pkgs.gst_all_1.gst-plugins-base
+          pkgs.gst_all_1.gst-devtools
+        ];
+        installPhase = ''
+          mkdir -p "$out/lib/gstreamer-1.0"
+          cp -T "$src" "$out/lib/gstreamer-1.0/libgstspotify.so"
+          chmod 0444 "$out/lib/gstreamer-1.0/libgstspotify.so"
+        '';
+
+        meta.priority = 5;
+      };
+    })
+    (final: prev: {
       gst-plugin-spotify = pkgs.rustPlatform.buildRustPackage rec {
         pname = "gst-plugin-spotify";
         version = "1.0.1";

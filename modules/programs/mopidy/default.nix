@@ -27,14 +27,17 @@ let
 
   mopidyEnv = pkgs.buildEnv {
     name = "mopidy-with-extensions-${pkgs.mopidy.version}";
-    paths = lib.closePropagation extensionPackages ++ [
-      pkgs.gst_all_1.gst-plugins-rs
+    paths = lib.closePropagation extensionPackages;
+    buildInputs = [
+      #pkgs.gst_all_1.gst-plugins-rs
       pkgs.gst_all_1.gst-plugins-bad
       pkgs.gst_all_1.gst-plugins-base
       pkgs.gst_all_1.gst-plugins-good
       pkgs.gst_all_1.gst-plugins-ugly
       pkgs.gst_all_1.gstreamer
-      pkgs.gst-plugin-spotify
+
+      pkgs.gst-plugins-spotify
+      #pkgs.gst-plugin-spotify
     ];
     pathsToLink = [ "/${pkgs.mopidyPackages.python.sitePackages}" ];
     nativeBuildInputs = [ pkgs.makeWrapper ];
@@ -78,8 +81,14 @@ let
     (pkgs.mopidy-spotify.overrideAttrs (
       final: prev: {
         buildInputs = [
-          pkgs.gst_all_1.gst-plugins-rs
-          pkgs.gst-plugin-spotify
+          #pkgs.gst_all_1.gst-plugins-rs
+          #pkgs.gst-plugin-spotify
+          pkgs.gst-plugins-spotify
+      pkgs.gst_all_1.gst-plugins-bad
+      pkgs.gst_all_1.gst-plugins-base
+      pkgs.gst_all_1.gst-plugins-good
+      pkgs.gst_all_1.gst-plugins-ugly
+      pkgs.gst_all_1.gstreamer
         ];
       }
     ))
@@ -100,7 +109,7 @@ let
       output = "autoaudiosink";
     };
     logging = {
-      verbosity = 3;
+      verbosity = 2;
     };
     spotify = {
       enabled = true;
@@ -159,12 +168,13 @@ in
       pkgs.gst_all_1.gst-plugins-bad
       pkgs.gst_all_1.gst-plugins-ugly
       pkgs.gst_all_1.gst-plugins-good
-      pkgs.gst_all_1.gst-plugins-rs
+      #pkgs.gst_all_1.gst-plugins-rs
       pkgs.gst_all_1.gst-devtools
-      pkgs.gst_all_1.gst-rtsp-server
-      pkgs.gst_all_1.gst-libav
-      pkgs.gst_all_1.gst-editing-services
-      pkgs.gst-plugin-spotify
+      #pkgs.gst_all_1.gst-rtsp-server
+      #pkgs.gst_all_1.gst-libav
+      #pkgs.gst_all_1.gst-editing-services
+      pkgs.gst-plugins-spotify
+      #pkgs.gst-plugin-spotify
     ];
 
     xdg.configFile."mopidy/mopidy.conf".source =
@@ -186,11 +196,17 @@ in
       Install.WantedBy = [ "default.target" ];
       Service = {
         Environment = [
-          "GST_PLUGIN_SYSTEM_PATH_1_0=${pkgs.gst_all_1.gstreamer}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:${pkgs.gst-plugin-spotify}/lib"
+          "GST_PLUGIN_SYSTEM_PATH_1_0=${pkgs.gst_all_1.gstreamer}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:${pkgs.gst-plugins-spotify}/lib/gstreamer-1.0"
+          "GST_PLUGIN_SYSTEM_PATH=${pkgs.gst_all_1.gstreamer}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:${pkgs.gst-plugins-spotify}/lib/gstreamer-1.0"
         ];
         Restart = "on-failure";
         ExecStart = lib.mkForce "${pkgs.writeShellScriptBin "startmopidy.sh" ''
           #!/bin/bash
+
+          export GST_PLUGIN_SYSTEM_PATH_1_0="${pkgs.gst_all_1.gstreamer}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:${pkgs.gst-plugins-spotify}/lib/gstreamer-1.0"
+          export GST_PLUGIN_SYSTEM_PATH="${pkgs.gst_all_1.gstreamer}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0:${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0:${pkgs.gst-plugins-spotify}/lib/gstreamer-1.0"
+
+          gst-inspect-1.0 spotifyaudiosrc | grep Version | awk '{print $2}'
 
           ${cfg.commandPrefix}${mopidyEnv}/bin/mopidy --config ${configFilePaths} --option spotify/client_id="$(cat "${
             config.sops.secrets."apps/spotify/client_id".path

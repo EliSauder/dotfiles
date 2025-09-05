@@ -37,11 +37,11 @@ in
 
   systemd.user.sessionVariables = {
     PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH";
-    GST_PLUGIN_PATH = "$HOME/.nix-profile/lib/gstreamer-1.0/:$GST_PLUGIN_PATH";
+    GST_PLUGIN_PATH = "$HOME/.nix-profile/lib/gstreamer-1.0/";
   };
 
   home.sessionVariables = {
-    GST_PLUGIN_PATH = "$HOME/.nix-profile/lib/gstreamer-1.0/:$GST_PLUGIN_PATH";
+    GST_PLUGIN_PATH = "$HOME/.nix-profile/lib/gstreamer-1.0/";
   };
 
   module.shared = {

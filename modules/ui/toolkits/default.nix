@@ -30,6 +30,9 @@ in
       pkgs.libsForQt5.qtstyleplugin-kvantum
       pkgs.libsForQt5.qt5ct
       pkgs.kdePackages.qtstyleplugin-kvantum
+      pkgs.kdePackages.qt6ct
+      pkgs.kdePackages.qt5compat
+      pkgs.kdePackages.qt6gtk2
     ];
 
     dconf = lib.mkIf cfg.enableGtk {
@@ -57,6 +60,7 @@ in
         enable = true;
         force = true;
       };
+      kvantum.enable = false;
       fish.enable = true;
       gtk = {
         icon.enable = true;
@@ -64,7 +68,6 @@ in
       hyprland.enable = true;
       hyprlock.enable = true;
       k9s.enable = true;
-      kvantum.enable = true;
       librewolf.enable = true;
       mako.enable = true;
       mpv.enable = true;
@@ -131,13 +134,13 @@ in
     qt = lib.mkIf cfg.enableQt {
       enable = true;
       style.name = "kvantum";
-      platformTheme.name = "kvantum";
+      platformTheme.name = "qtct";
     };
 
-    #xdg.configFile = lib.mkIf cfg.enableQt {
-    #  "Kvantum/kvantum.kvconfig".source = (pkgs.formats.ini { }).generate "kvantum.kvconfig" {
-    #    General.theme = "Catppuccin-Mocha-Teal";
-    #  };
-    #};
+    xdg.configFile = lib.mkIf cfg.enableQt {
+      "Kvantum/kvantum.kvconfig".source = (pkgs.formats.ini { }).generate "kvantum.kvconfig" {
+        General.theme = "Catppuccin-Mocha-Teal";
+      };
+    };
   };
 }
