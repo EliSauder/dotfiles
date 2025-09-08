@@ -26,17 +26,36 @@ in
     hyprland.commandPrefix = lib.mkOption {
       default = "";
     };
-    hyprland.terminal = lib.mkOption {
-      type = with lib.types; uniq str;
-      default = [ ];
+    hyprland.terminal = {
+      package = lib.mkPackageOption pkgs "kitty" {
+        default = "kitty";
+      };
+      exeName = lib.mkOption {
+        type = with lib.types; uniq str;
+        default = "";
+      };
     };
-    hyprland.browser = lib.mkOption {
-      type = with lib.types; uniq str;
-      default = [ ];
+    hyprland.browser = {
+      package = lib.mkPackageOption pkgs "firefox" {
+        default = "firefox";
+      };
+      exeName = lib.mkOption {
+        type = with lib.types; uniq str;
+        default = "";
+      };
+      launchWindowWithUrlArgs = lib.mkOption {
+        type = with lib.types; listOf str;
+        default = [ ];
+      };
     };
-    hyprland.fileManager = lib.mkOption {
-      type = with lib.types; uniq str;
-      default = [ ];
+    hyprland.fileManager = {
+      package = lib.mkPackageOption pkgs.kdePackages "dolphin" {
+        default = "dolphin";
+      };
+      exeName = lib.mkOption {
+        type = with lib.types; uniq str;
+        default = "";
+      };
     };
     hyprland.startupItems = lib.mkOption {
       type = with lib.types; listOf str;
@@ -125,32 +144,31 @@ in
 
       settings = {
         "$mod" = "SUPER";
-        #"$terminal" = "${cfg.commandPrefix}${pkgs.kitty}/bin/kitty";
-        "$terminal" = "${cfg.commandPrefix}${cfg.terminal}";
-        "$fileManager" = "${cfg.commandPrefix}${cfg.fileManager}";
-        #"$menu" = "${cfg.commandPrefix}wofi --show drun";
+        "$terminal" = "${cfg.commandPrefix}${lib.getExe' cfg.terminal.package cfg.terminal.exeName}";
+        "$fileManager" =
+          "${cfg.commandPrefix}${lib.getExe' cfg.fileManager.package cfg.fileManager.exeName}";
         "$menu" = "${cfg.commandPrefix}${pkgs.rofi-wayland}/bin/rofi -show drun";
-        "$browser" = "${cfg.commandPrefix}${cfg.browser}";
+        "$browser" = "${cfg.commandPrefix}${lib.getExe' cfg.browser.package cfg.browser.exeName}";
         exec-once = [
           "uwsm app -- test -d \"$HOME/Pictures/Screenshots\" || mkdir -p \"$HOME/Pictures/Screenshots\" 2>/dev/null"
           "[workspace 1 silent] uwsm app -- $terminal"
           "[workspace 2 silent] uwsm app -- $browser"
-          "[workspace 4 silent; fullscreenstate 0 2] uwsm app -- sleep 2 ; $browser --new-window https://teams.microsoft.com/v2/"
-          "[workspace 4 silent; fullscreenstate 0 2] uwsm app -- sleep 2 ; $browser --new-window https://outlook.office.com/mail/"
+          "[workspace 4 silent; fullscreenstate 0 2] uwsm app -- sleep 2 ; $browser ${lib.concatStringsSep " " cfg.browser.launchWindowWithUrlArgs} https://teams.microsoft.com/v2/"
+          "[workspace 4 silent; fullscreenstate 0 2] uwsm app -- sleep 2 ; $browser ${lib.concatStringsSep " " cfg.browser.launchWindowWithUrlArgs} https://outlook.office.com/mail/"
         ]
         ++ cfg.startupItems;
         env = [
-          #"WLR_NO_HARDWARE_CURSORS,1"
           "CLIPBOARD_NOGUI,1"
-          #"XCURSOR_SIZE,24"
-          #"XCURSOR_THEME,BreezeX-RosePine"
-          #"HYPRCURSOR_SIZE,24"
-          #"HYPRCURSOR_THEME,rose-pine-hyprcursor"
           "GDK_SCALE,2"
           "QT_AUTO_SCREEN_SCALE_FACTOR,1"
           "GDK_BACKEND,wayland,x11,*"
           "QT_QPA_PLATFORM,wayland;xcb"
           #"QT_QPA_PLATFORMTHEME,qt5ct"
+          #"XCURSOR_SIZE,24"
+          #"XCURSOR_THEME,BreezeX-RosePine"
+          #"HYPRCURSOR_SIZE,24"
+          #"HYPRCURSOR_THEME,rose-pine-hyprcursor"
+          #"WLR_NO_HARDWARE_CURSORS,1"
         ]
         ++ (lib.optionals cfg.useNvidia [
           "LIBVA_DRIVER_NAME,nvidia"
@@ -184,12 +202,6 @@ in
             color = "rgba(1a1a1aee)";
           };
         };
-        #// lib.mkIf (isUbuntu) {
-        #  drop_shadow = true;
-        #  shadow_range = 4;
-        #  "col.shadow" = "rgba(1a1a1aee)";
-        #  shadow_render_power = 3;
-        #};
         animations = {
           enabled = false;
 
@@ -214,6 +226,11 @@ in
         master = {
           new_status = "master";
         };
+        binds = {
+          movefocus_cycles_fullscreen = true;
+          workspace_center_on = true;
+          workspace_back_and_forth = true;
+        };
         misc = {
           force_default_wallpaper = -1;
           disable_hyprland_logo = false;
@@ -224,10 +241,11 @@ in
           kb_model = "";
           kb_options = "";
           kb_rules = "";
-          follow_mouse = 1;
+          follow_mouse = 0;
           sensitivity = 0;
           touchpad.natural_scroll = false;
           numlock_by_default = true;
+          accel_profile = "flat";
         };
         gestures = {
           workspace_swipe = false;
@@ -283,11 +301,17 @@ in
           "workspace 9 silent, class:^(com.obsproject.Studio)$"
 
           "workspace 2, class:firefox"
+          "workspace 2, class:.*qutebrowser"
 
-          "workspace 4 silent, class:firefox,title:(.*)(Outlook)(.*)"
-          "fullscreenstate 0 2, class:firefox,title:(.*)(Outlook)(.*)"
-          "workspace 4 silent, class:firefox,title:(.*)(Teams)(.*)"
-          "fullscreenstate 0 2, class:firefox,title:(.*)(Teams)(.*)"
+          "workspace 4 silent, title:(.*)(Outlook)(.*)"
+          "fullscreenstate 0 2, title:(.*)(Outlook)(.*)"
+          "workspace 4 silent, title:(.*)(Microsoft Teams)(.*)"
+          "fullscreenstate 0 2, title:(.*)(Microsoft Teams)(.*)"
+
+          "workspace 4 silent, title:(.*)(outlook.office.com)(.*)"
+          "fullscreenstate 0 2, title:(.*)(outlook.office.com)(.*)"
+          "workspace 4 silent, title:(.*)(teams.microsoft.com)(.*)"
+          "fullscreenstate 0 2, title:(.*)(teams.micorosft.com)(.*)"
 
           "workspace 8 silent, class:^(factorio)$"
           "workspace 8 silent, class:^(steam_app_)(.*)$"
@@ -318,7 +342,16 @@ in
           #"$mod, D, exec, ${pkgs.discord}/bin/discord"
           "$mod, P, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.grim}/bin/grim -g \"$(${cfg.commandPrefix}${pkgs.slurp}/bin/slurp)\" \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..:: Slurp ::..\" \"partial screenshot captured\""
           "$mod SHIFT, P, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.grim}/bin/grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""
-          "$mod, E, exec, uwsm app -- ${cfg.commandPrefix}${cfg.fileManager}"
+          "$mod, E, exec, uwsm app -- $fileManager"
+
+          "$mod, left, movefocus, l"
+          "$mod, h, movefocus, l"
+          "$mod, right, movefocus, r"
+          "$mod, l, movefocus, r"
+          "$mod, up, movefocus, u"
+          "$mod, k, movefocus, u"
+          "$mod, down, movefocus, d"
+          "$mod, j, movefocus, d"
 
           "$mod, KP_End, workspace, 1"
           "$mod, KP_Down, workspace, 2"

@@ -1,13 +1,11 @@
 {
-  config,
   pkgs,
-  lib,
   ...
 }:
 {
   nixpkgs.overlays = [
     (final: prev: {
-      gst-plugins-spotify = pkgs.stdenv.mkDerivation rec {
+      gst-plugins-spotify = pkgs.stdenv.mkDerivation {
         pname = "gst-plugins-spotify";
         version = "0.15.0-alpha.1-2";
         src = pkgs.fetchurl {
@@ -31,7 +29,7 @@
       };
     })
     (final: prev: {
-      gst-plugin-spotify = pkgs.rustPlatform.buildRustPackage rec {
+      gst-plugin-spotify = pkgs.rustPlatform.buildRustPackage {
         pname = "gst-plugin-spotify";
         version = "1.0.1";
         src = pkgs.fetchgit {

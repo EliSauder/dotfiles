@@ -1,6 +1,7 @@
 { config, ... }:
 {
   imports = [
+    ./catppuccin-startpage
     ./gst-plugin-spotify.nix
     ./dbeaver-with-drivers.nix
     ./waybar_now_playing.nix

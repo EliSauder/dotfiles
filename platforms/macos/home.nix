@@ -35,7 +35,7 @@ in
     ../../modules
   ];
 
-  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-macos";
+  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-macos $argv";
 
   module.shared = {
     enable = true;

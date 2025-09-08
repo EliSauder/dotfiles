@@ -1,5 +1,6 @@
-{ config, pkgs, lib, inputs, ...}: {
-    nixpkgs.overlays = [
-        inputs.nur.overlays.default
-    ];
+{ inputs, ... }:
+{
+  nixpkgs.overlays = [
+    inputs.nur.overlays.default
+  ];
 }

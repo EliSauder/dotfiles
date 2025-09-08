@@ -33,7 +33,7 @@ in
     ../../modules
   ];
 
-  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-ubuntu --impure";
+  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-ubuntu --impure $argv";
 
   systemd.user.sessionVariables = {
     PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH";

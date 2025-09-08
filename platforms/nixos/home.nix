@@ -12,7 +12,7 @@
     ../../modules
   ];
 
-  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-nixos";
+  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-nixos $argv";
 
   module.shared = {
     enable = true;

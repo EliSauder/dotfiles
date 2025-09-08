@@ -40,9 +40,21 @@ in
     ui.hyprland = {
       enable = true;
       commandPrefix = cfg.commandPrefix;
-      terminal = "${config.prog.ghostty.package}/bin/ghostty";
-      browser = "${pkgs.firefox}/bin/firefox";
-      fileManager = "${config.prog.dolphin.package}/bin/dolphin";
+      terminal = {
+        package = config.prog.ghostty.package;
+        exeName = "ghostty";
+      };
+      browser = {
+        package = config.prog.qutebrowser.package;
+        exeName = "qutebrowser";
+        launchWindowWithUrlArgs = [
+          "--target window"
+        ];
+      };
+      fileManager = {
+        package = config.prog.dolphin.package;
+        exeName = "dolphin";
+      };
       useNvidia = cfg.useNvidia;
       keybinds = [
         "$mod, R, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.remmina}/bin/remmina"

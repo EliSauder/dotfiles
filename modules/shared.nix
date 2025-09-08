@@ -45,11 +45,12 @@ in
 
     prog.firefox = {
       enable = true;
-      setdefault = true;
+      setdefault = false;
     };
 
     prog.qutebrowser = {
       enable = true;
+      setDefault = true;
     };
 
     prog.reaper.enable = true;

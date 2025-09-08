@@ -36,7 +36,7 @@ in
       systemd.enable = true;
       settings = {
         mainBar = {
-          layer = "top";
+          layer = "bottom";
           position = "top";
           margin-top = 2;
           gtk-layer-shell = true;
