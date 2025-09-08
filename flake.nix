@@ -115,6 +115,9 @@
           extraSpecialArgs = {
             inherit inputs system;
             distro = "darwin";
+            uses = [
+              "personal"
+            ];
             pkgs-stable = import inputs.nixpkgs-stable {
               system = system;
             };
@@ -134,6 +137,9 @@
           extraSpecialArgs = {
             inherit inputs system;
             distro = "nixos";
+            uses = [
+              "personal"
+            ];
             pkgs-stable = import inputs.nixpkgs-stable {
               system = system;
             };
@@ -153,6 +159,9 @@
           extraSpecialArgs = {
             inherit inputs system;
             distro = "ubuntu";
+            uses = [
+              "work"
+            ];
             pkgs-stable = import inputs.nixpkgs-stable {
               system = system;
               overlays = [ nixgl.overlay ];

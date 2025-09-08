@@ -48,6 +48,10 @@ in
       setdefault = true;
     };
 
+    prog.qutebrowser = {
+      enable = true;
+    };
+
     prog.reaper.enable = true;
     prog.remmina.enable = true;
 

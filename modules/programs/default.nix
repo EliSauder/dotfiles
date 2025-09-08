@@ -1,11 +1,9 @@
 {
-  config,
-  pkgs,
-  lib,
   ...
 }:
 {
   imports = [
+    ./qutebrowser
     ./dolphin
     ./remmina
     ./1password

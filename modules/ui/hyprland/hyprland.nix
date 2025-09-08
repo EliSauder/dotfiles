@@ -9,13 +9,7 @@
 let
   cfg = config.ui.hyprland;
   isUbuntu = specialArgs.distro == "ubuntu";
-  nixGLStart = if isUbuntu then "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL " else "";
   systemXdgPortal = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
-  #systemXdgPortal =
-  #  if isUbuntu then
-  #    pkgs.xdg-desktop-portal-gnome
-  #  else
-  #    inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
 in
 {
   imports = [
@@ -29,6 +23,9 @@ in
 
   options.ui = {
     hyprland.enable = lib.mkEnableOption "Enable wayland";
+    hyprland.commandPrefix = lib.mkOption {
+      default = "";
+    };
     hyprland.terminal = lib.mkOption {
       type = with lib.types; uniq str;
       default = [ ];
@@ -128,16 +125,18 @@ in
 
       settings = {
         "$mod" = "SUPER";
-        #"$terminal" = "${nixGLStart}${pkgs.kitty}/bin/kitty";
-        "$terminal" = "${nixGLStart}${cfg.terminal}";
-        "$fileManager" = "${nixGLStart}${cfg.fileManager}";
-        #"$menu" = "${nixGLStart}wofi --show drun";
-        "$menu" = "${nixGLStart}${pkgs.rofi-wayland}/bin/rofi -show drun";
-        "$browser" = "${nixGLStart}${cfg.browser}";
+        #"$terminal" = "${cfg.commandPrefix}${pkgs.kitty}/bin/kitty";
+        "$terminal" = "${cfg.commandPrefix}${cfg.terminal}";
+        "$fileManager" = "${cfg.commandPrefix}${cfg.fileManager}";
+        #"$menu" = "${cfg.commandPrefix}wofi --show drun";
+        "$menu" = "${cfg.commandPrefix}${pkgs.rofi-wayland}/bin/rofi -show drun";
+        "$browser" = "${cfg.commandPrefix}${cfg.browser}";
         exec-once = [
           "uwsm app -- test -d \"$HOME/Pictures/Screenshots\" || mkdir -p \"$HOME/Pictures/Screenshots\" 2>/dev/null"
-          #"uwsm app -- [workspace 1 silent] $terminal"
-          #"uwsm app -- [workspace 2 silent] $browser"
+          "[workspace 1 silent] uwsm app -- $terminal"
+          "[workspace 2 silent] uwsm app -- $browser"
+          "[workspace 4 silent; fullscreenstate 0 2] uwsm app -- sleep 2 ; $browser --new-window https://teams.microsoft.com/v2/"
+          "[workspace 4 silent; fullscreenstate 0 2] uwsm app -- sleep 2 ; $browser --new-window https://outlook.office.com/mail/"
         ]
         ++ cfg.startupItems;
         env = [
@@ -259,8 +258,7 @@ in
           "float, title:nemo"
           "float, title:pavucontrol"
           "noanim, title:^(REAPER)$"
-        ];
-        windowrulev2 = [
+
           "float, class:(^wofi$)"
           "center, class:(^wofi$)"
           "pin, class:(^wofi$)"
@@ -277,7 +275,6 @@ in
           "maxsize 1 1, class:^(xwaylandvideobridge)$"
           "noblur, class:^(xwaylandvideobridge)$"
 
-          "workspace 2, class:^(firefox)$"
           "workspace 5 silent, class:^(steam)$"
           "workspace 5 silent, class:^(steam)$,title:^(notification)(.*)$"
           "size 25% 100%, class:^(steam)$,title:^(Friends List)$"
@@ -285,9 +282,16 @@ in
           "workspace 4 silent, class:^(discord)$"
           "workspace 9 silent, class:^(com.obsproject.Studio)$"
 
+          "workspace 2, class:firefox"
+
+          "workspace 4 silent, class:firefox,title:(.*)(Outlook)(.*)"
+          "fullscreenstate 0 2, class:firefox,title:(.*)(Outlook)(.*)"
+          "workspace 4 silent, class:firefox,title:(.*)(Teams)(.*)"
+          "fullscreenstate 0 2, class:firefox,title:(.*)(Teams)(.*)"
+
           "workspace 8 silent, class:^(factorio)$"
-          "workspace 8 silent, class:^(steam_app_431960)$"
-          "fullscreen, class:^(steam_app_431960)$"
+          "workspace 8 silent, class:^(steam_app_)(.*)$"
+          "fullscreen, class:^(steam_app_)(.*)$"
 
           "workspace 10, title:^(Vivado)(.*)$"
           "center, title:^(Vivado)(.*)$"
@@ -302,7 +306,7 @@ in
         ];
         bind = [
           "$mod, Q, exec, uwsm app -- $terminal"
-          "$mod SHIFT, Q, exec, uwsm app -- ${nixGLStart}gnome-terminal"
+          "$mod SHIFT, Q, exec, uwsm app -- ${cfg.commandPrefix}gnome-terminal"
           "$mod, C, killactive,"
           "$mod, F, fullscreen,"
           "$mod, B, exec, uwsm app -- $browser"
@@ -312,9 +316,9 @@ in
           #"$mod, R, exec, rofi -show drun -show-icons -log ~/rofi.log"
           "$mod, J, togglesplit,"
           #"$mod, D, exec, ${pkgs.discord}/bin/discord"
-          "$mod, P, exec, uwsm app -- ${nixGLStart}${pkgs.grim}/bin/grim -g \"$(${nixGLStart}${pkgs.slurp}/bin/slurp)\" \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..:: Slurp ::..\" \"partial screenshot captured\""
-          "$mod SHIFT, P, exec, uwsm app -- ${nixGLStart}${pkgs.grim}/bin/grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""
-          "$mod, E, exec, uwsm app -- ${nixGLStart}${cfg.fileManager}"
+          "$mod, P, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.grim}/bin/grim -g \"$(${cfg.commandPrefix}${pkgs.slurp}/bin/slurp)\" \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..:: Slurp ::..\" \"partial screenshot captured\""
+          "$mod SHIFT, P, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.grim}/bin/grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""
+          "$mod, E, exec, uwsm app -- ${cfg.commandPrefix}${cfg.fileManager}"
 
           "$mod, KP_End, workspace, 1"
           "$mod, KP_Down, workspace, 2"
@@ -358,7 +362,7 @@ in
           "$mod SHIFT, 9, movetoworkspace, 9"
           "$mod SHIFT, 0, movetoworkspace, 10"
 
-          "$mod SHIFT, X, exec, uwsm app -- ${nixGLStart}${pkgs.hyprpicker}/bin/hyprpicker -a -n"
+          "$mod SHIFT, X, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.hyprpicker}/bin/hyprpicker -a -n"
           "$mod, L, exec, loginctl lock-session"
           ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%-"
           ",XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s +5%"

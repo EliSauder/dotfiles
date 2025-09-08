@@ -39,6 +39,7 @@ in
 
     ui.hyprland = {
       enable = true;
+      commandPrefix = cfg.commandPrefix;
       terminal = "${config.prog.ghostty.package}/bin/ghostty";
       browser = "${pkgs.firefox}/bin/firefox";
       fileManager = "${config.prog.dolphin.package}/bin/dolphin";
