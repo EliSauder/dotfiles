@@ -60,7 +60,7 @@ in
         force = true;
       };
       kvantum.enable = false;
-      fish.enable = true;
+      fish.enable = false;
       gtk = {
         icon.enable = true;
       };
@@ -70,12 +70,12 @@ in
       librewolf.enable = true;
       mako.enable = true;
       mpv.enable = true;
-      nvim.enable = true;
+      nvim.enable = false;
       obs.enable = true;
       rofi.enable = true;
       spotify-player.enable = true;
       thunderbird.enable = true;
-      tmux.enable = true;
+      tmux.enable = false;
       waybar.enable = true;
     };
 

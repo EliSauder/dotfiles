@@ -1,10 +1,10 @@
-{ pkgs, ... }:
+{ ... }:
 {
-  programs.nixvim.plugins = {
+  programs.nixvim.plugins.tmux-navigator = {
     enable = true;
     settings = {
-      no_wrap = true;
-      save_on_switch = true;
+      no_wrap = 1;
+      save_on_switch = null;
     };
   };
 }

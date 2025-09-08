@@ -12,5 +12,6 @@
     ./appearance.nix
     ./git.nix
     ./tools.nix
+    ./tmux-navigator.nix
   ];
 }
