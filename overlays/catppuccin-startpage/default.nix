@@ -1,6 +1,5 @@
 {
   pkgs,
-  lib,
   ...
 }:
 {
@@ -14,7 +13,7 @@
           repo = pname;
           rev = "c7ab74cd2439ad8e78c8319a66639cb585b0e984";
           #sha256 = "sha256-8jiGbk13Vy5wBEtudbpv0okOv7gVTwGKtL85sDs78Lc=";
-          sha256 = lib.fakeHash;
+          sha256 = "sha256-NazFL6hu+wZ55y1nLnNFL91FgdrsKSPObz2YC16BSH4=";
         };
         phases = [ "installPhase" ];
         installPhase = ''
