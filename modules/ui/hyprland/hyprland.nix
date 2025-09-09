@@ -304,13 +304,12 @@ in
           "workspace 2, class:.*qutebrowser"
 
           "workspace 4 silent, title:(.*)(Outlook)(.*)"
-          "fullscreenstate 0 2, title:(.*)(Outlook)(.*)"
-          "workspace 4 silent, title:(.*)(Microsoft Teams)(.*)"
-          "fullscreenstate 0 2, title:(.*)(Microsoft Teams)(.*)"
-
           "workspace 4 silent, title:(.*)(outlook.office.com)(.*)"
+          "fullscreenstate 0 2, title:(.*)(Outlook)(.*)"
           "fullscreenstate 0 2, title:(.*)(outlook.office.com)(.*)"
+          "workspace 4 silent, title:(.*)(Microsoft Teams)(.*)"
           "workspace 4 silent, title:(.*)(teams.microsoft.com)(.*)"
+          "fullscreenstate 0 2, title:(.*)(Microsoft Teams)(.*)"
           "fullscreenstate 0 2, title:(.*)(teams.micorosft.com)(.*)"
 
           "workspace 8 silent, class:^(factorio)$"

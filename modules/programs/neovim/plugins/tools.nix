@@ -9,6 +9,10 @@
       enable = true;
     };
 
+    git-conflict = {
+      enable = true;
+    };
+
     mini = {
       enable = true;
       autoLoad = true;

@@ -2,10 +2,12 @@
   config,
   pkgs,
   lib,
+  specialArgs,
   ...
 }:
 let
   cfg = config.prog.qutebrowser;
+  usedForWork = builtins.elem "work" specialArgs.uses;
 in
 {
   options.prog = {
@@ -61,13 +63,15 @@ in
         }
       );
       quickmarks = {
+        gh = "https://github.com";
+        yt = "https://www.youtube.com";
+      }
+      // lib.mkIf usedForWork {
         wt = "https://teams.microsoft.com/v2";
         wo = "https://outlook.office.com/mail";
         wc = "https://hmelectronics.sharepoint.com/Pages/default.aspx";
         wu = "https://hmeukg.ukg.net";
         ws = "https://servicedesk.hme.com/home";
-        gh = "https://github.com";
-        yt = "https://www.youtube.com";
       };
 
       searchEngines = {
@@ -120,7 +124,7 @@ in
 
         keyhint.delay = 200;
 
-        new_instance_open_target = "tab-bg-silent";
+        new_instance_open_target = "tab-bg";
 
         scrolling.smooth = true;
 
@@ -161,7 +165,7 @@ in
           // ==/UserScript==
 
           document.addEventListener('load', () => {
-            try { document.querySelector('.ad-showing video').currentTime = 99999 } catch {}
+            //try { document.querySelector('.ad-showing video').currentTime = 99999 } catch {}
             try { document.querySelector('.ytp-ad-skip-button').click() } catch {}
             try { document.querySelector('.ytp-skip-ad-button').click() } catch {}
             try { document.querySelector('.videoAdUiSkipButton').click() } catch {}
