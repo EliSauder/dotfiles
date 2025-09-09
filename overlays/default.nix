@@ -1,6 +1,7 @@
 { config, ... }:
 {
   imports = [
+    ./qutebrowser-dev.nix
     ./catppuccin-startpage
     ./gst-plugin-spotify.nix
     ./dbeaver-with-drivers.nix

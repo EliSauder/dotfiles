@@ -51,7 +51,15 @@ in
 
     programs.qutebrowser = {
       enable = true;
-      package = cfg.package;
+      package = cfg.package.overrideAttrs (
+        final: prev: {
+          buildInputs = prev.buildInputs ++ [
+            pkgs.python313Packages.pyu2f
+            pkgs.python313Packages.pyfido
+            pkgs.python313Packages.fido2
+          ];
+        }
+      );
       quickmarks = {
         wt = "https://teams.microsoft.com/v2";
         wo = "https://outlook.office.com/mail";
@@ -83,38 +91,34 @@ in
           };
         };
 
-        tabs = {
-          padding = {
-            top = 5;
-            bottom = 5;
-            left = 9;
-            right = 9;
-          };
-        };
-
         editor = {
-          command = "${cfg.guiVimEditor} -f {file} -c \\\"normal {line}G{column0}l\\\"";
+          command = [
+            cfg.guiVimEditor
+            "-f"
+            "{file}"
+            "-c"
+            "normal {line}G{column0}l"
+          ];
         };
 
         hints = {
           chars = "arstdoienh";
-          find_implementation = "javascript";
         };
 
         input = {
           insert_mode = {
             auto_load = true;
           };
-          spacial_navigation = true;
+          spatial_navigation = true;
         };
 
-        url = {
-          start_pages = [
-            "file:/${pkgs.catppuccin-startpage}/index.html"
-          ];
-        };
+        #url = {
+        #  start_pages = [
+        #    "file:/${pkgs.catppuccin-startpage}/index.html"
+        #  ];
+        #};
 
-        keyhind.delay = 200;
+        keyhint.delay = 200;
 
         new_instance_open_target = "tab-bg-silent";
 
@@ -127,16 +131,17 @@ in
         content = {
           pdfjs = true;
           default_encoding = "utf-8";
-          hyprlink_auditing = true;
+          hyperlink_auditing = true;
           blocking = {
             enabled = true;
-            blocking.method = "both";
+            method = "both";
           };
         };
       };
 
       extraConfig = ''
-        config.set('colors.webpage.enabled', False, 'file://*')
+        config.set('colors.webpage.darkmode.enabled', False, 'file://*')
+        c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
       '';
 
       keyBindings = {

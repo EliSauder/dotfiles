@@ -51,6 +51,7 @@ in
     prog.qutebrowser = {
       enable = true;
       setDefault = true;
+      package = pkgs.qutebrowser-dev;
     };
 
     prog.reaper.enable = true;
