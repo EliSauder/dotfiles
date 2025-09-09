@@ -19,7 +19,7 @@
         installPhase = ''
           mkdir -p "$out"
           cp -T -r "$src" "$out"
-          cp ./userconfig.js "$out"
+          cp "${./userconfig.js}" "$out"
           rm "$out/userconfig.example.js"
         '';
       };
