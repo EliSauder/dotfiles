@@ -229,7 +229,7 @@ in
         binds = {
           movefocus_cycles_fullscreen = true;
           workspace_center_on = true;
-          workspace_back_and_forth = true;
+          workspace_back_and_forth = false;
         };
         misc = {
           force_default_wallpaper = -1;
