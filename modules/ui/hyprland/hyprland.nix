@@ -395,7 +395,7 @@ in
           "$mod SHIFT, 0, movetoworkspace, 10"
 
           "$mod SHIFT, X, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.hyprpicker}/bin/hyprpicker -a -n"
-          "$mod, L, exec, loginctl lock-session"
+          "$mod SHIFT, L, exec, loginctl lock-session"
           ",XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%-"
           ",XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s +5%"
           ",XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"

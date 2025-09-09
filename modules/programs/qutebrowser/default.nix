@@ -66,13 +66,18 @@ in
         gh = "https://github.com";
         yt = "https://www.youtube.com";
       }
-      // lib.mkIf usedForWork {
-        wt = "https://teams.microsoft.com/v2";
-        wo = "https://outlook.office.com/mail";
-        wc = "https://hmelectronics.sharepoint.com/Pages/default.aspx";
-        wu = "https://hmeukg.ukg.net";
-        ws = "https://servicedesk.hme.com/home";
-      };
+      // (
+        if usedForWork then
+          {
+            wt = "https://teams.microsoft.com/v2";
+            wo = "https://outlook.office.com/mail";
+            wc = "https://hmelectronics.sharepoint.com/Pages/default.aspx";
+            wu = "https://hmeukg.ukg.net";
+            ws = "https://servicedesk.hme.com/home";
+          }
+        else
+          { }
+      );
 
       searchEngines = {
         g = "https://www.google.com/search?udm=14&q={}";
@@ -126,7 +131,7 @@ in
 
         new_instance_open_target = "tab-bg";
 
-        scrolling.smooth = true;
+        scrolling.smooth = false;
 
         spellcheck.languages = [
           "en-US"
