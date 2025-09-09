@@ -93,7 +93,7 @@ in
         };
 
         editor = {
-          command = "${cfg.guiVimEditor} -f {file} -c \"normal {line}G{column0}l\"";
+          command = "${cfg.guiVimEditor} -f {file} -c \\\"normal {line}G{column0}l\\\"";
         };
 
         hints = {
