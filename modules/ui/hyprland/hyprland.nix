@@ -331,7 +331,7 @@ in
           "$mod, Q, exec, uwsm app -- $terminal"
           "$mod SHIFT, Q, exec, uwsm app -- ${cfg.commandPrefix}gnome-terminal"
           "$mod, C, killactive,"
-          "$mod, F, fullscreen,"
+          "$mod, F, fullscreen,1"
           "$mod, B, exec, uwsm app -- $browser"
           "$mod SHIFT CTRL, M, exec, uwsm stop"
           "$mod, V, togglefloating,"
