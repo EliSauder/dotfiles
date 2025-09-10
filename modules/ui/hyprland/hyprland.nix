@@ -335,7 +335,7 @@ in
           "$mod, B, exec, uwsm app -- $browser"
           "$mod SHIFT CTRL, M, exec, uwsm stop"
           "$mod, V, togglefloating,"
-          "$mod, H, exec, uwsm app -- $menu -show-icons"
+          "$mod, O, exec, uwsm app -- $menu -show-icons"
           #"$mod, R, exec, rofi -show drun -show-icons -log ~/rofi.log"
           "$mod, J, togglesplit,"
           #"$mod, D, exec, ${pkgs.discord}/bin/discord"
