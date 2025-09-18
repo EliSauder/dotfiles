@@ -15,8 +15,21 @@ in
     qutebrowser.package = lib.mkPackageOption pkgs "qutebrowser" {
       example = "qutebrowser";
     };
-    qutebrowser.guiVimEditor = lib.mkOption {
-      default = "ghostty --command fish -c nvim";
+    qutebrowser.cmdPrefix = lib.mkOption {
+      default = "";
+    };
+    qutebrowser.editor = {
+      vimExec = lib.mkOption {
+        default = "nvim";
+      };
+      terminal = {
+        cmd = lib.mkOption {
+          default = "ghostty";
+        };
+        cmdArg = lib.mkOption {
+          default = "-e";
+        };
+      };
     };
     qutebrowser.setDefault = lib.mkOption {
       default = false;
@@ -71,9 +84,11 @@ in
           {
             wt = "https://teams.microsoft.com/v2";
             wo = "https://outlook.office.com/mail";
-            wc = "https://hmelectronics.sharepoint.com/Pages/default.aspx";
-            wu = "https://hmeukg.ukg.net";
-            ws = "https://servicedesk.hme.com/home";
+            whc = "https://hmelectronics.sharepoint.com/Pages/default.aspx";
+            whu = "https://hmeukg.ukg.net";
+            whs = "https://servicedesk.hme.com/home";
+            waj = "https://hme.atlassian.net/jira/software/c/projects/MD/boards/368";
+            wac = "https://hme.atlassian.net/wiki/spaces/MD/overview?homepageId=139723117";
           }
         else
           { }
@@ -101,13 +116,19 @@ in
         };
 
         editor = {
-          command = [
-            cfg.guiVimEditor
-            "-f"
-            "{file}"
-            "-c"
-            "normal {line}G{column0}l"
-          ];
+          command =
+            lib.optionals (cfg.cmdPrefix != "") [
+              cfg.cmdPrefix
+            ]
+            ++ [
+              cfg.editor.terminal.cmd
+              cfg.editor.terminal.cmdArg
+              cfg.editor.vimExec
+              "-f"
+              "{file}"
+              "-c"
+              "normal {line}G{column0}l"
+            ];
         };
 
         hints = {
