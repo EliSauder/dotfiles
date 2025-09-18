@@ -16,11 +16,11 @@ in
   config = lib.mkIf cfg.enable {
     programs.rofi = {
       enable = true;
-      package = pkgs.rofi-wayland;
+      package = pkgs.rofi;
       plugins = [
         pkgs.rofi-vpn
         pkgs.rofi-calc
-        pkgs.rofi-emoji-wayland
+        pkgs.rofi-emoji
         pkgs.rofi-systemd
         pkgs.rofi-obsidian
         pkgs.rofi-bluetooth

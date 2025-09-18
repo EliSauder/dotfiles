@@ -147,7 +147,7 @@ in
         "$terminal" = "${cfg.commandPrefix}${lib.getExe' cfg.terminal.package cfg.terminal.exeName}";
         "$fileManager" =
           "${cfg.commandPrefix}${lib.getExe' cfg.fileManager.package cfg.fileManager.exeName}";
-        "$menu" = "${cfg.commandPrefix}${pkgs.rofi-wayland}/bin/rofi -show drun";
+        "$menu" = "${cfg.commandPrefix}${pkgs.rofi}/bin/rofi -show drun";
         "$browser" = "${cfg.commandPrefix}${lib.getExe' cfg.browser.package cfg.browser.exeName}";
         exec-once = [
           "uwsm app -- test -d \"$HOME/Pictures/Screenshots\" || mkdir -p \"$HOME/Pictures/Screenshots\" 2>/dev/null"
@@ -246,9 +246,6 @@ in
           touchpad.natural_scroll = false;
           numlock_by_default = true;
           accel_profile = "flat";
-        };
-        gestures = {
-          workspace_swipe = false;
         };
         xwayland.force_zero_scaling = true;
         layerrule = [
