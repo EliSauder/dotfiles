@@ -14,7 +14,7 @@ let
 
   settings = {
     theme = "catppuccin-mocha-manual";
-    initial-command = startupscript;
+    command = startupscript;
     background = "000000";
   };
   themes = {

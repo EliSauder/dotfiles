@@ -15,8 +15,15 @@ in
 
   options.ui = {
     waybar.enable = lib.mkEnableOption "Enable waybar";
-    waybar.terminal = lib.mkOption {
-      type = with lib.types; uniq str;
+    waybar.terminal = {
+      cmd = lib.mkOption {
+        type = with lib.types; uniq str;
+        default = "ghostty";
+      };
+      cmdArg = lib.mkOption {
+        type = with lib.types; uniq str;
+        default = "-e";
+      };
     };
   };
 
@@ -31,30 +38,43 @@ in
       pkgs.pavucontrol
     ];
 
+    catppuccin.waybar = {
+      enable = true;
+      flavor = "mocha";
+      mode = "createLink";
+    };
+
     programs.waybar = {
       enable = true;
       systemd.enable = true;
       settings = {
         mainBar = {
-          layer = "bottom";
+          layer = "top";
           position = "top";
-          margin-top = 2;
+          #margin-top = 2;
+          height = 32;
+          spacing = 0;
           gtk-layer-shell = true;
           fixed-center = true;
 
           modules-left = [
             "hyprland/workspaces"
+            "tray"
             "custom/player"
           ];
           modules-center = [
             "clock"
           ];
           modules-right = [
-            "tray"
             "network"
+            "bluetooth"
             "wireplumber"
+            "backlight"
             "battery"
+            "custom/reboot"
+            "custom/power"
           ];
+
           "hyprland/workspaces" = {
             active-only = false;
             all-outputs = true;
@@ -75,24 +95,33 @@ in
             on-click-middle = "${pkgs.waybar_now_playing}/bin/waybar_now_playing previous";
           };
 
+          "custom/reboot" = {
+            format = "<span color='#FFD700'>  </span>";
+            on-click = "systemctl reboot";
+          };
+
+          "custom/power" = {
+            format = "<span color='#FF4040'>  </span>";
+            on-click = "systemctl poweroff";
+          };
           "clock" = {
             interval = 1;
             format = "{:%H:%M:%S  %a %d %B}";
           };
 
           "tray" = {
-            icon-size = 16;
-            spacing = 12;
+            icon-size = 17;
+            spacing = 6;
           };
 
           "network" = {
-            interval = 2;
-            format-wifi = "    {essid}";
-            format-ethernet = "󰈀 {essid}";
-            format-linked = "{ifname} (No IP) ";
-            format-disconnected = "! Disconnected";
+            interval = 1;
+            format-wifi = "<span color='#00FFFF'>  </span>  {essid} ";
+            format-ethernet = "<span color='#7fff00'> 󰈀 </span>";
+            format-linked = "<span color='#FFA500'> 󱘖 </span> {ifname} (No IP) ";
+            format-disconnected = "<span color='#FF4040'>  </span> Disconnected ";
             tooltip-format-wifi = "{signalStrength}% | ⬇ {bandwidthDownBits} ⬆ {bandwidthUpBits} | {ipaddr}/{cidr}";
-            on-click = "${pkgs.kitty}/bin/kitty --name nmtui --title nmtui ${pkgs.networkmanager}/bin/nmtui";
+            on-click = "${cfg.terminal.cmd} ${cfg.terminal.cmdArg} ${pkgs.networkmanager}/bin/nmtui";
           };
 
           "cpu" = {
@@ -107,34 +136,58 @@ in
           };
 
           "wireplumber" = {
-            format = "{icon} {volume}%";
-            format-muted = "🔇 sssh..";
+            format = "<span color='#00FF7F'>{icon}</span> {volume}% ";
+            format-muted = "<span color='#FF4040'> 󰖁 </span>";
+            #format = "{icon} {volume}%";
+            #format-muted = "🔇 sssh..";
             scroll-step = 1;
             on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
             format-icons = [
-              " "
-              " "
-              " "
+              "<span color='#808080'>  </span>"
+              "<span color='#FFFF66'>  </span>"
+              "<span color='#00FF7F'>  </span>"
             ];
           };
 
           "battery" = {
-            interval = 5;
+            interval = 1;
             states = {
               good = 95;
               warning = 20;
               critical = 10;
             };
-            format = "{icon}     {capacity}";
-            format-charging = "⚡    {capacity}";
-            format-plugged = "⚡    {capacity}";
+            format = "<span color='#28CD41'> {icon} </span>{capacity}% ";
+            format-charging = " 󱐋{capacity}%";
             format-alt = "{time}   {icon}";
             format-icons = [
-              ""
-              ""
-              ""
-              ""
-              ""
+              "󰂎"
+              "󰁼"
+              "󰁿"
+              "󰂁"
+              "󰁹"
+            ];
+            tooltip = true;
+          };
+
+          "bluetooth" = {
+            format = "<span color='#00BFFF'>  </span>{status} ";
+            format-connected = "<span color='#00BFFF'>  </span>{device_alias} ";
+            format-connected-battery = "<span color='#00BFFF'>  </span>{device_alias} {device_battery_percentage}% ";
+            tooltip-format = "{controller_alias}\t{controller_address}\n\n{num_connections} connected";
+            tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}";
+            tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
+            tooltip-format-enumerate-connected-battery = "{device_alias}\t{device_address}\t{device_battery_percentage}%";
+          };
+
+          "backlight" = {
+            device = "intel_backlight";
+            format = "<span color='#FFD700'>{icon}</span> {percent}% ";
+            tooltip = true;
+            format-icons = [
+              "<span color='#696969'> 󰃞 </span>"
+              "<span color='#A9A9A9'> 󰃝 </span>"
+              "<span color='#FFFF66'> 󰃟 </span>"
+              "<span color='#FFD700'> 󰃠 </span>"
             ];
           };
         };

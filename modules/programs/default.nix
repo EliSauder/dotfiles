@@ -3,6 +3,7 @@
 }:
 {
   imports = [
+    ./kubecolor
     ./qutebrowser
     ./dolphin
     ./remmina

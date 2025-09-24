@@ -74,7 +74,7 @@ in
   config = lib.mkIf cfg.enable {
     ui.waybar = {
       enable = true;
-      terminal = cfg.terminal;
+      terminal.cmd = "${cfg.commandPrefix}${lib.getExe' cfg.terminal.package cfg.terminal.exeName}";
     };
 
     ui.rofi.enable = true;

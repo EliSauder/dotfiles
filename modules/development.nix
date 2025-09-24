@@ -95,6 +95,8 @@ in
       };
     };
 
+    prog.kubecolor.enable = true;
+
     home.packages = [
       pkgs.util-linux
       pkgs.parallel
