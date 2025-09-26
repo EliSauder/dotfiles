@@ -41,7 +41,10 @@ in
     programs.fish.functions.homeupdate = "cd ${config.home.homeDirectory}/.dotfiles && nix flake update";
 
     prog.inkscape.enable = true;
-    prog.libreoffice.enable = true;
+    prog.libreoffice = {
+      enable = true;
+      commandPrefix = cfg.commandPrefix;
+    };
 
     prog.firefox = {
       enable = true;

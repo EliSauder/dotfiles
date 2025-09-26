@@ -10,6 +10,9 @@ in
 {
   options.prog = {
     libreoffice.enable = lib.mkEnableOption "Enable libreoffice";
+    libreoffice.commandPrefix = lib.mkOption {
+      default = "";
+    };
   };
 
   config = lib.mkIf cfg.enable {

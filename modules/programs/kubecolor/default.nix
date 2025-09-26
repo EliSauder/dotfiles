@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -12,10 +13,20 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    home.packages = [
+      pkgs.kubectl
+    ];
+
     programs.kubecolor = {
       enable = true;
       enableZshIntegration = true;
       enableAlias = true;
+    };
+
+    programs.fish = {
+      functions = {
+        kubectl = "kubecolor";
+      };
     };
   };
 }
