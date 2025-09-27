@@ -6,6 +6,7 @@
 }:
 let
   cfg = config.prog.mpd;
+  isDarwin = pkgs.stdenv.isDarwin;
 in
 {
   options.prog = {
@@ -22,7 +23,7 @@ in
       package = cfg.package;
     };
 
-    services.mpd-discord-rpc = {
+    services.mpd-discord-rpc = lib.mkIf (!isDarwin) {
       enable = cfg.enableDiscordRpc;
     };
   };

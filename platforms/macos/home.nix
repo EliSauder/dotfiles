@@ -35,6 +35,10 @@ in
     ../../modules
   ];
 
+  home.packages = [
+    pkgs.qbittorrent
+  ];
+
   programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-macos $argv";
 
   module.shared = {

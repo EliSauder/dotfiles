@@ -12,6 +12,8 @@ let
     types
     ;
 
+  isDarwin = pkgs.stdenv.isDarwin;
+
   cfg = config.prog.mopidy;
 
   toMopidyConf = generators.toINI {
@@ -84,11 +86,11 @@ let
           #pkgs.gst_all_1.gst-plugins-rs
           #pkgs.gst-plugin-spotify
           pkgs.gst-plugins-spotify
-      pkgs.gst_all_1.gst-plugins-bad
-      pkgs.gst_all_1.gst-plugins-base
-      pkgs.gst_all_1.gst-plugins-good
-      pkgs.gst_all_1.gst-plugins-ugly
-      pkgs.gst_all_1.gstreamer
+          pkgs.gst_all_1.gst-plugins-bad
+          pkgs.gst_all_1.gst-plugins-base
+          pkgs.gst_all_1.gst-plugins-good
+          pkgs.gst_all_1.gst-plugins-ugly
+          pkgs.gst_all_1.gstreamer
         ];
       }
     ))
@@ -158,7 +160,7 @@ in
       }
     ];
 
-    services.mpd-discord-rpc = {
+    services.mpd-discord-rpc = lib.mkIf (!isDarwin) {
       enable = cfg.enableDiscordRpc;
     };
 
