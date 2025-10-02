@@ -124,6 +124,7 @@ in
       pkgs.grpcui
       pkgs.nuget-to-json
       pkgs.winbox4
+      pkgs.inotify-info
 
       (dotnet-combined cfg.enableDotnet7)
     ];
