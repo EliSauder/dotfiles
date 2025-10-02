@@ -22,5 +22,9 @@ in
     home.packages = [
       pkgs.prismlauncher
     ];
+
+    prog.mopidy = {
+      enableDiscordRpc = true;
+    };
   };
 }

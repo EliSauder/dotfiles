@@ -74,7 +74,6 @@ in
     prog.mpc.enable = true;
     prog.mopidy = {
       enable = true;
-      enableDiscordRpc = true;
       commandPrefix = cfg.commandPrefix;
     };
 
