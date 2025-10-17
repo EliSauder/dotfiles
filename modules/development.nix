@@ -98,6 +98,8 @@ in
     prog.kubecolor.enable = true;
 
     home.packages = [
+      pkgs.delve
+      pkgs.gdlv
       pkgs.util-linux
       pkgs.parallel
       pkgs.rsync
