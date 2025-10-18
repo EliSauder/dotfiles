@@ -65,6 +65,8 @@ in
 
     prog.direnv.enable = true;
 
+    prog.grc.enable = true;
+
     prog.ssh = {
       enable = true;
     };
@@ -98,6 +100,7 @@ in
     prog.kubecolor.enable = true;
 
     home.packages = [
+      pkgs.wireshark
       pkgs.delve
       pkgs.gdlv
       pkgs.util-linux
@@ -120,7 +123,6 @@ in
       pkgs.fluxcd
       pkgs.gettext
       pkgs.dotnet-ef
-      #pkgs.pgadmin4
       pkgs.pgadmin4-desktopmode
       pkgs.grpcurl
       pkgs.grpcui

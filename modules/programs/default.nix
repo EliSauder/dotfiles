@@ -3,6 +3,7 @@
 }:
 {
   imports = [
+    ./grc
     ./kubecolor
     ./qutebrowser
     ./dolphin
