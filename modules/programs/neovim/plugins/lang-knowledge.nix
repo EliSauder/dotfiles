@@ -13,7 +13,7 @@
       enable = true;
       folding = true;
 
-      settings = {
+      config = {
         auto_install = false;
         highlight = {
           additional_vim_regex_highlighting = true;
@@ -71,7 +71,7 @@
 
     # treesitter-context = {
     #   enable = true;
-    #   settings.settings = {
+    #   config.settings = {
     #     max_lines = 2;
     #     multiline_threashold = 2;
     #   };
@@ -110,7 +110,7 @@
       clangd = {
         enable = true;
         package = pkgs.libclang;
-        settings = {
+        config = {
           filetypes = [
             "c"
             "cpp"
@@ -133,7 +133,7 @@
         enable = true;
         package = pkgs.omnisharp-roslyn;
 
-        settings = {
+        config = {
           FormattingOptions = {
             EnableEditorConfigSupport = true;
             OrganizeImports = true;
@@ -187,7 +187,7 @@
       #};
       jsonls = {
         enable = true;
-        settings = {
+        config = {
           cmd = [
             "vscode-json-language-server"
             "--stdio"
@@ -215,7 +215,7 @@
       lua_ls = {
         enable = true;
         package = pkgs.lua-language-server;
-        settings = {
+        config = {
           telemetry.enable = false;
           hint.enable = true;
         };
@@ -227,7 +227,7 @@
       yamlls = {
         enable = true;
         package = pkgs.yaml-language-server;
-        settings = {
+        config = {
           redhat.telemetry.enabled = false;
           yaml = {
             completion = true;
@@ -269,7 +269,7 @@
       gopls = {
         enable = true;
         package = pkgs.gopls;
-        settings = {
+        config = {
           filetypes = [
             "go"
             "gomod"
@@ -318,7 +318,7 @@
       superhtml = {
         enable = true;
         package = pkgs.superhtml;
-        settings = {
+        config = {
           cmd = [
             "${pkgs.superhtml}/bin/superhtml"
             "lsp"
@@ -328,7 +328,7 @@
       };
       nil_ls = {
         enable = true;
-        settings = {
+        config = {
           formatting.command = [ ];
           on_attach.function = ''
             client.server_capabilities.documentFormattingProvider = false
@@ -338,7 +338,7 @@
       };
       terraformls = {
         enable = true;
-        settings = {
+        config = {
           root_markers = [
             ".terraform"
             ".git"
@@ -355,7 +355,7 @@
       };
       nixd = {
         enable = true;
-        settings = {
+        config = {
           formatting.command = [ ];
           #on_attach.function = ''
           #  client.server_capabilities.documentFormattingProvider = false
