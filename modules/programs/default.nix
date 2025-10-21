@@ -4,6 +4,7 @@
 {
   imports = [
     ./grc
+    ./nmtui
     ./kubecolor
     ./qutebrowser
     ./dolphin
