@@ -22,15 +22,16 @@ in
 
     programs.git = {
       enable = true;
-      userName = "EliSauder";
-      userEmail = "24995216+EliSauder@users.noreply.github.com";
-      lfs.enable = true;
-      signing = {
-        key = "${config.home.homeDirectory}/.ssh/git_ed25519.pub";
-        signByDefault = true;
-        format = "ssh";
-      };
-      extraConfig = {
+      settings = {
+        user = {
+          name = "EliSauder";
+          email = "24995216+EliSauder@users.noreply.github.com";
+        };
+        aliases = {
+          s = "status";
+          co = "checkout";
+          cob = "checkout -b";
+        };
         pull = {
           rebase = true;
         };
@@ -38,16 +39,19 @@ in
           editor = "${cfg.editor}";
         };
       };
+      lfs.enable = true;
+      signing = {
+        key = "${config.home.homeDirectory}/.ssh/git_ed25519.pub";
+        signByDefault = true;
+        format = "ssh";
+      };
       maintenance.enable = true;
-      aliases = {
-        s = "status";
-        co = "checkout";
-        cob = "checkout -b";
-      };
-      difftastic = {
-        enable = true;
-        enableAsDifftool = true;
-      };
+    };
+
+    programs.difftastic = {
+      enable = true;
+      git.diffToolMode = true;
+      git.enable = true;
     };
 
   };
