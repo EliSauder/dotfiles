@@ -5,17 +5,17 @@
   ...
 }:
 let
-  cfg = config.prog.grc;
+  cfg = config.prog.nmtui;
 in
 {
   options.prog = {
-    grc.enable = lib.mkEnableOption "Enable git";
-    grc.package = lib.mkPackageOption pkgs "grc" { example = "grc"; };
+    nmtui.enable = lib.mkEnableOption "Enable git";
+    nmtui.package = lib.mkPackageOption pkgs "networkmanager" { example = "networkmanager"; };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.networkmanager
+      cfg.package
     ];
 
     xdg.configFile."nmtui/palette".text = ''

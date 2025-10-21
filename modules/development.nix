@@ -66,6 +66,7 @@ in
     prog.direnv.enable = true;
 
     prog.grc.enable = true;
+    prog.nmtui.enable = true;
 
     prog.ssh = {
       enable = true;
