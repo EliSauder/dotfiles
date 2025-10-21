@@ -13,7 +13,7 @@
       enable = true;
       folding = true;
 
-      config = {
+      settings = {
         auto_install = false;
         highlight = {
           additional_vim_regex_highlighting = true;
