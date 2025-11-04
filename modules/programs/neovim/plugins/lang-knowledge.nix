@@ -83,9 +83,11 @@
 
     treesitter-textobjects = {
       enable = true;
-      lspInterop.enable = true;
-      select.enable = true;
-      move.enable = true;
+      settings = {
+        lsp_interop.enable = true;
+        move.enable = true;
+        select.enable = true;
+      };
     };
 
     easy-dotnet = {

@@ -37,6 +37,8 @@ in
 
     prog.obs.enable = true;
 
+    prog.nmtui.enable = true;
+
     ui.hyprland = {
       enable = true;
       commandPrefix = cfg.commandPrefix;

@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgs-stable,
   lib,
   ...
 }:
@@ -66,7 +67,6 @@ in
     prog.direnv.enable = true;
 
     prog.grc.enable = true;
-    prog.nmtui.enable = true;
 
     prog.ssh = {
       enable = true;
@@ -101,7 +101,7 @@ in
     prog.kubecolor.enable = true;
 
     home.packages = [
-      pkgs.wireshark
+      pkgs-stable.wireshark
       pkgs.delve
       pkgs.gdlv
       pkgs.util-linux
@@ -129,7 +129,6 @@ in
       pkgs.grpcui
       pkgs.nuget-to-json
       pkgs.winbox4
-      pkgs.inotify-info
 
       (dotnet-combined cfg.enableDotnet7)
     ];

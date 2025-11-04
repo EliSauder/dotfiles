@@ -53,7 +53,7 @@ in
     };
 
     programs.git = lib.mkIf cfg.gitIntegration {
-      extraConfig = {
+      settings = {
         "gpg \"ssh\"" = {
           program = onePassSignPath;
         };
