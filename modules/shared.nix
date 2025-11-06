@@ -80,6 +80,7 @@ in
     home.packages = [
       pkgs.freerdp
       pkgs.poppler-utils
+      pkgs.imagemagick
     ];
 
     programs.home-manager.enable = true;
