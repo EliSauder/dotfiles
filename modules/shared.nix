@@ -79,6 +79,7 @@ in
 
     home.packages = [
       pkgs.freerdp
+      pkgs.poppler-utils
     ];
 
     programs.home-manager.enable = true;
