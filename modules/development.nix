@@ -130,6 +130,12 @@ in
       pkgs.nuget-to-json
       pkgs.winbox4
 
+      pkgs.kubectl-cnpg
+      pkgs.kubectl-tree
+      pkgs.kubectl-graph
+      pkgs.kubectl-ktop
+      pkgs.kubectl-doctor
+
       (dotnet-combined cfg.enableDotnet7)
     ];
   };
