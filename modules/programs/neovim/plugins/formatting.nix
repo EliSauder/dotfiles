@@ -5,6 +5,7 @@
     pkgs.codespell
     pkgs.nixfmt-rfc-style
     pkgs.fixjson
+    pkgs.grafana-alloy
   ];
 
   programs.nixvim.plugins = {
@@ -16,6 +17,7 @@
           flake = [ "nixfmt" ];
           cs = [ "clang-format" ];
           json = [ "fixjson" ];
+          alloy = [ "alloyfmt" ];
           "_" = [
             "trim_whitespace"
             "trim_newlines"
@@ -40,6 +42,13 @@
           };
           fixjson = {
             command = "${pkgs.fixjson}/bin/fixjson";
+          };
+          alloyfmt = {
+            command = "${pkgs.grafana-alloy}/bin/alloy";
+            stdin = true;
+            args = [
+              "fmt"
+            ];
           };
         };
       };
