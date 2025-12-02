@@ -36,6 +36,10 @@
           };
           codespell = {
             command = "${pkgs.codespell}/bin/codespell";
+            args = [
+              "--ignore-multiline-regex"
+              "codespell:ignore-begin.*codespell:ignore-end"
+            ];
           };
           nixfmt = {
             command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";

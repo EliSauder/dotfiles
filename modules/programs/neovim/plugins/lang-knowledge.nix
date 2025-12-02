@@ -7,6 +7,8 @@
     pkgs.nixd
     pkgs.omnisharp-roslyn
     pkgs.gopls
+    pkgs.tree-sitter
+    pkgs.nodejs-slim
   ];
   programs.nixvim.plugins = {
     treesitter = {
@@ -109,6 +111,22 @@
       bashls = {
         enable = true;
         package = pkgs.bash-language-server;
+        config = {
+          filetypes = [
+            "sh"
+            "bash"
+          ];
+          root_markers = [ ".git" ];
+          cmd = [
+            "bash-language-server"
+            "start"
+          ];
+          settings = {
+            bashIde = {
+              globPattern.__raw = "vim.env.GLOB_PATTERN or '*@(.sh|.inc|.bash|.command)'";
+            };
+          };
+        };
       };
       clangd = {
         enable = true;
@@ -121,16 +139,66 @@
             "objcpp"
             "cuda"
           ];
-          checkUpdates = true;
-          detectExtensionConflicts = true;
-          enableCodeCompletion = true;
-          restartAfterCrash = true;
-          semanticHighlighting = true;
-          serverCompletionRanking = true;
+
+          cmd = [ "clangd" ];
+
+          root_markers = [
+            ".clangd"
+            ".clang-tidy"
+            ".clang-format"
+            "compile_commands.json"
+            "compile_flags.txt"
+            "configure.ac"
+            ".git"
+          ];
+
+          capabilities = {
+            textDocument = {
+              completion = {
+                editsNearCursor = true;
+              };
+            };
+
+            offsetEncoding = [
+              "utf-8"
+              "utf-16"
+            ];
+          };
+
+          on_init.__raw = ''
+            function(client, init_result)
+              if init_result.offsetEncoding then
+                client.offset_encoding = init_result.offsetEncoding
+              end
+            end
+          '';
+
+          settings = {
+            checkUpdates = false;
+            detectExtensionConflicts = true;
+            enableCodeCompletion = true;
+            restartAfterCrash = true;
+            semanticHighlighting = true;
+            serverCompletionRanking = true;
+          };
         };
       };
       cmake = {
         enable = true;
+        config = {
+          cmd = [ "cmake-language-server" ];
+          filetypes = [ "cmake" ];
+          root_markers = [
+            "CMakePresets.json"
+            "CTestConfig.cmake"
+            ".git"
+            "build"
+            "cmake"
+          ];
+          init_options = {
+            buildDirectory = "build";
+          };
+        };
       };
       omnisharp = {
         enable = true;
@@ -219,43 +287,93 @@
         enable = true;
         package = pkgs.lua-language-server;
         config = {
-          telemetry.enable = false;
-          hint.enable = true;
+          cmd = [ "lua-language-server" ];
+          filetypes = [ "lua" ];
+          root_markers = [
+            ".emmyrc.json"
+            ".luarc.json"
+            ".luarc.jsonc"
+            ".luacheckrc"
+            ".stylua.toml"
+            "stylua.toml"
+            "selene.toml"
+            "selene.yml"
+            ".git"
+          ];
+          settings = {
+            Lua = {
+              codeLens.enable = true;
+              telemetry.enable = false;
+              hint.enable = true;
+            };
+          };
         };
       };
       lemminx = {
         enable = true;
         package = pkgs.lemminx;
+        config = {
+
+          cmd = [ "lemminx" ];
+          filetypes = [
+            "xml"
+            "xsd"
+            "xsl"
+            "xslt"
+            "svg"
+          ];
+          root_markers = [ ".git" ];
+        };
       };
       yamlls = {
         enable = true;
         package = pkgs.yaml-language-server;
         config = {
-          redhat.telemetry.enabled = false;
-          yaml = {
-            completion = true;
-            disableAdditionalProperties = false;
-            hover = true;
-            maxItemsComputed = 5000;
-            schemaStore = {
-              enable = true;
-              url = "https://www.schemastore.org/api/json/catalog.json";
-            };
-            tracke.server = "off";
-            track.server = "off";
-            validate = true;
-            format = {
-              enable = true;
-              singleQuote = false;
-              bracketSpacing = true;
-              printWidth = 80;
-              proseWrap = "preserve";
-            };
-            keyOrdering = false;
-            schemas = {
-              "https://json.schemastore.org/clang-format.json" = ".clang-format";
-              "https://json.schemastore.org/github-workflow.json" = "/.github/workflows/*";
-              "https://json.schemastore.org/clangd.json" = ".clangd";
+          cmd = [
+            "yaml-language-server"
+            "--stdio"
+          ];
+          filetypes = [
+            "yaml"
+            "yaml.docker-compose"
+            "yaml.gitlab"
+            "yaml.helm-values"
+          ];
+          root_markers = [
+            ".git"
+          ];
+          on_init.__raw = ''
+            function(client)
+              client.server_capabilities.documentFormattingProvider = true
+            end
+          '';
+          settings = {
+            redhat.telemetry.enabled = false;
+            yaml = {
+              completion = true;
+              disableAdditionalProperties = false;
+              hover = true;
+              maxItemsComputed = 5000;
+              schemaStore = {
+                enable = true;
+                url = "https://www.schemastore.org/api/json/catalog.json";
+              };
+              tracke.server = "off";
+              track.server = "off";
+              validate = true;
+              format = {
+                enable = true;
+                singleQuote = false;
+                bracketSpacing = true;
+                printWidth = 80;
+                proseWrap = "preserve";
+              };
+              keyOrdering = false;
+              schemas = {
+                "https://json.schemastore.org/clang-format.json" = ".clang-format";
+                "https://json.schemastore.org/github-workflow.json" = "/.github/workflows/*";
+                "https://json.schemastore.org/clangd.json" = ".clangd";
+              };
             };
           };
         };
@@ -264,13 +382,146 @@
       rust_analyzer = {
         enable = true;
         package = pkgs.rust-analyzer;
+        config = {
+          filetypes = [ "rust" ];
+          cmd = [ "rust-analyzer" ];
+          capabilities = {
+            experimental = {
+              serverStatusNotification = true;
+              commands = {
+                commands = [
+                  "rust-analyzer.showReferences"
+                  "rust-analyzer.runSingle"
+                  "rust-analyzer.debugSingle"
+                ];
+              };
+            };
+          };
+
+          settings = {
+            rust-analyzer = {
+              lens = {
+                debug.enable = true;
+                enable = true;
+                implementations.enable = true;
+                references = {
+                  adt.enable = true;
+                  enumVariant.enable = true;
+                  method.enable = true;
+                  trait.enable = true;
+                };
+                run.enable = true;
+                updateTest.enable = true;
+              };
+            };
+          };
+
+          root_dir.__raw = ''
+            function(bufnr, on_dir)
+              local fname = vim.api.nvim_buf_get_name(bufnr)
+              -- is_library
+              local user_home = vim.fs.normalize(vim.env.HOME)
+              local cargo_home = os.getenv 'CARGO_HOME' or user_home .. '/.cargo'
+              local registry = cargo_home .. '/registry/src'
+              local git_registry = cargo_home .. '/git/checkouts'
+
+              local rustup_home = os.getenv 'RUSTUP_HOME' or user_home .. '/.rustup'
+              local toolchains = rustup_home .. '/toolchains'
+
+              local reused_dir
+
+              for _, item in ipairs { toolchains, registry, git_registry } do
+                if vim.fs.relpath(item, fname) then
+                  local clients = vim.lsp.get_clients { name = 'rust_analyzer' }
+                  reused_dir = #clients > 0 and clients[#clients].config.root_dir or nil
+                  break
+                end
+              end
+
+              -- end is_library
+
+              if reused_dir then
+                on_dir(reused_dir)
+                return
+              end
+
+              local cargo_crate_dir = vim.fs.root(fname, { 'Cargo.toml' })
+              local cargo_workspace_root
+
+              if cargo_crate_dir == nil then
+                on_dir(
+                  vim.fs.root(fname, { 'rust-project.json' })
+                    or vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+                )
+                return
+              end
+
+              local cmd = {
+                'cargo',
+                'metadata',
+                '--no-deps',
+                '--format-version',
+                '1',
+                '--manifest-path',
+                cargo_crate_dir .. '/Cargo.toml',
+              }
+
+              vim.system(cmd, { text = true },
+                function(output)
+                  if output.code == 0 then
+                    if output.stdout then
+                      local result = vim.json.decode(output.stdout)
+                      if result['workspace_root'] then
+                        cargo_workspace_root = vim.fs.normalize(result['workspace_root'])
+                      end
+                    end
+
+                    on_dir(cargo_workspace_root or cargo_crate_dir)
+                  else
+                    vim.schedule(
+                      function()
+                        vim.notify(('[rust_analyzer] cmd failed with code %d: %s\n%s'):format(output.code, cmd, output.stderr))
+                      end)
+                  end
+                end)
+            end
+          '';
+        };
       };
       taplo = {
         enable = true;
         package = pkgs.taplo;
+        config = {
+          cmd = [
+            "taplo"
+            "lsp"
+            "stdio"
+          ];
+          filetypes = [ "toml" ];
+          root_markers = [
+            ".taplo.toml"
+            "taplo.toml"
+            ".git"
+          ];
+        };
+      };
+      # codespell:ignore-begin
+      protols = {
+        # codespell:ignore-end
+        enable = true;
+        package = pkgs.protobuf-language-server;
+        config = {
+          filetypes = [ "proto" ];
+          cmd = [
+            "protobuf-language-server"
+          ];
+          root_markers = [
+            ".git"
+          ];
+        };
       };
       buf_ls = {
-        enable = true;
+        enable = false;
         package = pkgs.buf;
         config = {
           filetypes = [ "proto" ];
@@ -285,8 +536,10 @@
             "buf.yaml"
             ".git"
           ];
-          reuse_client.function = ''
-            return client.name == config.name
+          reuse_client.__raw = ''
+            function(client, config)
+              return client.name == config.name
+            end
           '';
         };
       };
@@ -326,6 +579,20 @@
       zls = {
         enable = true;
         package = pkgs.zls;
+        config = {
+
+          cmd = [ "zls" ];
+          filetypes = [
+            "zig"
+            "zir"
+          ];
+          root_markers = [
+            "zls.json"
+            "build.zig"
+            ".git"
+          ];
+          workspace_required = false;
+        };
       };
       #ziggy = {
       #  enable = true;
@@ -353,10 +620,17 @@
       nil_ls = {
         enable = true;
         config = {
-          formatting.command = [ ];
-          on_attach.function = ''
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.documentRangeFormattingProvider = false
+          cmd = [ "nil" ];
+          filetypes = [ "nix" ];
+          root_markers = [
+            "flake.nix"
+            ".git"
+          ];
+          on_attach.__raw = ''
+            function(client, bufnr)
+              client.server_capabilities.documentFormattingProvider = false
+              client.server_capabilities.documentRangeFormattingProvider = false
+            end
           '';
         };
       };
