@@ -55,6 +55,7 @@
         markdown
         markdown_inline
         nix
+        proto
         regex
         ron
         rust
@@ -267,6 +268,27 @@
       taplo = {
         enable = true;
         package = pkgs.taplo;
+      };
+      buf_ls = {
+        enable = true;
+        package = pkgs.buf_ls;
+        config = {
+          filetypes = [ "proto" ];
+          cmd = [
+            "${pkgs.buf}/bin/buf"
+            "lsp"
+            "serve"
+            "--timeout=0"
+            "--log-format=text"
+          ];
+          root_markers = [
+            "buf.yaml"
+            ".git"
+          ];
+          reuse_client.function = ''
+            return client.name == config.name
+          '';
+        };
       };
       gopls = {
         enable = true;
