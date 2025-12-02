@@ -271,7 +271,7 @@
       };
       buf_ls = {
         enable = true;
-        package = pkgs.buf_ls;
+        package = pkgs.buf;
         config = {
           filetypes = [ "proto" ];
           cmd = [
