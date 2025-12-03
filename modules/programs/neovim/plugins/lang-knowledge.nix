@@ -506,22 +506,22 @@
         };
       };
       # codespell:ignore-begin
-      protols = {
-        # codespell:ignore-end
-        enable = true;
-        package = pkgs.protobuf-language-server;
-        config = {
-          filetypes = [ "proto" ];
-          cmd = [
-            "protobuf-language-server"
-          ];
-          root_markers = [
-            ".git"
-          ];
-        };
-      };
+      #protols = {
+      #  # codespell:ignore-end
+      #  enable = true;
+      #  package = pkgs.protobuf-language-server;
+      #  config = {
+      #    filetypes = [ "proto" ];
+      #    cmd = [
+      #      "protobuf-language-server"
+      #    ];
+      #    root_markers = [
+      #      ".git"
+      #    ];
+      #  };
+      #};
       buf_ls = {
-        enable = false;
+        enable = true;
         package = pkgs.buf;
         config = {
           filetypes = [ "proto" ];
