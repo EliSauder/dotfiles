@@ -71,6 +71,7 @@ in
             "wireplumber"
             "backlight"
             "battery"
+            "idle_inhibitor"
             "custom/reboot"
             "custom/power"
           ];
@@ -103,6 +104,13 @@ in
           "custom/power" = {
             format = "<span color='#FF4040'>  </span>";
             on-click = "systemctl poweroff";
+          };
+          "idle_inhibitor" = {
+            format = "{icon}";
+            format-icons = {
+              activated = "<span color='#00AD0E'>󰅶 </span>";
+              deactivated = "<span color='#037FFC'>󰾪 </span>";
+            };
           };
           "clock" = {
             interval = 1;

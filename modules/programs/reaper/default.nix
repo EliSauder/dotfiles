@@ -1,14 +1,22 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
-    cfg = config.prog.reaper;
-in {
-    options.prog = {
-        reaper.enable = lib.mkEnableOption "Enable reaper";
-    };
+  cfg = config.prog.reaper;
+in
+{
+  options.prog = {
+    reaper.enable = lib.mkEnableOption "Enable reaper";
+  };
 
-    config = lib.mkIf cfg.enable {
-        home.packages = [
-            pkgs.reaper
-        ];
-    };
+  config = lib.mkIf cfg.enable {
+    home.packages = [
+      pkgs.reaper
+      pkgs.winetricks
+      pkgs.wineWowPackages.yabridge
+    ];
+  };
 }

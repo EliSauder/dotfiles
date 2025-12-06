@@ -103,6 +103,7 @@ in
       "1password-cli"
       "vault-bin"
       "nvidia"
+      "reaper"
 
       # Browser plugins
       "onepassword-password-manager"

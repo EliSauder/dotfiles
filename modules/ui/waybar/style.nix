@@ -52,6 +52,7 @@
     }
 
     #custom-reboot,
+    #idle_inhibitor,
     #bluetooth,
     #battery,
     #wireplumber,
@@ -81,6 +82,7 @@
     #cpu:hover,
     #custom-lock:hover,
     #custom-reboot:hover,
+    #idle_inhibitor:hover,
     #custom-power:hover,
     /*#workspaces:hover,*/
     #clock:hover {

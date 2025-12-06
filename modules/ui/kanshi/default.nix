@@ -38,11 +38,15 @@ in
           output.alias = "personal-dt-mon-alt";
           output.criteria = "Microstep MAG321UX OLED 0x01010101";
           output.scale = 1.5;
+          output.adaptiveSync = false;
+          output.mode = "3840x2160@239.99";
         }
         {
           output.alias = "personal-dt-mon";
           output.criteria = "Microstep MAG321UX OLED Unknown";
           output.scale = 1.5;
+          output.adaptiveSync = false;
+          output.mode = "3840x2160@239.99";
         }
         {
           profile.name = "personal-alt";
