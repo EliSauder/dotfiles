@@ -1,6 +1,9 @@
-{pkgs, ...}: {
+{ ... }:
+{
   programs.nixvim.plugins = {
-    friendly-snippets = {enable = true;};
+    friendly-snippets = {
+      enable = true;
+    };
     mini = {
       enable = true;
       autoLoad = true;

@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 let
   version = "8ef7871ea20646b5d00c530ec4a2d5ce8639e2ed";
 in
@@ -7,7 +7,7 @@ in
     (pkgs.vimUtils.buildVimPlugin {
       name = "vim-alloy";
       version = "0.1.3";
-      src = pkgs.fetchFromGitHub rec {
+      src = pkgs.fetchFromGitHub {
         owner = "EliSauder";
         repo = "vim-alloy";
         rev = version;

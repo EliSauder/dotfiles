@@ -1,15 +1,50 @@
-{ pkgs, inputs, ... }:
+{ pkgs, lib, ... }:
 {
+  #home.packages = [
+  #  pkgs.dotnet-ef
+  #  pkgs.netcoredbg
+  #  pkgs.vscode-langservers-extracted
+  #  pkgs.nixd
+  #  pkgs.omnisharp-roslyn
+  #  pkgs.gopls
+  #  pkgs.tree-sitter
+  #  pkgs.nodejs-slim
+  #];
+
   home.packages = [
-    pkgs.dotnet-ef
-    pkgs.netcoredbg
-    pkgs.vscode-langservers-extracted
-    pkgs.nixd
-    pkgs.omnisharp-roslyn
-    pkgs.gopls
-    pkgs.tree-sitter
-    pkgs.nodejs-slim
+    pkgs.impl
   ];
+
+  programs.nixvim.extraPlugins = [
+    pkgs.vimPlugins.vim-go
+    (pkgs.vimUtils.buildVimPlugin {
+      name = "go-impl";
+      src = pkgs.fetchFromGitHub {
+        owner = "EliSauder";
+        repo = "go-impl.nvim";
+        rev = "a895ee26772325a2d4baba4a1224e6ede7857ee6";
+        hash = "sha256-NVcO2n4HnYx4P02jXqA5GCaXiN8ukc40BvJMpKucSSs=";
+      };
+      doCheck = false;
+      buildInputs = [
+        pkgs.impl
+        pkgs.fzf
+        pkgs.vimPlugins.plenary-nvim
+        pkgs.vimPlugins.nui-nvim
+        pkgs.vimPlugins.snacks-nvim
+      ];
+      dependencies = [
+        pkgs.vimPlugins.plenary-nvim
+        pkgs.vimPlugins.nui-nvim
+        pkgs.vimPlugins.snacks-nvim
+      ];
+    })
+  ];
+
+  programs.nixvim.extraConfigLua = ''
+    require("go-impl").setup({})
+  '';
+
   programs.nixvim.plugins = {
     treesitter = {
       enable = true;

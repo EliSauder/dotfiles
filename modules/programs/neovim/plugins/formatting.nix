@@ -2,7 +2,6 @@
 {
   home.packages = [
     pkgs.libclang
-    pkgs.codespell
     pkgs.nixfmt-rfc-style
     pkgs.fixjson
     pkgs.grafana-alloy
@@ -18,11 +17,11 @@
           cs = [ "clang-format" ];
           json = [ "fixjson" ];
           alloy = [ "alloyfmt" ];
+          proto = [ "buffmt" ];
           "_" = [
             "trim_whitespace"
             "trim_newlines"
           ];
-          "*" = [ "codespell" ];
         };
 
         format_on_save = {
@@ -31,15 +30,17 @@
         };
 
         formatters = {
+          buffmt = {
+            command = "${pkgs.buf}/bin/buf";
+            args = [
+              "format"
+              "$FILENAME"
+              "-w"
+            ];
+            stdin = false;
+          };
           clang-format = {
             command = "${pkgs.libclang}/bin/clang-format";
-          };
-          codespell = {
-            command = "${pkgs.codespell}/bin/codespell";
-            args = [
-              "--ignore-multiline-regex"
-              "codespell:ignore-begin.*codespell:ignore-end"
-            ];
           };
           nixfmt = {
             command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";

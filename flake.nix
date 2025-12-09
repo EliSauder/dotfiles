@@ -121,6 +121,9 @@
             pkgs-unstable = import inputs.nixpkgs-unstable {
               system = system;
             };
+            pkgs-nixvim = import inputs.nixvim {
+              system = system;
+            };
           };
           pkgs = import nixpkgs {
             system = system;

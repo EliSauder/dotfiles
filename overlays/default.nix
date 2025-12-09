@@ -1,6 +1,7 @@
 { config, ... }:
 {
   imports = [
+    ./impl.nix
     ./qutebrowser-dev.nix
     ./catppuccin-startpage
     ./gst-plugin-spotify.nix
