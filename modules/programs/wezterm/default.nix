@@ -22,7 +22,7 @@ in
       pkgs.nerd-fonts.fira-code
       pkgs.fira-code
       pkgs.fira-code-symbols
-      pkgs.fira-go
+      #pkgs.fira-go
       pkgs.fira-math
       pkgs.ipafont
     ];
