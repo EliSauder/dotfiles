@@ -13,5 +13,6 @@
     ./rust-overlay.nix
     ./omnisharp
     ./nixgl.nix
+    ./idrive.nix
   ];
 }

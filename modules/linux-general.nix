@@ -27,6 +27,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       pkgs.xwayland
+      pkgs.idrive
     ];
 
     home.homeDirectory = "/home/esauder";
