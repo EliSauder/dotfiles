@@ -16,6 +16,8 @@ in
     home.packages = [
       pkgs.reaper
       pkgs.winetricks
+    ]
+    ++ lib.optionals pkgs.stdenv.isLinux [
       pkgs.wineWowPackages.yabridge
     ];
   };

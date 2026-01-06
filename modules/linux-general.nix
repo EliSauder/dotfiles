@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  pkgs-stable,
   ...
 }:
 let
@@ -66,7 +65,7 @@ in
 
     prog.dolphin = {
       enable = true;
-      package = pkgs-stable.kdePackages.dolphin;
+      package = pkgs.kdePackages.dolphin;
       default = true;
     };
 

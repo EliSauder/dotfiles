@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  pkgs-stable,
   lib,
   ...
 }:
@@ -101,7 +100,7 @@ in
     prog.kubecolor.enable = true;
 
     home.packages = [
-      pkgs-stable.wireshark
+      pkgs.wireshark
       pkgs.delve
       pkgs.gdlv
       pkgs.util-linux

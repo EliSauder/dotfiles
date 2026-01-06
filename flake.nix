@@ -18,8 +18,8 @@
   };
 
   inputs = {
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
 
     ghostty = {
       url = "github:ghostty-org/ghostty";
@@ -28,7 +28,7 @@
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     catppuccin = {
@@ -36,7 +36,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -68,7 +68,7 @@
     gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
 
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "github:nix-community/nixvim/nixos-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -95,7 +95,7 @@
       gen-luarc,
       ziggy,
       nixpkgs,
-      nixpkgs-stable,
+      nixpkgs-unstable,
       home-manager,
       systems,
       hyprland,
@@ -118,7 +118,7 @@
             uses = [
               "personal"
             ];
-            pkgs-stable = import inputs.nixpkgs-stable {
+            pkgs-unstable = import inputs.nixpkgs-unstable {
               system = system;
             };
           };
@@ -140,7 +140,7 @@
             uses = [
               "personal"
             ];
-            pkgs-stable = import inputs.nixpkgs-stable {
+            pkgs-unstable = import inputs.nixpkgs-unstable {
               system = system;
             };
           };
@@ -162,7 +162,7 @@
             uses = [
               "work"
             ];
-            pkgs-stable = import inputs.nixpkgs-stable {
+            pkgs-unstable = import inputs.nixpkgs-unstable {
               system = system;
               overlays = [ nixgl.overlay ];
             };

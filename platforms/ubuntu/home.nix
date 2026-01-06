@@ -4,7 +4,6 @@
   config,
   lib,
   pkgs,
-  pkgs-stable,
   inputs,
   specialArgs,
   ...

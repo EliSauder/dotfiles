@@ -13,7 +13,7 @@
   programs.nixvim.plugins = {
     treesitter = {
       enable = true;
-      folding.enable = true;
+      folding = true;
 
       settings = {
         auto_install = false;
@@ -506,7 +506,7 @@
         };
       };
       # codespell:ignore-begin
-      #protols = {
+      #protocols = {
       #  # codespell:ignore-end
       #  enable = true;
       #  package = pkgs.protobuf-language-server;
