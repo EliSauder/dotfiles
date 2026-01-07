@@ -33,6 +33,8 @@ in
 
     home.sessionVariables.GTK_IM_MODULE = lib.mkForce "";
 
+    prog.gsmartcontrol.enable = true;
+
     services.gnome-keyring.enable = true;
 
     prog.obs.enable = true;
