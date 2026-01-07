@@ -19,6 +19,7 @@
           pkgs.autoPatchelfHook
           pkgs.makeWrapper
           pkgs.dpkg
+          pkgs.bash
         ];
 
         unpackPhase = ''
@@ -33,10 +34,7 @@
           cp -r "idrive/opt" "$out/"
           cp -r "idrive/usr/share" "$out/"
 
-          #"$out/opt/IDriveForLinux/resources/app.asar.unpacked/IdriveForLinux/idriveforlinux.bin" --install
-
-          #chown root:root "$out/opt/IDriveForLinux/chrome-sandbox"
-          #chmod 4755 "$out/opt/IDriveForLinux/chrome-sandbox"
+          bash -c "$out/opt/IDriveForLinux/resources/app.asar.unpacked/IdriveForLinux/idriveforlinux.bin --install"
 
           mkdir -p "$out/bin"
           ln -s "$out/opt/IDriveForLinux/idriveforlinux" "$out/bin/idriveforlinux"
