@@ -68,6 +68,8 @@ in
 
     prog.obsidian.enable = true;
 
+    prog.gsmartcontrol.enable = true;
+
     prog.rmpc.enable = true;
     prog.ncmpcpp.enable = true;
     prog.vimpc.enable = true;

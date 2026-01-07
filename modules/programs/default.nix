@@ -4,6 +4,7 @@
 {
   imports = [
     ./grc
+    ./gsmartcontrol
     ./nmtui
     ./kubecolor
     ./qutebrowser
