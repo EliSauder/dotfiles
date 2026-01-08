@@ -7,7 +7,7 @@
   ...
 }:
 let
-  hyprctlbin = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/bin/hyprctl";
+  hyprctlbin = "${inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland}/bin/hyprctl";
   cfg = config.ui.hypridle;
   isUbuntu = specialArgs.distro == "ubuntu";
 

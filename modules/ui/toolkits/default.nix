@@ -22,7 +22,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       pkgs.rose-pine-cursor
-      inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+      inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
       (pkgs.catppuccin-kvantum.override {
         accent = "teal";
         variant = "mocha";
@@ -118,7 +118,7 @@ in
         enable = true;
       };
       name = "BreezeX-RosePine-Linux";
-      #package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
+      #package = inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default;
       package = pkgs.rose-pine-cursor;
       hyprcursor = {
         size = 24;

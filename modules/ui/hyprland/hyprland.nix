@@ -9,7 +9,8 @@
 let
   cfg = config.ui.hyprland;
   isUbuntu = specialArgs.distro == "ubuntu";
-  systemXdgPortal = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+  systemXdgPortal =
+    inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
 in
 {
   imports = [
@@ -89,7 +90,7 @@ in
     catppuccin.hyprland.enable = true;
 
     home.packages = [
-      inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+      inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default
       pkgs.cliphist
       pkgs.wl-clipboard
       pkgs.swww
@@ -135,8 +136,9 @@ in
 
     wayland.windowManager.hyprland = {
       enable = true;
-      package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-      portalPackage = inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      portalPackage =
+        inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
       systemd.enable = true;
       systemd.variables = [ "--all" ];
       systemd.enableXdgAutostart = true;

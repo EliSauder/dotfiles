@@ -3,6 +3,7 @@
 }:
 {
   imports = [
+    ./syncthing
     ./grc
     ./gsmartcontrol
     ./nmtui

@@ -46,6 +46,8 @@ in
       commandPrefix = cfg.commandPrefix;
     };
 
+    prog.syncthing.enable = true;
+
     prog.firefox = {
       enable = true;
       setdefault = false;
