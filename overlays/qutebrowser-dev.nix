@@ -10,10 +10,10 @@
       qutebrowser-dev = prev.qutebrowser.overrideAttrs (oldAttrs: {
         src = pkgs.fetchgit {
           url = "https://github.com/coderkun/qutebrowser.git";
-          rev = "62d5407d2f33fe702a9f90620c21e5f68d996510";
+          rev = "dd377a79bbc737732f3fa4b77d70b27eedb0cfad";
           branchName = "issue-8533-fido2-user-verification";
-          sha256 = "sha256-5PFvAqgeJ6Y+AiA4LVHPYgbhWmpTEHjnqzjplNLyG28=";
-          #sha256 = "sha256-Uv5zQvmkfdib5j+y5nRw1VAqHnVNgVR58Mtxm5iXCOM=";
+          sha256 = "sha256-ctKfYRXPSB/hpt6jvHixBmXxCxQGp3BibOELJeRGV54=";
+          #sha256 = lib.fakeHash;
         };
       });
     })
