@@ -2,10 +2,12 @@
   config,
   pkgs,
   lib,
+  specialArgs,
   ...
 }:
 let
   cfg = config.module.shared;
+  usedForWork = builtins.elem "work" specialArgs.uses;
 in
 {
   imports = [
@@ -46,7 +48,7 @@ in
       commandPrefix = cfg.commandPrefix;
     };
 
-    prog.syncthing.enable = true;
+    prog.syncthing.enable = !usedForWork;
 
     prog.firefox = {
       enable = true;
