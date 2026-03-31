@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   specialArgs,
   ...
 }:
@@ -12,6 +11,7 @@ let
     paths = config.home.packages;
     pathsToLink = [ "/Applications" ];
   };
+  username = specialArgs.username;
 in
 {
   nixpkgs.config.allowUnfreePredicate =
@@ -38,15 +38,17 @@ in
     pkgs.qbittorrent
   ];
 
-  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-macos $argv";
+  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#${username}-macos $argv";
 
   module.shared = {
     enable = true;
     enableOnePasswordIntegrations = true;
+    username = username;
   };
 
   module.darwin-general = {
     enable = true;
+    username = username;
   };
 
   module.development = {
@@ -57,7 +59,7 @@ in
     enable = true;
   };
 
-  home.homeDirectory = "/Users/esauder";
+  home.homeDirectory = "/Users/${username}";
 
   home.activation = lib.mkIf pkgs.stdenv.isDarwin {
     addApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

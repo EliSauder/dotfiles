@@ -34,6 +34,10 @@ in
           hostname = "github.com";
           identityFile = "${config.home.homeDirectory}/.ssh/git_ed25519";
         };
+        hme = lib.hm.dag.entryAfter [ "*" ] {
+          hostname = "*.hme.com";
+          identityFile = "${config.home.homeDirectory}/.ssh/servers_ed25519";
+        };
       };
     };
 

@@ -24,10 +24,13 @@ in
     shared.commandPrefix = lib.mkOption {
       default = "";
     };
+    shared.username = lib.mkOption {
+      default = "emarusawa";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    home.username = "esauder";
+    home.username = cfg.username;
 
     xdg.configFile."nix/nix.conf".source = ./../config/nix/nix.conf;
 
@@ -68,6 +71,7 @@ in
       enable = true;
       gitIntegration = cfg.enableOnePasswordIntegrations;
       sshIntegration = cfg.enableOnePasswordIntegrations;
+      username = cfg.username;
     };
 
     prog.obsidian.enable = true;
@@ -88,7 +92,5 @@ in
     ];
 
     programs.home-manager.enable = true;
-
   };
-
 }

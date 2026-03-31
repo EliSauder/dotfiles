@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
@@ -15,6 +14,9 @@ in
 
   options.module = {
     darwin-general.enable = lib.mkEnableOption "Enable development module";
+    darwin-general.username = lib.mkOption {
+      default = "emarusawa";
+    };
   };
 
   config = lib.mkIf cfg.enable {

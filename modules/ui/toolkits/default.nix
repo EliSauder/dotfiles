@@ -59,6 +59,7 @@ in
         enable = true;
         force = true;
       };
+      qutebrowser.enable = true;
       kvantum.enable = false;
       fish.enable = false;
       gtk = {

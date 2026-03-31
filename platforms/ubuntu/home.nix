@@ -4,12 +4,12 @@
   config,
   lib,
   pkgs,
-  inputs,
   specialArgs,
   ...
 }:
 let
   nixGLStart = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ";
+  username = specialArgs.username;
 in
 {
   nixpkgs.config.allowUnfreePredicate =
@@ -32,11 +32,12 @@ in
     ../../modules
   ];
 
-  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-ubuntu --impure $argv";
+  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#${username}-ubuntu --impure $argv";
 
   systemd.user.sessionVariables = {
     PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH";
     GST_PLUGIN_PATH = "$HOME/.nix-profile/lib/gstreamer-1.0/";
+    #LD_LIBRARY_PATH = "/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu";
   };
 
   home.sessionVariables = {
@@ -47,12 +48,14 @@ in
     enable = true;
     enableOnePasswordIntegrations = false;
     commandPrefix = nixGLStart;
+    username = username;
   };
 
   module.linux-general = {
     enable = true;
     useNvidia = true;
     commandPrefix = nixGLStart;
+    username = username;
   };
 
   module.development = {

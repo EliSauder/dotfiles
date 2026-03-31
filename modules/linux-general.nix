@@ -21,6 +21,9 @@ in
     linux-general.commandPrefix = lib.mkOption {
       default = "";
     };
+    linux-general.username = lib.mkOption {
+      default = "emarusawa";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -28,7 +31,7 @@ in
       pkgs.xwayland
     ];
 
-    home.homeDirectory = "/home/esauder";
+    home.homeDirectory = "/home/${cfg.username}";
 
     home.sessionVariables.GTK_IM_MODULE = lib.mkForce "";
 

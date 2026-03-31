@@ -339,7 +339,7 @@ in
           "$mod, V, togglefloating,"
           "$mod, O, exec, uwsm app -- $menu -show-icons"
           #"$mod, R, exec, rofi -show drun -show-icons -log ~/rofi.log"
-          "$mod, S, togglesplit,"
+          "$mod, S, layoutmsg, togglesplit"
           #"$mod, D, exec, ${pkgs.discord}/bin/discord"
           "$mod, P, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.grim}/bin/grim -g \"$(${cfg.commandPrefix}${pkgs.slurp}/bin/slurp)\" \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..:: Slurp ::..\" \"partial screenshot captured\""
           "$mod SHIFT, P, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.grim}/bin/grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""

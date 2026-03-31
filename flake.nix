@@ -1,14 +1,14 @@
 {
-  description = "Home manager flake for esauder system";
+  description = "Home manager flake for esauder/emarusawa system";
   nixConfig = {
-    extra-substituters = [
+    substituters = [
       "https://ghostty.cachix.org"
       "https://hyprland.cachix.org"
       "https://nix-community.cachix.org"
       "https://nix-gaming.cachix.org"
       "https://cache.nixos.org"
     ];
-    extra-trusted-public-keys = [
+    trusted-public-keys = [
       "ghostty.cachix.org-1:QB389yTa6gTyneehvqG58y0WnHjQOqgnA+wBnpWWxns="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
@@ -25,6 +25,11 @@
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    #nix-ld = {
+    #  url = "github:Mic92/nix-ld";
+    #  inputs.nixpkgs.follows = "nixpkgs"
+    #};
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -46,7 +51,7 @@
 
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
+      #inputs.nixpkgs.follows = "nixpkgs";
     };
 
     rose-pine-hyprcursor = {
@@ -111,13 +116,14 @@
       packages = eachSystem (system: {
         home-manager.useGlobalPkgs = false;
         home-manager.useUserPackages = true;
-        homeConfigurations."esauder-macos" = home-manager.lib.homeManagerConfiguration {
+        homeConfigurations."emarusawa-macos" = home-manager.lib.homeManagerConfiguration {
           extraSpecialArgs = {
             inherit inputs system;
             distro = "darwin";
             uses = [
               "personal"
             ];
+            username = "emarusawa";
             pkgs-unstable = import inputs.nixpkgs-unstable {
               system = system;
             };
@@ -136,13 +142,40 @@
             sops-nix.homeManagerModules.sops
           ];
         };
-        homeConfigurations."esauder-nixos" = home-manager.lib.homeManagerConfiguration {
+        homeConfigurations."esauder-macos" = home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = {
+            inherit inputs system;
+            distro = "darwin";
+            uses = [
+              "personal"
+            ];
+            username = "esauder";
+            pkgs-unstable = import inputs.nixpkgs-unstable {
+              system = system;
+            };
+            pkgs-nixvim = import inputs.nixvim {
+              system = system;
+            };
+          };
+          pkgs = import nixpkgs {
+            system = system;
+          };
+          modules = [
+            ./platforms/macos/home.nix
+            (import ./overlays)
+            inputs.nixvim.homeModules.nixvim
+            catppuccin.homeModules.catppuccin
+            sops-nix.homeManagerModules.sops
+          ];
+        };
+        homeConfigurations."emarusawa-nixos" = home-manager.lib.homeManagerConfiguration {
           extraSpecialArgs = {
             inherit inputs system;
             distro = "nixos";
             uses = [
               "personal"
             ];
+            username = "emarusawa";
             pkgs-unstable = import inputs.nixpkgs-unstable {
               system = system;
             };
@@ -158,6 +191,54 @@
             catppuccin.homeModules.catppuccin
           ];
         };
+        homeConfigurations."esauder-nixos" = home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = {
+            inherit inputs system;
+            distro = "nixos";
+            uses = [
+              "personal"
+            ];
+            username = "esauder";
+            pkgs-unstable = import inputs.nixpkgs-unstable {
+              system = system;
+            };
+          };
+          pkgs = import nixpkgs {
+            system = system;
+          };
+          modules = [
+            ./platforms/nixos/home.nix
+            (import ./overlays)
+            inputs.nixvim.homeModules.nixvim
+            sops-nix.homeManagerModules.sops
+            catppuccin.homeModules.catppuccin
+          ];
+        };
+        homeConfigurations."emarusawa-ubuntu" = home-manager.lib.homeManagerConfiguration {
+          extraSpecialArgs = {
+            inherit inputs system;
+            distro = "ubuntu";
+            uses = [
+              "work"
+            ];
+            username = "emarusawa";
+            pkgs-unstable = import inputs.nixpkgs-unstable {
+              system = system;
+              overlays = [ nixgl.overlay ];
+            };
+          };
+          pkgs = import nixpkgs {
+            system = system;
+            overlays = [ nixgl.overlay ];
+          };
+          modules = [
+            ./platforms/ubuntu/home.nix
+            (import ./overlays)
+            inputs.nixvim.homeModules.nixvim
+            sops-nix.homeManagerModules.sops
+            catppuccin.homeModules.catppuccin
+          ];
+        };
         homeConfigurations."esauder-ubuntu" = home-manager.lib.homeManagerConfiguration {
           extraSpecialArgs = {
             inherit inputs system;
@@ -165,6 +246,7 @@
             uses = [
               "work"
             ];
+            username = "esauder";
             pkgs-unstable = import inputs.nixpkgs-unstable {
               system = system;
               overlays = [ nixgl.overlay ];

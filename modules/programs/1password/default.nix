@@ -27,13 +27,16 @@ in
     onepassword.gitIntegration = lib.mkOption {
       default = false;
     };
+    onepassword.username = lib.mkOption {
+      default = "emarusawa";
+    };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages = [
       (pkgs._1password-gui.overrideAttrs (
         fin: prev: {
-          polkitPolicyOwners = [ "esauder" ];
+          polkitPolicyOwners = [ cfg.username ];
           fixupPhase = ''
             runHook preFixup
             sed -i 's/Exec=\(.*\)/Exec=\1 --no-sandbox/' "$out/share/applications/${prev.pname}.desktop"
@@ -43,7 +46,7 @@ in
       ))
       (pkgs._1password-cli.overrideAttrs (
         fin: prev: {
-          polkitPolicyOwners = [ "esauder" ];
+          polkitPolicyOwners = [ cfg.username ];
         }
       ))
     ];

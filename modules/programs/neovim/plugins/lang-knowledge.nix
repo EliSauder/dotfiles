@@ -93,11 +93,13 @@
         markdown_inline
         nix
         proto
+        python
         regex
         ron
         rust
         sql
         ssh_config
+        terraform
         toml
         vim
         vimdoc
@@ -107,17 +109,18 @@
       ];
     };
 
-    # treesitter-context = {
-    #   enable = true;
-    #   config.settings = {
-    #     max_lines = 2;
-    #     multiline_threashold = 2;
-    #   };
-    #   luaConfig.post = ''
-    #     vim.cmd("hi TreesitterContextBottom gui=underline guisp=Grey")
-    #     vim.cmd("hi TreesitterContextLineNumberBottom gui=underline guisp=Grey")
-    #   '';
-    # };
+    treesitter-context = {
+      enable = true;
+      settings = {
+        max_lines = 2;
+        multiline_threashold = 1;
+        line_numbers = true;
+      };
+      luaConfig.post = ''
+        vim.cmd("hi TreesitterContextBottom gui=underline guisp=Grey")
+        vim.cmd("hi TreesitterContextLineNumberBottom gui=underline guisp=Grey")
+      '';
+    };
 
     treesitter-textobjects = {
       enable = true;
@@ -161,6 +164,21 @@
               globPattern.__raw = "vim.env.GLOB_PATTERN or '*@(.sh|.inc|.bash|.command)'";
             };
           };
+        };
+      };
+      pylsp = {
+        enable = true;
+        config = {
+          cmd = [ "pylsp" ];
+          filetypes = [ "python" ];
+          root_markers = [
+            "pyproject.toml"
+            "setup.py"
+            "setup.cfg"
+            "requirements.txt"
+            "Pipfile"
+            ".git"
+          ];
         };
       };
       clangd = {
@@ -240,15 +258,17 @@
         package = pkgs.omnisharp-roslyn;
 
         config = {
-          FormattingOptions = {
-            EnableEditorConfigSupport = true;
-            OrganizeImports = true;
-          };
+          settings = {
+            FormattingOptions = {
+              EnableEditorConfigSupport = true;
+              OrganizeImports = true;
+            };
 
-          RoslynExtensionOptions = {
-            enableImportCompletion = true;
-            enableDecompilationSupport = true;
-            enableAnalyzersSupport = true;
+            RoslynExtensionOptions = {
+              enableImportCompletion = true;
+              enableDecompilationSupport = true;
+              enableAnalyzersSupport = true;
+            };
           };
 
           #on_attach.function = ''
@@ -263,6 +283,7 @@
 
           root_markers = [
             ".sln"
+            ".slnx"
             ".csproj"
             "omnisharp.json"
             "function.json"
@@ -270,7 +291,7 @@
 
           cmd.__raw = ''
             {
-                '${pkgs.omnisharp-roslyn}/bin/OmniSharp',
+                vim.fn.executable('OmniSharp') == 1 and 'OmniSharp' or 'omnisharp',
                 '-z',
                 '--hostPID',
                 tostring(vim.fn.getpid()),

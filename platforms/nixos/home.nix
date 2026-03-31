@@ -1,11 +1,12 @@
 {
   config,
   lib,
-  pkgs,
-  inputs,
   specialArgs,
   ...
 }:
+let
+  username = specialArgs.username;
+in
 {
   nixpkgs.config.allowUnfreePredicate =
     pkg:
@@ -27,16 +28,18 @@
     ../../modules
   ];
 
-  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#esauder-nixos $argv";
+  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#${username}-nixos $argv";
 
   module.shared = {
     enable = true;
     enableOnePasswordIntegrations = false;
+    username = username;
   };
 
   module.linux-general = {
     enable = true;
     useNvidia = false;
+    username = username;
   };
 
   module.development = {

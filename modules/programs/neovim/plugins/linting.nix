@@ -39,6 +39,7 @@ in
 {
   home.packages = [
     pkgs.commitlint
+    pkgs.tflint
   ];
 
   programs.nixvim.plugins = {

@@ -75,6 +75,11 @@ in
           ];
         }
       );
+
+      aliases = {
+        "darkmode" = "config-cycle colors.webpage.darkmode.enabled";
+      };
+
       quickmarks = {
         gh = "https://github.com";
         yt = "https://www.youtube.com";
@@ -104,6 +109,10 @@ in
       };
 
       settings = {
+        session.lazy_restore = true;
+        tabs = {
+          background = true;
+        };
         auto_save.session = true;
 
         colors.webpage = {
@@ -133,11 +142,15 @@ in
 
         hints = {
           chars = "arstdoienh";
+          find_implementation = "javascript";
         };
 
         input = {
           insert_mode = {
-            auto_load = true;
+            auto_enter = true;
+            auto_leave = true;
+            leave_on_load = true;
+            auto_load = false;
           };
           spatial_navigation = true;
         };
@@ -162,10 +175,17 @@ in
           pdfjs = true;
           default_encoding = "utf-8";
           hyperlink_auditing = true;
+          autoplay = false;
           blocking = {
             enabled = true;
             method = "both";
           };
+
+          #cookies.accept = "no-unknown-3rdparty";
+
+          frame_flattening = true;
+
+          cache.appcache = true;
         };
       };
 
