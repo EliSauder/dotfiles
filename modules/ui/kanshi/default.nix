@@ -24,7 +24,7 @@ in
   config = lib.mkIf cfg.enable {
     services.kanshi = {
       enable = true;
-      #systemdTarget = "hyprland-session.target";
+      systemdTarget = "hyprland-session.target";
       settings = [
         {
           output.alias = "work-primary-mon";
