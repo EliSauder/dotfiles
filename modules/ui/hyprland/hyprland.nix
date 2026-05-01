@@ -344,7 +344,7 @@ in
           "$mod, P, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.grim}/bin/grim -g \"$(${cfg.commandPrefix}${pkgs.slurp}/bin/slurp)\" \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..:: Slurp ::..\" \"partial screenshot captured\""
           "$mod SHIFT, P, exec, uwsm app -- ${cfg.commandPrefix}${pkgs.grim}/bin/grim \"$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')\" && notify-send \"..::  Grim  ::..\" \"screenshot captured successfully\""
           "$mod, E, exec, uwsm app -- $fileManager"
-          "$mod, K, exec, systemctl --user restart kanshi"
+          "$mod, K, exec, systemctl --user restart kanshi; systemctl --user restart waybar"
 
           "$mod, left, movefocus, l"
           "$mod, h, movefocus, l"
