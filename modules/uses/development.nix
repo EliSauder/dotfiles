@@ -74,6 +74,13 @@ in
 
     prog.ghostty.enable = true;
 
+    prog.ollama = {
+      enable = true;
+      models = [
+        "sweepai/sweep-next-edit"
+      ];
+    };
+
     prog.neovim.enable = true;
     prog.gitws.enable = true;
     prog.git = {
