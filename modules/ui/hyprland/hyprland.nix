@@ -224,7 +224,7 @@ in
           ];
         };
         dwindle = {
-          pseudotile = true;
+          #pseudotile = true;
           preserve_split = true;
           smart_split = "no";
         };
@@ -260,11 +260,11 @@ in
           "blur on, match:namespace wofi"
           "blur on, match:namespace notifications"
           "blur on, match:namespace anyrun"
-          "ignore_alpha on, match:namespace waybar"
-          "ignore_alpha on, match:namespace gtk-layer-shell"
-          "ignore_alpha on, match:namespace wofi"
-          "ignore_alpha on, match:namespace notifications"
-          "ignore_alpha on, match:namespace anyrun"
+          #"ignore_alpha on, match:namespace waybar"
+          #"ignore_alpha on, match:namespace gtk-layer-shell"
+          #"ignore_alpha on, match:namespace wofi"
+          #"ignore_alpha on, match:namespace notifications"
+          #"ignore_alpha on, match:namespace anyrun"
           "no_anim on, match:namespace wofi"
           "no_anim on, match:namespace selection"
           "no_anim on, match:namespace hyprpicker"

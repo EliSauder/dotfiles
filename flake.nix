@@ -19,7 +19,7 @@
 
   inputs = {
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
     ghostty = {
       url = "github:ghostty-org/ghostty";
@@ -37,11 +37,11 @@
     };
 
     catppuccin = {
-      url = "github:catppuccin/nix/release-25.11";
+      url = "github:catppuccin/nix/release-26.05";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -73,12 +73,7 @@
     gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
 
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    ziggy = {
-      url = "github:kristoff-it/ziggy";
+      url = "github:nix-community/nixvim/nixos-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -98,7 +93,6 @@
       nixvim,
       nixgl,
       gen-luarc,
-      ziggy,
       nixpkgs,
       nixpkgs-unstable,
       home-manager,

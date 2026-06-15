@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  pkgs-unstable,
+  lib,
+  ...
+}:
 {
   #home.packages = [
   #  pkgs.dotnet-ef
@@ -578,11 +583,11 @@
       };
       buf_ls = {
         enable = false;
-        package = pkgs.buf;
+        package = pkgs-unstable.buf;
         config = {
           filetypes = [ "proto" ];
           cmd = [
-            "${pkgs.buf}/bin/buf"
+            "buf"
             "lsp"
             "serve"
             "--timeout=0"
@@ -618,17 +623,29 @@
 
           cmd = [ "${pkgs.gopls}/bin/gopls" ];
 
-          gopls = {
-            completeUnimported = true;
-            usePlaceholders = true;
-            semanticTokens = true;
-            analyses = {
-              unusedparams = true;
-              unusedwrite = true;
-              useany = true;
-              shadow = true;
+          settings = {
+            gopls = {
+              workspaceFiles = [
+                "**/BUILD"
+                "**/WORKSPACE"
+                "**/*{bzl,bazel}"
+              ];
+              directoryFilters = [
+                "-bazel-out"
+                "-bazel-bin"
+                "-bazel-testlogs"
+              ];
+              completeUnimported = true;
+              usePlaceholders = true;
+              semanticTokens = true;
+              analyses = {
+                unusedparams = true;
+                unusedwrite = true;
+                useany = true;
+                shadow = true;
+              };
+              staticcheck = true;
             };
-            staticcheck = true;
           };
         };
       };

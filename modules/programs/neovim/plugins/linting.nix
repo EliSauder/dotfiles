@@ -33,7 +33,7 @@ let
       fi
     done
 
-    exec "${pkgs.api-linter}/bin/api-linter" "''${out_args[@]}"
+    exec "api-linter" "''${out_args[@]}"
   ''}/bin/apilinterwrapper.sh";
 in
 {

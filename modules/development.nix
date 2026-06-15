@@ -20,7 +20,7 @@ let
     )).overrideAttrs
       (
         finalAttrs: previousAttrs: {
-          postBuild = (previousAttrs.postBuild or '''') + ''
+          postBuild = (previousAttrs.postBuild or "") + ''
             for i in $out/sdk/*
             do
               i=$(basename $i)
@@ -55,10 +55,15 @@ in
     home.sessionVariables = {
       DOTNET_ROOT = "${dotnet-combined cfg.enableDotnet7}";
     };
+    nixpkgs.config = lib.mkIf cfg.enableDotnet7 {
+      permittedInsecurePackages = [
+        "dotnet-sdk-7.0.410"
+      ];
+    };
 
-    nixpkgs.config.permittedInsecurePackages = lib.mkIf cfg.enableDotnet7 [
-      "dotnet-sdk-7.0.410"
-    ];
+    #nixpkgs.config.permittedInsecurePackages = lib.mkIf cfg.enableDotnet7 [
+    #  "dotnet-sdk-7.0.410"
+    #];
 
     module.development-linux.enable = pkgs.stdenv.isLinux;
     module.development-darwin.enable = pkgs.stdenv.isDarwin;

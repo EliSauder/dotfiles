@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 {
   home.packages = [
     pkgs.libclang
@@ -31,7 +31,7 @@
 
         formatters = {
           buffmt = {
-            command = "${pkgs.buf}/bin/buf";
+            command = "buf";
             args = [
               "format"
               "$FILENAME"

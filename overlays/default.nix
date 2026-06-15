@@ -10,7 +10,6 @@
     ./fonts
     ./nur.nix
     ./tmux-harpoon.nix
-    ./ziggy.nix
     ./rust-overlay.nix
     ./omnisharp
     ./nixgl.nix
