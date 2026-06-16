@@ -5,24 +5,24 @@
   ...
 }:
 let
-  cfg = config.modules;
+  cfg = config.module.general;
 in
 {
   imports = [
     ../programs
     ../ui
-    ./personal.nix
-    ./work.nix
-    ./development.nix
   ];
 
-  options.modules = {
-    enable = lib.mkEnableOption "Enable development module";
-    uses = lib.mkOption {
-      default = [ ];
-    };
-    username = lib.mkOption {
+  options.module = {
+    general.enable = lib.mkEnableOption "Enable development module";
+    general.username = lib.mkOption {
       default = "emarusawa";
+    };
+    general.commandPrefix = lib.mkOption {
+      default = "";
+    };
+    general.uses = lib.mkOption {
+      default = [ ];
     };
   };
 
@@ -46,22 +46,9 @@ in
 
     prog.onepassword = {
       enable = true;
-      gitIntegration = builtins.elem "personal" cfg.uses && builtins.elem "development" cfg.uses;
-      sshIntegration = builtins.elem "personal" cfg.uses && builtins.elem "development" cfg.uses;
+      gitIntegration = (builtins.elem "personal" cfg.uses) && (builtins.elem "development" cfg.uses);
+      sshIntegration = (builtins.elem "personal" cfg.uses) && (builtins.elem "development" cfg.uses);
       username = cfg.username;
-    };
-
-    module.work = lib.mkIf builtins.elem "work" cfg.uses {
-      enable = true;
-    };
-
-    module.personal = lib.mkIf builtins.elem "personal" cfg.uses {
-      enable = true;
-    };
-
-    module.development = lib.mkIf builtins.elem "development" cfg.uses {
-      enable = true;
-      enableDotnet7 = lib.mkIf builtins.elem "work" cfg.uses;
     };
   };
 }

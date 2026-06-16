@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.module.linux;
+  cfg = config.platform.linux;
 in
 {
   imports = [

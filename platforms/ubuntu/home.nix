@@ -61,6 +61,7 @@ in
     enable = true;
     uses = uses;
     username = username;
+    commandPrefix = nixGLStart;
   };
 
   #module.shared = {

@@ -15,6 +15,9 @@ in
 
   options.module = {
     personal.enable = lib.mkEnableOption "Enable personal module";
+    personal.commandPrefix = lib.mkOption {
+      default = "";
+    };
   };
 
   config = lib.mkIf cfg.enable {

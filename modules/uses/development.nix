@@ -61,10 +61,6 @@ in
       ];
     };
 
-    #nixpkgs.config.permittedInsecurePackages = lib.mkIf cfg.enableDotnet7 [
-    #  "dotnet-sdk-7.0.410"
-    #];
-
     module.development-linux.enable = pkgs.stdenv.isLinux;
     module.development-darwin.enable = pkgs.stdenv.isDarwin;
 
