@@ -65,7 +65,6 @@ in
       gtk = {
         icon.enable = true;
       };
-      hyprland.enable = true;
       hyprlock.enable = true;
       k9s.enable = true;
       librewolf.enable = true;
