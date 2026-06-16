@@ -7,7 +7,7 @@
 let
   cfg = config.prog.ssh;
   isLinux = pkgs.stdenv.isLinux;
-  isDarwin = pkgs.stdenv.isDarwin;
+  #isDarwin = pkgs.stdenv.isDarwin;
 in
 {
   options.prog = {
@@ -20,23 +20,24 @@ in
       enableDefaultConfig = false;
       settings = {
         "*" = {
-          hashKnownHosts = true;
-          forwardAgent = false;
-          addKeysToAgent = "confirm";
-          serverAliveInterval = 3;
-          serverAliveCountMax = 3;
-          userKnownHostsFile = "~/.ssh/known_hosts";
-          controlMaster = "auto";
-          controlPath = "~/.ssh/master-%r@%h:%p";
-          controlPersist = "2h";
+          HashKnownHosts = true;
+          ForwardAgent = false;
+          AddKeysToAgent = "confirm";
+          ServerAliveInterval = 3;
+          ServerAliveCountMax = 3;
+          UserKnownHostsFile = "~/.ssh/known_hosts";
+          ControlMaster = "auto";
+          ControlPath = "~/.ssh/master-%r@%h:%p";
+          ControlPersist = "2h";
         };
         github = lib.hm.dag.entryAfter [ "*" ] {
-          hostname = "github.com";
-          identityFile = "${config.home.homeDirectory}/.ssh/git_ed25519";
+          HostName = "github.com";
+          User = "git";
+          IdentityFile = "${config.home.homeDirectory}/.ssh/git_ed25519";
         };
         hme = lib.hm.dag.entryAfter [ "*" ] {
-          hostname = "*.hme.com";
-          identityFile = "${config.home.homeDirectory}/.ssh/servers_ed25519";
+          HostName = "*.hme.com";
+          IdentityFile = "${config.home.homeDirectory}/.ssh/servers_ed25519";
         };
       };
     };
