@@ -21,15 +21,32 @@
       enable = true;
       autoLoad = true;
       settings = {
+        columns = [
+          "icon"
+          "mtime"
+        ];
         use_default_keymaps = false;
         default_file_explorer = true;
         keymaps = {
           "<CR>" = "actions.select";
+          "<leader>os" = [
+            "actions.change_sort"
+          ];
         };
         win_options = {
           signcolumn = "yes:2";
         };
         view_options = {
+          sort = [
+            [
+              "type"
+              "asc"
+            ]
+            [
+              "name"
+              "asc"
+            ]
+          ];
           natural_order = true;
           show_hidden = true;
         };
