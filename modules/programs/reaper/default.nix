@@ -18,7 +18,7 @@ in
       pkgs.winetricks
     ]
     ++ lib.optionals pkgs.stdenv.isLinux [
-      pkgs.wineWowPackages.yabridge
+      pkgs.wineWow64Packages.yabridge
     ];
   };
 }

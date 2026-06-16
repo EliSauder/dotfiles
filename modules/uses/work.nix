@@ -5,26 +5,25 @@
   ...
 }:
 let
-  cfg = config.module.play;
+  cfg = config.module.work;
 in
 {
   imports = [
-    ./programs
-    ./ui
+    ../programs
+    ../ui
   ];
 
   options.module = {
-    play.enable = lib.mkEnableOption "Enable development module";
+    work.enable = lib.mkEnableOption "Enable development module";
   };
 
   config = lib.mkIf cfg.enable {
-    prog.discord.enable = true;
-    home.packages = [
-      pkgs.prismlauncher
-    ];
+    prog.remmina.enable = true;
 
-    prog.mopidy = {
-      enableDiscordRpc = true;
-    };
+    home.packages = [
+      pkgs.freerdp
+      pkgs.poppler-utils
+      pkgs.imagemagick
+    ];
   };
 }

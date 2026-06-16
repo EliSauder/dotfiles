@@ -89,7 +89,6 @@
         javascript
         json
         json5
-        jsonc
         latex
         lua
         luap

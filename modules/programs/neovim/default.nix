@@ -49,6 +49,7 @@ in
       vimAlias = true;
       defaultEditor = true;
       vimdiffAlias = true;
+      nixpkgs.pkgs = pkgs;
 
       nixpkgs.useGlobalPackages = false;
     };

@@ -4,7 +4,6 @@
   ...
 }:
 {
-
   home.packages = [
     pkgs.sops
     pkgs.age

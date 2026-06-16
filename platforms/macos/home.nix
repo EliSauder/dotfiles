@@ -12,54 +12,60 @@ let
     pathsToLink = [ "/Applications" ];
   };
   username = specialArgs.username;
+  uses = specialArgs.uses;
 in
 {
   nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "discord"
-      "flagfox"
-      "languagetool"
-      "reaper"
-      "1password"
-      "1password-cli"
-      "onepassword-password-manager"
-      "winbox"
-      "mqtt-explorer"
-      "terraform"
-      "obsidian"
-    ];
+    let
+      whitelist = map lib.getName [
+        pkgs.vimPlugins.cmp-vimwiki-tags
+        pkgs.vimPlugins.transparent-nvim
+        pkgs.vimPlugins.git-conflict-nvim
+        pkgs.discord
+        pkgs.nur.repos.rycee.firefox-addons.flagfox
+        pkgs.nur.repos.rycee.firefox-addons.languagetool
+        pkgs.reaper
+        pkgs._1password-gui
+        pkgs._1password-cli
+        pkgs.nur.repos.rycee.firefox-addons.onepassword-password-manager
+        pkgs.winbox
+        pkgs.mqtt-explorer
+        pkgs.terraform
+        pkgs.obsidian
+      ];
+    in
+    pkg: builtins.elem (lib.getName pkg) whitelist;
 
   imports = [
     ../../modules
   ];
 
-  home.packages = [
-    pkgs.qbittorrent
-  ];
-
   programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#${username}-macos $argv";
 
-  module.shared = {
-    enable = true;
-    enableOnePasswordIntegrations = true;
-    username = username;
-  };
-
-  module.darwin-general = {
+  platform.darwin = {
     enable = true;
     username = username;
   };
 
-  module.development = {
-    enable = true;
+  modules = {
+    enabled = true;
+    uses = uses;
+    username = username;
   };
 
-  module.play = {
-    enable = true;
-  };
+  #module.shared = {
+  #  enable = true;
+  #  enableOnePasswordIntegrations = true;
+  #  username = username;
+  #};
 
-  home.homeDirectory = "/Users/${username}";
+  #module.development = {
+  #  enable = true;
+  #};
+
+  #module.play = {
+  #  enable = true;
+  #};
 
   home.activation = lib.mkIf pkgs.stdenv.isDarwin {
     addApplications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

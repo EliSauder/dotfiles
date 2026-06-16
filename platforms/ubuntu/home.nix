@@ -10,29 +10,35 @@
 let
   nixGLStart = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ";
   username = specialArgs.username;
+  uses = specialArgs.uses;
 in
 {
   nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "discord"
-      "flagfox"
-      "languagetool"
-      "reaper"
-      "1password"
-      "1password-cli"
-      "onepassword-password-manager"
-      "winbox"
-      "mqtt-explorer"
-      "terraform"
-      "obsidian"
-    ];
+    let
+      whitelist = map lib.getName [
+        pkgs.vimPlugins.cmp-vimwiki-tags
+        pkgs.vimPlugins.transparent-nvim
+        pkgs.vimPlugins.git-conflict-nvim
+        pkgs.discord
+        pkgs.nur.repos.rycee.firefox-addons.flagfox
+        pkgs.nur.repos.rycee.firefox-addons.languagetool
+        pkgs.reaper
+        pkgs._1password-gui
+        pkgs._1password-cli
+        pkgs.nur.repos.rycee.firefox-addons.onepassword-password-manager
+        pkgs.winbox
+        pkgs.mqtt-explorer
+        pkgs.terraform
+        pkgs.obsidian
+      ];
+    in
+    pkg: builtins.elem (lib.getName pkg) whitelist;
 
   imports = [
     ../../modules
   ];
 
-  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#${username}-ubuntu --impure $argv";
+  programs.fish.functions.homebuild = "home-manager switch --flake \"${config.home.homeDirectory}/.dotfiles#${username}-ubuntu\" --impure $argv";
 
   systemd.user.sessionVariables = {
     PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH";
@@ -44,27 +50,40 @@ in
     GST_PLUGIN_PATH = "$HOME/.nix-profile/lib/gstreamer-1.0/";
   };
 
-  module.shared = {
-    enable = true;
-    enableOnePasswordIntegrations = false;
-    commandPrefix = nixGLStart;
-    username = username;
-  };
-
-  module.linux-general = {
+  platform.linux = {
     enable = true;
     useNvidia = true;
     commandPrefix = nixGLStart;
     username = username;
   };
 
-  module.development = {
+  modules = {
     enable = true;
+    uses = uses;
+    username = username;
   };
 
-  module.play = {
-    enable = false;
-  };
+  #module.shared = {
+  #  enable = true;
+  #  enableOnePasswordIntegrations = false;
+  #  commandPrefix = nixGLStart;
+  #  username = username;
+  #};
+
+  #module.linux-general = {
+  #  enable = true;
+  #  useNvidia = true;
+  #  commandPrefix = nixGLStart;
+  #  username = username;
+  #};
+
+  #module.development = {
+  #  enable = true;
+  #};
+
+  #module.play = {
+  #  enable = false;
+  #};
 
   targets.genericLinux.enable = true;
 

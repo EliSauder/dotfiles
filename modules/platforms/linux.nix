@@ -5,33 +5,38 @@
   ...
 }:
 let
-  cfg = config.module.linux-general;
+  cfg = config.module.linux;
 in
 {
   imports = [
-    ./programs
-    ./ui
+    ../programs
+    ../ui
   ];
 
-  options.module = {
-    linux-general.enable = lib.mkEnableOption "Enable development module";
-    linux-general.useNvidia = lib.mkOption {
+  options.platform = {
+    linux.enable = lib.mkEnableOption "Enable development module";
+    linux.useNvidia = lib.mkOption {
       default = false;
     };
-    linux-general.commandPrefix = lib.mkOption {
+    linux.commandPrefix = lib.mkOption {
       default = "";
     };
-    linux-general.username = lib.mkOption {
+    linux.username = lib.mkOption {
       default = "emarusawa";
+    };
+    linux.homeDirectory = lib.mkOption {
+      default = "/home/${cfg.username}";
     };
   };
 
   config = lib.mkIf cfg.enable {
+    home.username = cfg.username;
+
     home.packages = [
       pkgs.xwayland
     ];
 
-    home.homeDirectory = "/home/${cfg.username}";
+    home.homeDirectory = cfg.homeDirectory;
 
     home.sessionVariables.GTK_IM_MODULE = lib.mkForce "";
 
@@ -89,6 +94,7 @@ in
       userDirs = {
         enable = true;
         createDirectories = true;
+        setSessionVariables = true;
       };
       mime.enable = true;
       mimeApps = {

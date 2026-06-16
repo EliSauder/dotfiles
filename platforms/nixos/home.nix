@@ -14,6 +14,7 @@ in
       "discord"
       "flagfox"
       "languagetool"
+      "cmp-vimwiki-tags"
       "reaper"
       "1password"
       "1password-cli"

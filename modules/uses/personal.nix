@@ -5,26 +5,40 @@
   ...
 }:
 let
-  cfg = config.module.play;
+  cfg = config.module.personal;
 in
 {
   imports = [
-    ./programs
-    ./ui
+    ../programs
+    ../ui
   ];
 
   options.module = {
-    play.enable = lib.mkEnableOption "Enable development module";
+    personal.enable = lib.mkEnableOption "Enable personal module";
   };
 
   config = lib.mkIf cfg.enable {
+    prog.reaper.enable = true;
     prog.discord.enable = true;
+    prog.syncthing.enable = true;
     home.packages = [
       pkgs.prismlauncher
+      pkgs.qbittorrent
     ];
 
     prog.mopidy = {
       enableDiscordRpc = true;
+    };
+
+    prog.obsidian.enable = true;
+
+    prog.rmpc.enable = true;
+    prog.ncmpcpp.enable = true;
+    prog.vimpc.enable = true;
+    prog.mpc.enable = true;
+    prog.mopidy = {
+      enable = true;
+      commandPrefix = cfg.commandPrefix;
     };
   };
 }

@@ -2,7 +2,7 @@
 {
   home.packages = [
     pkgs.libclang
-    pkgs.nixfmt-rfc-style
+    pkgs.nixfmt
     pkgs.fixjson
     pkgs.grafana-alloy
   ];
@@ -43,7 +43,7 @@
             command = "${pkgs.libclang}/bin/clang-format";
           };
           nixfmt = {
-            command = "${pkgs.nixfmt-rfc-style}/bin/nixfmt";
+            command = "${pkgs.nixfmt}/bin/nixfmt";
           };
           fixjson = {
             command = "${pkgs.fixjson}/bin/fixjson";

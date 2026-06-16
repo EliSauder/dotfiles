@@ -74,7 +74,6 @@
 
     nixvim = {
       url = "github:nix-community/nixvim/nixos-26.05";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     rust-overlay = {
@@ -116,6 +115,7 @@
             distro = "darwin";
             uses = [
               "personal"
+              "development"
             ];
             username = "emarusawa";
             pkgs-unstable = import inputs.nixpkgs-unstable {
@@ -142,6 +142,7 @@
             distro = "darwin";
             uses = [
               "personal"
+              "development"
             ];
             username = "esauder";
             pkgs-unstable = import inputs.nixpkgs-unstable {
@@ -168,6 +169,7 @@
             distro = "nixos";
             uses = [
               "personal"
+              "development"
             ];
             username = "emarusawa";
             pkgs-unstable = import inputs.nixpkgs-unstable {
@@ -191,6 +193,7 @@
             distro = "nixos";
             uses = [
               "personal"
+              "development"
             ];
             username = "esauder";
             pkgs-unstable = import inputs.nixpkgs-unstable {
@@ -214,6 +217,7 @@
             distro = "ubuntu";
             uses = [
               "work"
+              "development"
             ];
             username = "emarusawa";
             pkgs-unstable = import inputs.nixpkgs-unstable {
@@ -239,6 +243,7 @@
             distro = "ubuntu";
             uses = [
               "work"
+              "development"
             ];
             username = "esauder";
             pkgs-unstable = import inputs.nixpkgs-unstable {

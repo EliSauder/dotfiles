@@ -80,32 +80,39 @@ in
       waybar.enable = true;
     };
 
-    gtk = lib.mkIf cfg.enableGtk {
-      enable = true;
-      theme.package = (
-        pkgs.catppuccin-gtk.override {
+    gtk =
+      let
+        themePkg = pkgs.catppuccin-gtk.override {
           accents = [ "teal" ];
           variant = "mocha";
-        }
-      );
-      theme.name = "catppuccin-mocha-teal-standard";
-      cursorTheme.package = pkgs.rose-pine-cursor;
-      cursorTheme.name = "BreezeX-RosePine-Linux";
+        };
+        themeNm = "catppuccin-mocha-teal-standard";
+      in
+      lib.mkIf cfg.enableGtk {
+        enable = true;
+        theme.package = themePkg;
+        theme.name = themeNm;
+        cursorTheme.package = pkgs.rose-pine-cursor;
+        cursorTheme.name = "BreezeX-RosePine-Linux";
 
-      gtk2.extraConfig = ''
-        gtk-color-scheme "prefer-dark"
-      '';
-      #  color-scheme "prefer-dark"
-      #  '';
-      gtk3.extraConfig = {
-        gtk-color-scheme = "prefer-dark";
-        gtk-application-prefer-dark-theme = 1;
+        gtk2.extraConfig = ''
+          gtk-color-scheme "prefer-dark"
+        '';
+        #  color-scheme "prefer-dark"
+        #  '';
+        gtk3.extraConfig = {
+          gtk-color-scheme = "prefer-dark";
+          gtk-application-prefer-dark-theme = 1;
+        };
+        gtk4.theme = {
+          package = themePkg;
+          name = themeNm;
+        };
+        gtk4.extraConfig = {
+          gtk-color-scheme = "prefer-dark";
+          gtk-application-prefer-dark-theme = 1;
+        };
       };
-      gtk4.extraConfig = {
-        gtk-color-scheme = "prefer-dark";
-        gtk-application-prefer-dark-theme = 1;
-      };
-    };
 
     home.sessionVariables = lib.mkIf cfg.enableGtk {
       GTK_USE_PORTAL = 1;

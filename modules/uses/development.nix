@@ -33,8 +33,8 @@ let
 in
 {
   imports = [
-    ./programs
-    ./ui
+    ../programs
+    ../ui
     ./development-darwin.nix
     ./development-linux.nix
   ];

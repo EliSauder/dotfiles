@@ -37,6 +37,7 @@ in
     programs.firefox = {
       enable = true;
       package = pkg;
+      configPath = "${config.xdg.configHome}/mozilla/firefox";
       languagePacks = [
         "en-US"
         "jp-JP"
