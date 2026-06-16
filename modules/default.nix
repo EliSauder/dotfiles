@@ -46,7 +46,7 @@ in
     // (lib.mkIf cfg.enable {
       xdg.configFile."nix/nix.conf".source = ./../config/nix/nix.conf;
 
-      programs.fish.functions.homeupdate = "cd ${config.home.homeDirectory}/.dotfiles && nix flake update && git flake.lock && git commit -m 'chore: update flake.lock' && git push";
+      programs.fish.functions.homeupdate = "cd ${config.home.homeDirectory}/.dotfiles && nix flake update && git add flake.lock && git commit -m 'chore: update flake.lock' && git push";
 
       programs.home-manager.enable = true;
 
