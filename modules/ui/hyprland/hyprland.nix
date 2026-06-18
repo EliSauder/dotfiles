@@ -631,7 +631,6 @@ in
               match.title = "(?!menu).*";
             }
           ];
-
           bind = [
             {
               _args = [
@@ -1040,6 +1039,20 @@ in
               _args = [
                 "XF86AudioMute"
                 (lib.generators.mkLuaInline "hl.dsp.exec_cmd(\"${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle\")")
+              ];
+            }
+            {
+              _args = [
+                (lib.generators.mkLuaInline "mod .. \" + mouse:272\"")
+                (lib.generators.mkLuaInline "hl.dsp.window.drag()")
+                (lib.generators.mkLuaInline "{ mouse = true }")
+              ];
+            }
+            {
+              _args = [
+                (lib.generators.mkLuaInline "mod .. \" + mouse:273\"")
+                (lib.generators.mkLuaInline "hl.dsp.window.resize()")
+                (lib.generators.mkLuaInline "{ mouse = true }")
               ];
             }
           ]
