@@ -569,7 +569,7 @@
       protols = {
         # codespell:ignore-end
         enable = true;
-        package = pkgs.protobuf-language-server;
+        package = pkgs.protols;
         config = {
           filetypes = [ "proto" ];
           cmd = [
