@@ -156,7 +156,7 @@ in
           grm="${cfg.commandPrefix}${lib.getExe' pkgs.grim "grim"}"
           svdir="$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')"
 
-          CAP="$("$grm" -g "$("$slrp")" "$svdir" 2>&1)"
+          CAP="$(eval "$grm -g '$(eval "$slrp")' '$svdir'" 2>&1)"
 
           if [[ $? == 0 ]]; then
             notify-send ".. :: Slurp :: .." "partial screenshot captured"
@@ -171,7 +171,7 @@ in
           grm="${cfg.commandPrefix}${lib.getExe' pkgs.grim "grim"}"
           svdir="$HOME/Pictures/Screenshots/$(date +'%Y-%m-%dT%H.%M.%S%z.png')"
 
-          CAP="$("$grm" "$svdir" 2>&1)"
+          CAP="$(eval "$grm '$svdir' 2>&1")"
 
           if [[ $? == 0 ]]; then
             notify-send ".. :: Grim :: .." "Screenshot captured successfully"
