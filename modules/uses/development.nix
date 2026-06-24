@@ -129,6 +129,7 @@ in
       pkgs.grpcui
       pkgs.nuget-to-json
       pkgs.winbox4
+      pkgs.bazel_9
 
       pkgs.kubectl-cnpg
       pkgs.kubectl-tree
