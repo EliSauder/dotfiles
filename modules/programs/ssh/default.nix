@@ -19,6 +19,7 @@ in
       enable = true;
       package = pkgs.openssh.override {
         withKerberos = true;
+        withSecurityKey = true;
       };
       enableDefaultConfig = false;
       settings = {
