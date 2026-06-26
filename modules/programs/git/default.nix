@@ -22,7 +22,12 @@ in
 
     programs.git = {
       enable = true;
-      package = pkgs.gitFull;
+      package = pkgs.git.override {
+        guiSupport = true;
+        withLibsecret = true;
+        withSsh = true;
+        svnSupport = true;
+      };
       settings = {
         user = {
           name = "EliSauder";
