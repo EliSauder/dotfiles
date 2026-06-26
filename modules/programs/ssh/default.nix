@@ -17,6 +17,9 @@ in
   config = lib.mkIf cfg.enable {
     programs.ssh = {
       enable = true;
+      package = pkgs.openssh.override {
+        withKerberos = true;
+      };
       enableDefaultConfig = false;
       settings = {
         "*" = {
