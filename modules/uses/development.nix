@@ -101,6 +101,7 @@ in
     prog.kubecolor.enable = true;
 
     home.packages = [
+      pkgs.hl-log-viewer
       pkgs.wireshark
       pkgs.delve
       pkgs.gdlv
