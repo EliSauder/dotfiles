@@ -72,10 +72,15 @@ in
       ];
     };
 
+    prog.nemo = {
+      enable = true;
+      default = true;
+    };
+
     prog.dolphin = {
       enable = true;
       package = pkgs.kdePackages.dolphin;
-      default = true;
+      default = false;
     };
 
     ui.toolkits = {
