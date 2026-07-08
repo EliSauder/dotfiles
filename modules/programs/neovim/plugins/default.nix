@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./commands.nix
     ./alloy.nix
     ./vimwiki.nix
     ./dadbod.nix
