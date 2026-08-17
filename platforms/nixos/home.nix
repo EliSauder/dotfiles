@@ -29,7 +29,7 @@ in
     ../../modules
   ];
 
-  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#${username}-nixos $argv";
+  programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#${username}-nixos --cores 6 $argv";
 
   module.shared = {
     enable = true;

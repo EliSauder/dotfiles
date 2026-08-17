@@ -38,7 +38,7 @@ in
     ../../modules
   ];
 
-  programs.fish.functions.homebuild = "home-manager switch --flake \"${config.home.homeDirectory}/.dotfiles#${username}-ubuntu\" --impure $argv";
+  programs.fish.functions.homebuild = "home-manager switch --flake \"${config.home.homeDirectory}/.dotfiles#${username}-ubuntu\" --cores 6 --impure $argv";
 
   systemd.user.sessionVariables = {
     PATH = "$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH";

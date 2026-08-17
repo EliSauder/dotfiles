@@ -6,11 +6,13 @@
 }:
 let
   cfg = config.prog.teams;
-  pkg = config.prog.teams.package.overrideAttrs (
-    fin: old: {
-      desktopEntries = [ ];
-    }
-  );
+  #pkg = config.prog.teams.package.overrideAttrs (
+  #  fin: old: {
+  #    desktopItems = lib.mkForce [ ];
+  #    doInstallCheck = false;
+  #  }
+  #);
+  pkg = config.prog.teams.package;
 in
 {
 
@@ -24,18 +26,18 @@ in
       pkg
     ];
 
-    xdg.desktopEntries.teams = {
-      name = "Microsoft Teams for Linux";
-      icon = "teams-for-linux";
-      categories = [
-        "Network"
-        "InstantMessaging"
-        "Chat"
-      ];
-      genericName = "Microsoft Teams";
-      comment = pkg.meta.description;
-      exec = "${pkg}/bin/${pkg.meta.mainProgram} %U --no-sandbox";
-      mimeType = [ "x-scheme-handler/msteams" ];
-    };
+    #xdg.desktopEntries.teams = {
+    #  name = "Microsoft Teams for Linux";
+    #  icon = "teams-for-linux";
+    #  categories = [
+    #    "Network"
+    #    "InstantMessaging"
+    #    "Chat"
+    #  ];
+    #  genericName = "Microsoft Teams";
+    #  comment = pkg.meta.description;
+    #  exec = "${pkg}/bin/${pkg.meta.mainProgram} %U --no-sandbox";
+    #  mimeType = [ "x-scheme-handler/msteams" ];
+    #};
   };
 }

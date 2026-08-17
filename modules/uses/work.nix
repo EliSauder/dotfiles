@@ -25,5 +25,7 @@ in
       pkgs.poppler-utils
       pkgs.imagemagick
     ];
+
+    prog.teams.enable = true;
   };
 }

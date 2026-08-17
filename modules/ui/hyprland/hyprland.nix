@@ -79,7 +79,10 @@ in
       terminal.cmd = "${cfg.commandPrefix}${lib.getExe' cfg.terminal.package cfg.terminal.exeName}";
     };
 
-    ui.rofi.enable = true;
+    ui.rofi = {
+      enable = true;
+      commandPrefix = "${cfg.commandPrefix}";
+    };
     ui.kanshi.enable = true;
     ui.mako.enable = true;
     ui.cliphist.enable = true;
@@ -215,7 +218,7 @@ in
                   if usedForWork then
                     ''
                       hl.exec_cmd(
-                        "uwsm app -- ${launchBrowser} ${lib.concatStringsSep " " cfg.browser.launchWindowWithUrlArgs} https://teams.microsoft.com/v2/", { workspace = "4 silent", fullscreen_state = "0 2"})
+                        "uwsm app -- ${cfg.commandPrefix}teams-for-linux", { workspace = "4 silent", fullscreen_state = "0 2"})
                       hl.exec_cmd(
                         "uwsm app -- ${launchBrowser} ${lib.concatStringsSep " " cfg.browser.launchWindowWithUrlArgs} https://outlook.office.com/mail/", { workspace = "4 silent", fullscreen_state = "0 2"})
                     ''
@@ -586,6 +589,10 @@ in
             {
               workspace = "2";
               match.class = ".*qutebrowser";
+            }
+            {
+              workspace = "4 silent";
+              match.class = "teams-for-linux";
             }
             {
               workspace = "4 silent";

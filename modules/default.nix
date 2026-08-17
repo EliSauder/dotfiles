@@ -52,6 +52,11 @@ in
 
       home.stateVersion = stateVersion;
 
+      nix.gc = {
+        automatic = true;
+        dates = "weekly";
+      };
+
       module.general = {
         enable = true;
         username = cfg.username;

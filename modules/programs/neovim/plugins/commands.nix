@@ -6,7 +6,7 @@
       function()
         vim.notify("Running Go/Bazel sync...", vim.log.levels.INFO)
         vim.system(
-          { "bash", "-lc", "go mod tidy && bazel run //:gazelle" },
+          { "bash", "-lc", "go mod tidy && bazel run //:gazelle && bazel mod tidy" },
           {test = true},
           function(result)
             vim.schedule(function()
@@ -17,12 +17,13 @@
 
               vim.notify("Go/Bazel sync complete; restarting gopls", vim.log.levels.INFO)
 
+              found = false
               for _, client in ipairs(vim.lsp.get_clients({ name = "gopls" })) do
-                client:stop(true)
+                found = true
               end
-              vim.defer_fn(function()
-                vim.cmd("edit")
-              end, 100)
+              if found then
+                vim.cmd("lsp restart gopls")
+              end
             end)
           end
         )
@@ -30,3 +31,7 @@
     '';
   };
 }
+#
+#for _, client in ipairs(vim.lsp.get_clients({ name = "gopls" })) do
+#  client:stop(2000)
+#end

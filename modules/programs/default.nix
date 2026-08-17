@@ -44,5 +44,6 @@
     ./mpc
     ./vimpc
     ./ncmpcpp
+    ./teams
   ];
 }
