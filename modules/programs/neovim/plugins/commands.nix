@@ -6,7 +6,10 @@
       function()
         vim.notify("Running Go/Bazel sync...", vim.log.levels.INFO)
         vim.system(
-          { "bash", "-lc", "go mod tidy && bazel run //:gazelle && bazel mod tidy" },
+          { 
+            "bash", 
+            "-lc", 
+            "go mod tidy && bazel mod tidy && bazel run //:gazelle && bazel mod tidy" },
           {test = true},
           function(result)
             vim.schedule(function()
