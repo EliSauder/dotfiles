@@ -8,7 +8,7 @@
 }:
 
 let
-  inherit (pkgs.dotnetCorePackages) sdk_8_0 sdk_9_0 runtime_8_0;
+  inherit (pkgs.dotnetCorePackages) sdk_9_0 runtime_9_0;
 in
 {
   nixpkgs.overlays = [
@@ -27,12 +27,12 @@ in
         projectFile = "src/OmniSharp.Stdio.Driver/OmniSharp.Stdio.Driver.csproj";
         nugetDeps = ./deps.json;
 
-        dotnet-sdk = sdk_8_0;
-        dotnet-runtime = sdk_8_0;
+        dotnet-sdk = sdk_9_0;
+        dotnet-runtime = sdk_9_0;
 
-        dotnetInstallFlags = [ "--framework net8.0" ];
+        dotnetInstallFlags = [ "--framework net9.0" ];
         dotnetBuildFlags = [
-          "--framework net8.0"
+          "--framework net9.0"
           "--no-self-contained"
         ];
         dotnetFlags = [
@@ -41,7 +41,7 @@ in
           "-property:AssemblyVersion=${version}.0"
           "-property:FileVersion=${version}.0"
           "-property:InformationalVersion=${version}"
-          "-property:RuntimeFrameworkVersion=${runtime_8_0.version}"
+          "-property:RuntimeFrameworkVersion=${runtime_9_0.version}"
           "-property:RollForward=LatestMajor"
         ];
 
@@ -55,7 +55,7 @@ in
               --replace-fail '<RuntimeIdentifiers>win7-x64;win7-x86;win10-arm64</RuntimeIdentifiers>' '<RuntimeIdentifiers>linux-x64;linux-arm64;osx-x64;osx-arm64</RuntimeIdentifiers>'
           done
           substituteInPlace src/OmniSharp.Stdio.Driver/OmniSharp.Stdio.Driver.csproj \
-            --replace-fail 'net6.0' 'net8.0' \
+            --replace-fail 'net6.0' 'net9.0' \
             --replace-fail '<RuntimeFrameworkVersion>6.0.0-preview.7.21317.1</RuntimeFrameworkVersion>' ""
         '';
 
@@ -84,7 +84,7 @@ in
                         send_error "timeout!\n"
                         exit 1
                       }
-                      expect ".NET Core SDK ${if sdk ? version then sdk.version else sdk_8_0.version}"
+                      expect ".NET Core SDK ${if sdk ? version then sdk.version else sdk_9_0.version}"
                       expect "{\"Event\":\"started\","
                       send \x03
                       expect eof
@@ -96,7 +96,6 @@ in
             in
             {
               # Make sure we can run OmniSharp with any supported SDK version, as well as without
-              with-net8-sdk = with-sdk sdk_8_0;
               with-net9-sdk = with-sdk sdk_9_0;
               no-sdk = with-sdk null;
             };

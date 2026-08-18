@@ -94,7 +94,6 @@
           javascript
           json
           json5
-          jsonc
           latex
           lua
           luap
@@ -270,8 +269,8 @@
         };
       };
       omnisharp = {
-        enable = true;
-        package = pkgs.omnisharp-roslyn;
+        enable = false;
+        #package = pkgs.omnisharp-roslyn;
 
         config = {
           settings = {

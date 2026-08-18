@@ -52,7 +52,7 @@ in
     ];
 
     programs.ssh = lib.mkIf cfg.sshIntegration {
-      matchBlocks."*".identityAgent = onePassAgentPath;
+      settings."*".IdentityAgent = onePassAgentPath;
     };
 
     programs.git = lib.mkIf cfg.gitIntegration {

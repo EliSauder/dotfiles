@@ -11,6 +11,8 @@ in
   imports = [
     ../programs
     ../ui
+    ./general-darwin.nix
+    ./general-linux.nix
   ];
 
   options.module = {
@@ -27,6 +29,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    module.general-linux.enable = pkgs.stdenv.isLinux;
+    module.general-darwin.enable = pkgs.stdenv.isDarwin;
+
     prog.inkscape.enable = true;
     prog.libreoffice = {
       enable = true;
@@ -36,12 +41,6 @@ in
     prog.firefox = {
       enable = true;
       setdefault = false;
-    };
-
-    prog.qutebrowser = {
-      enable = true;
-      setDefault = true;
-      package = pkgs.qutebrowser-dev;
     };
 
     prog.onepassword = {
@@ -58,5 +57,9 @@ in
           false;
       username = cfg.username;
     };
+    home.packages = [
+      pkgs.nix-tree
+      pkgs.tree
+    ];
   };
 }

@@ -61,7 +61,7 @@ in
     };
 
     catppuccin.qutebrowser = {
-      enable = true;
+      enable = pkgs.stdenv.isLinux;
     };
 
     programs.qutebrowser = {

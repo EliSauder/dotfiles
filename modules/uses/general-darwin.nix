@@ -18,9 +18,7 @@ in
 
   config = lib.mkIf cfg.enable {
     prog.qutebrowser = {
-      enable = true;
-      setDefault = true;
+      enable = false;
     };
-
   };
 }

@@ -14,9 +14,8 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      #pkgs.inkscape
       pkgs.inkscape-with-extensions
-      pkgs.inkscape-extensions.inkcut
+      #pkgs.inkscape-extensions.inkcut
       pkgs.inkscape-extensions.hexmap
       pkgs.inkscape-extensions.textext
     ];

@@ -48,7 +48,7 @@ in
   };
 
   modules = {
-    enabled = true;
+    enable = true;
     uses = uses;
     username = username;
   };

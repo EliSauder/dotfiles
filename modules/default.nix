@@ -40,7 +40,6 @@ in
       stateVersion = "24.05"; # Please read the comment before changing.
     in
     {
-
       home.stateVersion = stateVersion; # Please read the comment before changing.
     }
     // (lib.mkIf cfg.enable {

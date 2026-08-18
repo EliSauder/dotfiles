@@ -59,7 +59,7 @@ in
         enable = true;
         force = true;
       };
-      qutebrowser.enable = true;
+      qutebrowser.enable = pkgs.stdenv.isLinux;
       kvantum.enable = false;
       fish.enable = false;
       gtk = {

@@ -13,7 +13,6 @@ let
     (pkgs.dotnetCorePackages.combinePackages (
       [
         pkgs.dotnet-sdk_9
-        pkgs.dotnet-sdk_8
       ]
       ++ lib.optionals usedotnet7 [
         pkgs.dotnet-sdk_7
@@ -75,13 +74,6 @@ in
 
     prog.ghostty.enable = true;
 
-    prog.ollama = {
-      enable = false;
-      models = [
-        "qwen2.5-coder:1.5b"
-      ];
-    };
-
     prog.neovim.enable = true;
     prog.gitws.enable = true;
     prog.git = {
@@ -120,7 +112,7 @@ in
       pkgs.grc
       pkgs.go
       pkgs.gotools
-      pkgs.dotnet-outdated
+      #pkgs.dotnet-outdated
       pkgs.zig
       pkgs.rust-bin.stable.latest.default
       pkgs.pandoc
@@ -133,7 +125,7 @@ in
       pkgs.k9s
       pkgs-unstable.fluxcd
       pkgs.gettext
-      pkgs.dotnet-ef
+      #pkgs.dotnet-ef
       pkgs.pgadmin4-desktopmode
       pkgs.grpcurl
       pkgs.grpcui

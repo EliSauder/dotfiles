@@ -15,9 +15,9 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       pkgs.reaper
-      pkgs.winetricks
     ]
     ++ lib.optionals pkgs.stdenv.isLinux [
+      pkgs.winetricks
       pkgs.wineWow64Packages.yabridge
     ];
   };
