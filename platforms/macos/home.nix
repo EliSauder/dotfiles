@@ -18,6 +18,9 @@ in
   nixpkgs.config.allowUnfreePredicate =
     let
       whitelist = map lib.getName [
+        pkgs.firefox
+        pkgs.firefox-bin
+        pkgs.firefox-bin-unwrapped
         pkgs.vimPlugins.cmp-vimwiki-tags
         pkgs.vimPlugins.transparent-nvim
         pkgs.vimPlugins.git-conflict-nvim

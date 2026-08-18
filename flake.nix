@@ -103,6 +103,7 @@
     {
       packages = eachSystem (system: {
         home-manager.useGlobalPkgs = false;
+        home-manager.backupFileExtension = "backup";
         home-manager.useUserPackages = true;
         homeConfigurations."emarusawa-macos" = home-manager.lib.homeManagerConfiguration {
           extraSpecialArgs = {

@@ -13,7 +13,12 @@ let
         nativeMessagingHosts = [ pkgs.gnome-browser-connector ];
       }
     else
-      pkgs.firefox;
+      pkgs.firefox-bin;
+  configHome =
+    if isLinux then
+      "${config.xdg.configHome}/mozilla/firefox"
+    else
+      "${config.home.homeDirectory}/Library/Application Support/firefox";
 in
 {
   options.prog = {
@@ -37,7 +42,7 @@ in
     programs.firefox = {
       enable = true;
       package = pkg;
-      configPath = "${config.xdg.configHome}/mozilla/firefox";
+      configPath = configHome;
       languagePacks = [
         "en-US"
         "jp-JP"

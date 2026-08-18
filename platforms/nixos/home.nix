@@ -11,6 +11,7 @@ in
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     builtins.elem (lib.getName pkg) [
+      "firefox"
       "discord"
       "flagfox"
       "languagetool"
