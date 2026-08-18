@@ -17,6 +17,10 @@
 
   home.packages = [
     pkgs.impl
+    pkgs.tree-sitter
+    pkgs.git-spice
+    pkgs.mermaid-cli
+    pkgs.lazygit
   ];
 
   programs.nixvim.extraPlugins = [
@@ -64,52 +68,61 @@
         indent.enable = true;
       };
 
-      grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-        bash
-        c
-        c_sharp
-        cmake
-        comment
-        cpp
-        css
-        csv
-        dockerfile
-        doxygen
-        git_config
-        git_rebase
-        gitattributes
-        gitcommit
-        gitignore
-        go
-        gomod
-        graphql
-        html
-        http
-        javascript
-        json
-        json5
-        latex
-        lua
-        luap
-        make
-        markdown
-        markdown_inline
-        nix
-        proto
-        python
-        regex
-        ron
-        rust
-        sql
-        ssh_config
-        terraform
-        toml
-        vim
-        vimdoc
-        xml
-        yaml
-        zig
-      ];
+      grammarPackages =
+        with pkgs.vimPlugins.nvim-treesitter.builtGrammars;
+        [
+          bash
+          c
+          c_sharp
+          cmake
+          comment
+          cpp
+          css
+          csv
+          dockerfile
+          doxygen
+          git_config
+          git_rebase
+          gitattributes
+          gitcommit
+          gitignore
+          go
+          gomod
+          graphql
+          html
+          http
+          javascript
+          json
+          json5
+          jsonc
+          latex
+          lua
+          luap
+          make
+          markdown
+          markdown_inline
+          nix
+          proto
+          python
+          regex
+          ron
+          rust
+          sql
+          ssh_config
+          terraform
+          toml
+          vim
+          vimdoc
+          xml
+          yaml
+          zig
+          scss
+          svelte
+          tsx
+          typst
+          vue
+        ]
+        ++ [ pkgs.tree-sitter-grammars.tree-sitter-norg ];
     };
 
     treesitter-context = {
@@ -401,6 +414,10 @@
           root_markers = [
             ".git"
           ];
+          capabilities = {
+            workspace.didChangeConfiguration.dynamicRegistration = true;
+            didChangeConfiguration.dynamicRegistration = true;
+          };
           on_init.__raw = ''
             function(client)
               client.server_capabilities.documentFormattingProvider = true
@@ -412,12 +429,13 @@
               completion = true;
               disableAdditionalProperties = false;
               hover = true;
+              hoverAnchor = true;
+              hoverSchemaSource = true;
               maxItemsComputed = 5000;
               schemaStore = {
                 enable = true;
                 url = "https://www.schemastore.org/api/json/catalog.json";
               };
-              tracke.server = "off";
               track.server = "off";
               validate = true;
               format = {
@@ -426,6 +444,10 @@
                 bracketSpacing = true;
                 printWidth = 80;
                 proseWrap = "preserve";
+              };
+              kubernetesCRDStore = {
+                enable = true;
+                url = "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main";
               };
               keyOrdering = false;
               schemas = {
@@ -688,23 +710,23 @@
           filetypes = [ "superhtml" ];
         };
       };
-      nil_ls = {
-        enable = true;
-        config = {
-          cmd = [ "nil" ];
-          filetypes = [ "nix" ];
-          root_markers = [
-            "flake.nix"
-            ".git"
-          ];
-          on_attach.__raw = ''
-            function(client, bufnr)
-              client.server_capabilities.documentFormattingProvider = false
-              client.server_capabilities.documentRangeFormattingProvider = false
-            end
-          '';
-        };
-      };
+      #nil_ls = {
+      #  enable = true;
+      #  config = {
+      #    cmd = [ "nil" ];
+      #    filetypes = [ "nix" ];
+      #    root_markers = [
+      #      "flake.nix"
+      #      ".git"
+      #    ];
+      #    on_attach.__raw = ''
+      #      function(client, bufnr)
+      #        client.server_capabilities.documentFormattingProvider = false
+      #        client.server_capabilities.documentRangeFormattingProvider = false
+      #      end
+      #    '';
+      #  };
+      #};
       terraformls = {
         enable = true;
         config = {

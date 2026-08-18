@@ -9,6 +9,7 @@
   ];
 
   programs.nixvim = {
+    withRuby = false;
     globals = {
       mapleader = " ";
       transparent_enabled = true;
@@ -102,7 +103,7 @@
     '';
 
     extraConfigLua = ''
-      vim.highlight.priorities.semantic_tokens = 95
+      vim.hl.priorities.semantic_tokens = 95
     '';
   };
 }

@@ -56,10 +56,11 @@ in
     };
 
     programs.git = lib.mkIf cfg.gitIntegration {
-      settings = {
-        "gpg \"ssh\"" = {
-          program = onePassSignPath;
-        };
+      signing = lib.mkForce {
+        key = "${config.home.homeDirectory}/.ssh/git_ed25519.pub";
+        signByDefault = true;
+        format = "ssh";
+        signer = onePassSignPath;
       };
     };
   };

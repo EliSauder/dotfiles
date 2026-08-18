@@ -81,6 +81,7 @@ in
             unbind %
             bind h split-window -h
             bind v split-window -v
+
           '';
         in
         ''
@@ -95,6 +96,7 @@ in
           # set -gs copy-command "${pkgs.clipboard-jh}/bin/cb copy"
 
           set-option -g default-shell "${cfg.shell}"
+          set-option -g focus-events on
 
           unbind C-b
           set-option -g prefix C-a

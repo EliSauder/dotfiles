@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  pkgs-unstable,
   lib,
   ...
 }:
@@ -75,9 +76,9 @@ in
     prog.ghostty.enable = true;
 
     prog.ollama = {
-      enable = true;
+      enable = false;
       models = [
-        "sweepai/sweep-next-edit"
+        "qwen2.5-coder:1.5b"
       ];
     };
 
@@ -125,12 +126,12 @@ in
       pkgs.pandoc
       pkgs.texliveFull
       pkgs.k3d
-      pkgs.docker
+      pkgs-unstable.docker
       pkgs.terraform
       pkgs.kubernetes-helm
       pkgs.kubectx
       pkgs.k9s
-      pkgs.fluxcd
+      pkgs-unstable.fluxcd
       pkgs.gettext
       pkgs.dotnet-ef
       pkgs.pgadmin4-desktopmode

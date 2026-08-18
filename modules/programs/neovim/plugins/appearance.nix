@@ -64,9 +64,9 @@
     render-markdown = {
       enable = true;
       settings = {
-        completions.lsp.enable = true;
+        completions.lsp.enabled = true;
         render_modes = true;
-        signs.enabled = true;
+        sign.enabled = true;
       };
     };
   };
