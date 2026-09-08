@@ -114,7 +114,7 @@ in
       pkgs.gotools
       #pkgs.dotnet-outdated
       pkgs.zig
-      pkgs.rust-bin.stable.latest.default
+      #pkgs.rust-bin.stable.latest.default
       pkgs.pandoc
       pkgs.texliveFull
       pkgs.k3d

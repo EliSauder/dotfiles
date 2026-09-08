@@ -5,6 +5,7 @@
   ...
 }:
 let
+  isLinux = pkgs.stdenv.isLinux;
   cfg = config.module.general;
 in
 {
@@ -46,12 +47,12 @@ in
     prog.onepassword = {
       enable = true;
       gitIntegration =
-        if (builtins.elem "personal" cfg.uses) && (builtins.elem "development" cfg.uses) then
+        if !isLinux && (builtins.elem "personal" cfg.uses) && (builtins.elem "development" cfg.uses) then
           true
         else
           false;
       sshIntegration =
-        if (builtins.elem "personal" cfg.uses) && (builtins.elem "development" cfg.uses) then
+        if !isLinux && (builtins.elem "personal" cfg.uses) && (builtins.elem "development" cfg.uses) then
           true
         else
           false;

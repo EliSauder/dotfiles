@@ -14,7 +14,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      pkgs.mqtt-explorer
+      #pkgs.mqtt-explorer
       pkgs.inotify-info
     ];
   };

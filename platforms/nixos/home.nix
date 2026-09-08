@@ -1,30 +1,35 @@
 {
   config,
   lib,
+  pkgs,
   specialArgs,
   ...
 }:
 let
   username = specialArgs.username;
+  uses = specialArgs.uses;
 in
 {
   nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "firefox"
-      "discord"
-      "flagfox"
-      "languagetool"
-      "cmp-vimwiki-tags"
-      "reaper"
-      "1password"
-      "1password-cli"
-      "onepassword-password-manager"
-      "winbox"
-      "mqtt-explorer"
-      "terraform"
-      "obsidian"
-    ];
+    let
+      whitelist = map lib.getName [
+        pkgs.firefox-bin
+        pkgs.vimPlugins.cmp-vimwiki-tags
+        pkgs.vimPlugins.transparent-nvim
+        pkgs.vimPlugins.git-conflict-nvim
+        pkgs.discord
+        pkgs.nur.repos.rycee.firefox-addons.flagfox
+        pkgs.nur.repos.rycee.firefox-addons.languagetool
+        pkgs.reaper
+        pkgs._1password-gui
+        pkgs._1password-cli
+        pkgs.nur.repos.rycee.firefox-addons.onepassword-password-manager
+        pkgs.winbox
+        pkgs.terraform
+        pkgs.obsidian
+      ];
+    in
+    pkg: builtins.elem (lib.getName pkg) whitelist;
 
   imports = [
     ../../modules
@@ -32,25 +37,17 @@ in
 
   programs.fish.functions.homebuild = "home-manager switch --flake ${config.home.homeDirectory}/.dotfiles#${username}-nixos --cores 6 $argv";
 
-  module.shared = {
+  platform.linux = {
     enable = true;
-    enableOnePasswordIntegrations = false;
+    useNvidia = true;
     username = username;
   };
 
-  module.linux-general = {
+  modules = {
     enable = true;
-    useNvidia = false;
+    uses = uses;
     username = username;
   };
 
-  module.development = {
-    enable = true;
-  };
-
-  module.play = {
-    enable = true;
-  };
-
-  targets.genericLinux.enable = false;
+  targets.genericLinux.enable = true;
 }
