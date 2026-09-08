@@ -24,11 +24,12 @@ let
     hyprctl activeworkspace -j | jq '.id' > ~/.hyprlock.lock
     hyprctl dispatch workspace $(( $(hyprctl workspaces -j | jq '[.[].id] | max') + 1 ));
     sleep 0.05
-    ${if isUbuntu then "/usr/bin/hyprlock" else "${pkgs.hyprlock}/bin/hyprlock"}
-
-    if [ "$(cat ~/.hyprlock.lock | grep -c "^[0-9]*$")" -eq 1 ]; then
-        hyprctl dispatch workspace "$(cat ~/.hyprlock.lock | xargs)"
+    if ${if isUbuntu then "/usr/bin/hyprlock" else "${pkgs.hyprlock}/bin/hyprlock"}; then
+      if [ "$(cat ~/.hyprlock.lock | grep -c "^[0-9]*$")" -eq 1 ]; then
+          hyprctl dispatch workspace "$(cat ~/.hyprlock.lock | xargs)"
+      fi
     fi
+
     rm ~/.hyprlock.lock
   ''}/bin/statefullock.sh";
 in
@@ -58,7 +59,7 @@ in
         general = {
           lock_cmd = startlockscript;
           before_sleep_cmd = "loginctl lock-session";
-          after_sleep_cmd = "${hyprctlbin} dispatch dpms on";
+          after_sleep_cmd = "sleep 1 && ${hyprctlbin} dispatch dpms on";
           ignore_dbus_inhibit = false;
         };
 
@@ -70,7 +71,7 @@ in
           {
             timeout = 900;
             on-timeout = "${hyprctlbin} dispatch dpms off";
-            on-resume = "${hyprctlbin} dispatch dpms on";
+            on-resume = "sleep 1 && ${hyprctlbin} dispatch dpms on";
           }
           {
             timeout = 1800;
