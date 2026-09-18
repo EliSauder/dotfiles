@@ -56,6 +56,12 @@ in
 
     programs.difftastic = {
       enable = true;
+      options = {
+        display = "inline";
+        ignore-comments = true;
+        skip-unchanged = true;
+        sort-paths = true;
+      };
       git.diffToolMode = true;
       git.enable = true;
     };
