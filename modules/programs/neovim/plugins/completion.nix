@@ -38,6 +38,7 @@
             "lsp"
             "easy-dotnet"
             #"cursortab"
+            "dadbod"
             "snippets"
             "buffer"
             "path"

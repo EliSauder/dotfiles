@@ -5,6 +5,8 @@
     pkgs.nixfmt
     pkgs.fixjson
     pkgs.grafana-alloy
+    pkgs.sqlfluff
+    pkgs.buf
   ];
 
   programs.nixvim.plugins = {
@@ -12,6 +14,10 @@
       enable = true;
       settings = {
         formatters_by_ft = {
+          sql = [ "sqlfluff" ];
+          mysql = [ "sqlfluff" ];
+          plsql = [ "sqlfluff" ];
+          msql = [ "sqlfluff" ];
           nix = [ "nixfmt" ];
           flake = [ "nixfmt" ];
           cs = [ "clang-format" ];
@@ -24,12 +30,17 @@
           ];
         };
 
-        format_on_save = {
-          timeout_ms = 500;
+        format_after_save = {
           lsp_format = "fallback";
         };
 
         formatters = {
+          sqlfluff = {
+            args = [
+              "format"
+              "-"
+            ];
+          };
           buffmt = {
             command = "buf";
             args = [

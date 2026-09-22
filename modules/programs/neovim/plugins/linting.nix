@@ -48,6 +48,10 @@ in
       enable = true;
       lintersByFt = {
         gitcommit = [ "commitlint" ];
+        sql = [ "sqlfluff" ];
+        mysql = [ "sqlfluff" ];
+        plsql = [ "sqlfluff" ];
+        msql = [ "sqlfluff" ];
         proto = [
           "api_linter"
           "buf_lint"
@@ -109,6 +113,7 @@ in
       };
 
       linters = {
+        sqlfluff = { };
         commitlint = {
           args = [
             "--config"
