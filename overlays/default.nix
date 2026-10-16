@@ -12,6 +12,7 @@
     ./tmux-harpoon.nix
     ./rust-overlay.nix
     ./omnisharp
+    ./easy-dotnet-server.nix
     ./nixgl.nix
   ];
 }

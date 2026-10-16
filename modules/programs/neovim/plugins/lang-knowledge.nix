@@ -22,7 +22,8 @@
     pkgs.git-spice
     pkgs.mermaid-cli
     pkgs.lazygit
-    inputs.easy-dotnet-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    pkgs.easy-dotnet-server
+    pkgs.roslyn-language-server
   ];
 
   programs.nixvim.extraPlugins = [
@@ -150,6 +151,8 @@
 
     easy-dotnet = {
       enable = true;
+      # Stable's plugin still needs the removed msbuild/project-properties RPC
+      package = pkgs-unstable.vimPlugins.easy-dotnet-nvim;
     };
   };
 
