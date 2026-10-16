@@ -1,6 +1,7 @@
 {
   pkgs,
   pkgs-unstable,
+  inputs,
   ...
 }:
 {
@@ -21,6 +22,7 @@
     pkgs.git-spice
     pkgs.mermaid-cli
     pkgs.lazygit
+    inputs.easy-dotnet-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   programs.nixvim.extraPlugins = [

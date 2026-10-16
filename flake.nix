@@ -79,6 +79,11 @@
     nixgl = {
       url = "github:nix-community/nixGL";
     };
+
+    easy-dotnet-nix = {
+      url = "github:bearpro/easy-dotnet-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -95,6 +100,7 @@
       nur,
       sops-nix,
       catppuccin,
+      easy-dotnet-nix,
       ...
     }:
     let

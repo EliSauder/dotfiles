@@ -197,7 +197,14 @@ in
         enable = true;
         package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
         portalPackage =
-          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+          let
+            portal = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+          in
+          portal
+          // {
+            # Home Manager passes `hyprland`, which the flake's portal package no longer accepts
+            override = args: portal.override (builtins.removeAttrs args [ "hyprland" ]);
+          };
         systemd.enable = true;
         systemd.variables = [ "--all" ];
         systemd.enableXdgAutostart = true;
